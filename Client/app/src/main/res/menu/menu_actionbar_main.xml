@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_button_drawer"
         android:title="drawer"
-        android:icon="@drawable/menu_button_drawer"
+        android:icon="@mipmap/ic_launcher"
         app:showAsAction="always"/>
 </menu>
