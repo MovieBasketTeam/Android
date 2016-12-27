@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:src="@drawable/menu_button_drawer"/>
+                android:src="@mipmap/ic_launcher"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -35,7 +35,7 @@
                 android:id="@+id/btn_toggle_drawer_main"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/menu_button_drawer"
+                android:src="@mipmap/ic_launcher"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
 

@@ -42,7 +42,7 @@
             android:id="@+id/floating_action_menu_item1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/plane"
+            android:src="@mipmap/ic_launcher"
             fab:fab_label="Menu Item 1"
             fab:fab_size="mini" />
 
@@ -50,7 +50,7 @@
             android:id="@+id/floating_action_menu_item2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/plane"
+            android:src="@mipmap/ic_launcher"
             fab:fab_label="Menu Item 2"
             fab:fab_size="mini" />
 
@@ -58,7 +58,7 @@
             android:id="@+id/floating_action_menu_item3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/plane"
+            android:src="@mipmap/ic_launcher"
             fab:fab_label='Menu Item 3'
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
