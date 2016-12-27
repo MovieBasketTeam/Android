@@ -38,15 +38,16 @@
                 android:src="@mipmap/ic_launcher"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:id="@+id/view_base_rlayout_main"
             android:layout_below="@+id/rl_toolbar_main"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                layout="@layout/layout_default_main"/>
 
-        </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <LinearLayout
