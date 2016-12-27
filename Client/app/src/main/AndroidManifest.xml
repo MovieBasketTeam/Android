@@ -27,7 +27,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".mypage.basket.MypageBasketActivity" />
         <activity android:name=".mypage.movie_pack_list.MoviePackActivity" />
-        <activity android:name=".mypage.movie_rec_list.MovieRecActivity"></activity>
+        <activity android:name=".mypage.movie_rec_list.MovieRecActivity" />
+        <activity android:name=".mypage.movie_pack_list.PackViewHolder"></activity>
     </application>
 
 </manifest>
