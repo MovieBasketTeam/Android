@@ -1,5 +1,6 @@
 package com.moviebasket.android.client.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +17,14 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
+import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화"};
+    private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
+    private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
@@ -78,10 +84,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
+                    Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
+                    startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
                     break;
                 case 2:
-                    Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
+                    Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
+                    startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
+
                     break;
                 case 3:
                     break;
@@ -108,4 +117,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case REQEUST_CODE_FOR_MOVIE_PACK:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
+            case REQEUST_CODE_FOR_MOVIE_REC:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
+        }
+    }
 }
