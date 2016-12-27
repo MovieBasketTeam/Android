@@ -21,6 +21,5 @@ public class PackDatas {
         this.title = title;
         this.directer = directer;
         this.country = country;
-
     }
 }

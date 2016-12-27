@@ -26,7 +26,5 @@ public class PackViewHolder extends RecyclerView.ViewHolder {
         likecount = (TextView)itemView.findViewById(R.id.likecount);
         title = (TextView)itemView.findViewById(R.id.title);
         direct_country = (TextView)itemView.findViewById(R.id.direct_country);
-
     }
-
 }

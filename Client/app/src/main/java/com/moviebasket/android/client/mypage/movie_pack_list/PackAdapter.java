@@ -45,7 +45,6 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         holder.title.setText(mDatas.get(position).title);
         holder.direct_country.setText(mDatas.get(position).directer + "/" +mDatas.get(position).country);
 
-
     }
 
     @Override

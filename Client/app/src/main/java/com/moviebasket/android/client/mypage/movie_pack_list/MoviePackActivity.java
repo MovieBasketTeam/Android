@@ -35,6 +35,7 @@ public class MoviePackActivity extends AppCompatActivity {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
 
+
         /**
          * 2. recyclerview에 보여줄 data
          */
