@@ -1,4 +1,4 @@
-package com.moviebasket.android.client.setting;
+package com.moviebasket.android.client.mypage.setting;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;

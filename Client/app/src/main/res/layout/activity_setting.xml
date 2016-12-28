@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.moviebasket.android.client.setting.SettingActivity">
+    tools:context="com.moviebasket.android.client.mypage.setting.SettingActivity">
 
     <RelativeLayout
         android:id="@+id/bar_header_rlayout"
