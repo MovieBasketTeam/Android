@@ -20,13 +20,15 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
+import com.moviebasket.android.client.search.MovieSearchActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화"};
+    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
+    private static final int REQEUST_CODE_FOR_TEST = 1003;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -97,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case 3:
+                    //테스트용
+                    Intent testIntent = new Intent(MainActivity.this, MovieSearchActivity.class);
+                    startActivityForResult(testIntent,REQEUST_CODE_FOR_TEST );
                     break;
                 case 4:
                     break;
@@ -139,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case REQEUST_CODE_FOR_MOVIE_REC:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
+            case REQEUST_CODE_FOR_TEST:
                 if(resultCode==RESULT_OK){
 
                 }
