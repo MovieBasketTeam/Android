@@ -9,7 +9,7 @@ public class MovieDetail {
     String title;
     String link;
     String image;
-    String pubData;
+    String pubDate;
     String director;
     String actor;
     String userRating;
