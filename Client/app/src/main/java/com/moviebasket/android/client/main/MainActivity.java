@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rv;
     LinearLayoutManager layoutManager;
 
-
-
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
