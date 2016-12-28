@@ -3,28 +3,56 @@ package com.moviebasket.android.client.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.join.JoinActivity;
 import com.moviebasket.android.client.main.MainActivity;
+import com.moviebasket.android.client.network.MBService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String SUCCESS = "login success";
+    private static final String FAILURE = "check information";
+
     Button btn_login;
     Button btn_signup;
+    EditText etxt_email;
+    EditText etxt_pw;
+
+    private MBService mbService;
+    private boolean isLoginSuccess;
+    private String member_email;
+    private String member_pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //충민: 임시로 엑티비티끼리 연결하기 위한것.
-        btn_login = (Button)findViewById(R.id.login);
-        btn_signup = (Button)findViewById(R.id.signup);
+        mbService = ApplicationController.getInstance().getMbService();
+
+        btn_login = (Button) findViewById(R.id.login);
+        btn_signup = (Button) findViewById(R.id.signup);
+        etxt_email = (EditText) findViewById(R.id.email);
+        etxt_pw = (EditText) findViewById(R.id.password);
+
+        member_email = etxt_email.getText().toString();
+        member_pwd = etxt_pw.getText().toString();
+
         btn_login.setOnClickListener(clickListener);
         btn_signup.setOnClickListener(clickListener);
+
+
 
     }
 
@@ -34,9 +62,30 @@ public class LoginActivity extends AppCompatActivity {
             switch (v.getId()){
                 //login 버튼 눌렀을 때
                 case R.id.login:
-                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-                    finish();
+                    //login을 위한 networking
+                    Call<LoginResult> getLoginResult = mbService.getLoginResult(member_email, member_pwd);
+                    getLoginResult.enqueue(new Callback<LoginResult>() {
+                        @Override
+                        public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                            if (response.isSuccessful()) {// 응답코드 200
+                                LoginResult loginResult = response.body();
+                                isLoginSuccess = loginResult.result.message.equals(SUCCESS)? true : false;
+                                Log.i("LoginTest", "로그인 결과 : "+loginResult.result.message);
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<LoginResult> call, Throwable t) {
+                            Toast.makeText(LoginActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    if(isLoginSuccess){
+                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }else{
+                        Toast.makeText(LoginActivity.this, "이메일 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 //signup 버튼 눌렀을 때
                 case R.id.signup:
