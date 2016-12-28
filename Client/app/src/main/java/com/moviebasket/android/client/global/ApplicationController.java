@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.network.NaverService;
+import com.moviebasket.android.client.security.SecurityDataSet;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApplicationController extends Application{
 
     private static final String naverURL = "https://openapi.naver.com/v1/search/";
-    private static final String MovieBasketURL = "serverip";
+    private static final String MovieBasketURL = SecurityDataSet.MBServerUrl;
     private static ApplicationController instance;
 
     private MBService mbService;
@@ -36,7 +37,6 @@ public class ApplicationController extends Application{
         buildNaverService();
         //MBService Build
         buildMBService();
-
     }
 
     /**

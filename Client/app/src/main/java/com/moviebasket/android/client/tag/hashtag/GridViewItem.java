@@ -1,7 +1,4 @@
-package com.moviebasket.android.client.search;
-
-import java.util.ArrayList;
-import java.util.Random;
+package com.moviebasket.android.client.tag.hashtag;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,18 +9,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class GridViewItem extends Activity {
     Activity act = this;
     GridView gridView;
-
-
 
     //이미지 배열 선언
     ArrayList<Bitmap> picArr = new ArrayList<Bitmap>();
