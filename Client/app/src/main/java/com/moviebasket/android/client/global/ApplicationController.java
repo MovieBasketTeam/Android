@@ -58,6 +58,9 @@ public class ApplicationController extends Application{
      *  methods
      */
     public void buildNaverService(){
+
+
+
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder
                 .baseUrl(naverURL)
