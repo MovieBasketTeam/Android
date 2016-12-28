@@ -18,7 +18,7 @@ import com.moviebasket.android.client.R;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GridViewItem extends Activity {
+public class HashTagActivity extends Activity {
     Activity act = this;
     GridView gridView1, gridView2, gridView3, gridView4;
 

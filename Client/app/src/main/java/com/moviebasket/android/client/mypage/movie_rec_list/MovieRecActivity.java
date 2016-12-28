@@ -1,25 +1,21 @@
 package com.moviebasket.android.client.mypage.movie_rec_list;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.moviebasket.android.client.R;
-import com.moviebasket.android.client.mypage.movie_rec_list.RecDatas;
 
 import java.util.ArrayList;
 
 public class MovieRecActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
+    ArrayList<RecDatas> mDatas = new ArrayList<RecDatas>();
 
+    LinearLayoutManager mLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        RecyclerView recyclerView;
-        ArrayList<RecDatas> mDatas = new ArrayList<RecDatas>();
-
-        LinearLayoutManager mLayoutManager;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_rec);
 

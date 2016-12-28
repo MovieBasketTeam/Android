@@ -21,6 +21,7 @@ import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.search.MovieSearchActivity;
+import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
-    ImageButton btn_toggle;
+    ImageButton btn_toggle, btn_tag;
 
     FloatingActionMenu fab_menu;
     FloatingActionButton fab_item1, fab_item2, fab_item3;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
         btn_toggle = (ImageButton)findViewById(R.id.btn_toggle_drawer_main);
+        btn_tag = (ImageButton)findViewById(R.id.btn_tag_main);
 
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
         fab_item1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item1);
@@ -67,15 +69,25 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
         listView.setOnItemClickListener(new DrawerItemClickListener());
-        btn_toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(linearLayout);
-            }
-        });
+        btn_toggle.setOnClickListener(clickListener);
+        btn_tag.setOnClickListener(clickListener);
 
     }
 
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btn_tag_main:
+                    Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
+                    startActivity(tagIntent);
+                    break;
+                case R.id.btn_toggle_drawer_main:
+                    drawerLayout.openDrawer(linearLayout);
+                    break;
+            }
+        }
+    };
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
@@ -87,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
                     startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
-//                    Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
