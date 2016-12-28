@@ -13,27 +13,26 @@
             android:id="@+id/basketImg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/basket_img"
-            />
+            android:src="@drawable/basket_img" />
 
         <!-- 텍스트이미지 -->
         <ImageView
             android:id="@+id/textImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/text_image"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/text_image" />
 
         <!-- 텍스트 -->
         <TextView
             android:id="@+id/basketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="우울할때 더 우울해지는 영화"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:text="우울할때 더 우울해지는 영화" />
 
         <RelativeLayout
             android:id="@+id/layout02"
@@ -46,24 +45,22 @@
                 android:id="@+id/downBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/down_btn"
+                android:layout_alignParentBottom="true"
                 android:layout_toLeftOf="@+id/downCount"
-                android:layout_alignParentBottom="true"/>
+                android:src="@drawable/down_btn" />
 
             <!-- 다운로드수 텍스트 -->
             <TextView
                 android:id="@+id/downCount"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1,886"/>
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="1,886" />
 
         </RelativeLayout>
 
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

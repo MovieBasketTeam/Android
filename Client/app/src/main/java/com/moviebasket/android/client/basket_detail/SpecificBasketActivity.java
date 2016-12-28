@@ -25,7 +25,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
         /**
          * 1. recyclerview 초기화
          */
-        recyclerView = (RecyclerView)findViewById(R.id.myRecyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.myRecyclerview);
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 
@@ -44,7 +44,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
 
         //여기는 네이버 api에서 정보 받아와서 for문으로 돌려서 add해야될것같아요 임시로 넣어둠!!
         //7,8번째 파라미터는 if문으로 값이 0,1 일때 각각 다른이미지가 뜨도록 해야함!!
-        mDatas.add(new DetailDatas(R.drawable.back ,R.drawable.back, "owner", "페런트트랩", "1998", "이필주", "미국", R.drawable.back, R.drawable.back, "2016"));
+        mDatas.add(new DetailDatas(R.drawable.back, R.drawable.back, "owner", "페런트트랩", "1998", "이필주", "미국", R.drawable.back, R.drawable.back, "2016"));
 
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
