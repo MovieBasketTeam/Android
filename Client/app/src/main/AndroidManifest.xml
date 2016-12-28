@@ -9,8 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".splash.SplashActivity">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +25,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".mypage.movie_pack_list.MoviePackActivity" />
         <activity android:name=".mypage.movie_rec_list.MovieRecActivity" />
-        <activity android:name=".mypage.movie_pack_list.PackViewHolder"></activity>
+        <activity android:name=".mypage.basket_list.BasketListActivity" />
+        <activity android:name=".basket_detail.SpecificBasketActivity" />
+        <activity android:name=".tag.hashtag.HashTagActivity" />
+        <activity android:name=".tag.tagged.TaggedBasketListActivity" />
+        <activity android:name=".search.MovieSearchActivity" />
+        <activity android:name=".movie_detail.MovieDetailActivity"></activity>
     </application>
 
 </manifest>
