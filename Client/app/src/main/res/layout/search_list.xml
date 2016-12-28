@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AppTheme.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/bar_header_rlayout"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#333">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_below="@+id/bar_header_rlayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--&lt;!&ndash; 추가해야 할 부분&ndash;&gt;-->
+    <!--</LinearLayout>-->
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:paddingTop="16dp"
+        android:paddingLeft="18dp"
+        android:paddingBottom="16dp"
+        android:background="#ffffff"
+        android:id="@+id/suggest_star"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+
+            android:src="@mipmap/ic_launcher"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="오늘의 추천 태그"
+            android:textColor="#e42828"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="340dp"
+        android:layout_height="1dp"
+        android:background="#ededed"
+        android:layout_centerHorizontal="true"
+        ></View>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/suggest_star"
+        android:background="#444444"
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee"
+            android:id="@+id/search_view_line"
+            >
+        </View>
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnWidth="100dp"
+            android:layout_below="@+id/search_view_line"
+            android:numColumns="4"
+            android:background="#ffffff"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center">
+        </GridView>
+    </RelativeLayout>
+</RelativeLayout>
