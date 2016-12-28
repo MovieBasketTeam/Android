@@ -24,13 +24,13 @@ public class DetailViewHolder extends RecyclerView.ViewHolder {
     public DetailViewHolder(View itemView) {
         super(itemView);
 
-        ranking_image = (ImageView)itemView.findViewById(R.id.ranking_image);
-        movie_image = (ImageView)itemView.findViewById(R.id.movie_image);
-        owner = (TextView)itemView.findViewById(R.id.owner);
-        title_year = (TextView)itemView.findViewById(R.id.title_year);
-        direct_country = (TextView)itemView.findViewById(R.id.direct_country);
-        download = (ImageView)itemView.findViewById(R.id.download);
-        heart = (ImageView)itemView.findViewById(R.id.heart);
-        likecount = (TextView)itemView.findViewById(R.id.likecount);
+        ranking_image = (ImageView) itemView.findViewById(R.id.ranking_image);
+        movie_image = (ImageView) itemView.findViewById(R.id.movie_image);
+        owner = (TextView) itemView.findViewById(R.id.owner);
+        title_year = (TextView) itemView.findViewById(R.id.title_year);
+        direct_country = (TextView) itemView.findViewById(R.id.direct_country);
+        download = (ImageView) itemView.findViewById(R.id.download);
+        heart = (ImageView) itemView.findViewById(R.id.heart);
+        likecount = (TextView) itemView.findViewById(R.id.likecount);
     }
 }
