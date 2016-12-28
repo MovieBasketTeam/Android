@@ -46,13 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         etxt_email = (EditText) findViewById(R.id.email);
         etxt_pw = (EditText) findViewById(R.id.password);
 
-        member_email = etxt_email.getText().toString();
-        member_pwd = etxt_pw.getText().toString();
-
         btn_login.setOnClickListener(clickListener);
         btn_signup.setOnClickListener(clickListener);
-
-
 
     }
 
@@ -63,19 +58,25 @@ public class LoginActivity extends AppCompatActivity {
                 //login 버튼 눌렀을 때
                 case R.id.login:
                     //login을 위한 networking
+                    member_email = etxt_email.getText().toString().trim();
+                    member_pwd = etxt_pw.getText().toString().trim();
+                    Log.i("LoginTest", "email : "+member_email+" , pwd : "+member_pwd);
                     Call<LoginResult> getLoginResult = mbService.getLoginResult(member_email, member_pwd);
                     getLoginResult.enqueue(new Callback<LoginResult>() {
                         @Override
                         public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                             if (response.isSuccessful()) {// 응답코드 200
+                                Log.i("LoginTest", "요청메시지:"+call.toString()+" 응답메시지:"+response.toString());
                                 LoginResult loginResult = response.body();
                                 isLoginSuccess = loginResult.result.message.equals(SUCCESS)? true : false;
                                 Log.i("LoginTest", "로그인 결과 : "+loginResult.result.message);
                             }
+
                         }
                         @Override
                         public void onFailure(Call<LoginResult> call, Throwable t) {
                             Toast.makeText(LoginActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                            Log.i("LoginTest", "요청메시지:"+call.toString());
                         }
                     });
 

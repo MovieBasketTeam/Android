@@ -6,8 +6,4 @@ package com.moviebasket.android.client.login;
 
 public class LoginMessage {
     public String message;
-
-    public LoginMessage(String message) {
-        this.message = message;
-    }
 }
