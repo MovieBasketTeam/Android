@@ -1,8 +1,10 @@
 package com.moviebasket.android.client.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,6 +74,28 @@ public class MainActivity extends AppCompatActivity {
         btn_toggle.setOnClickListener(clickListener);
         btn_tag.setOnClickListener(clickListener);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                MainActivity.super.onBackPressed();
+            }
+        });
+        builder.setMessage("어플을 종료하시겠습니까?");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {

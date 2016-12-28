@@ -58,7 +58,13 @@ public class MovieSearchActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             result = response.body();
                             movieDetails = result.items;
-                            textView.setText(movieDetails.get(0).image+" - "+movieDetails.get(0).title);
+                            textView.setText(movieDetails.get(0).image+"\n"
+                                    +movieDetails.get(0).title+"\n"
+                            +movieDetails.get(0).actor+"\n"
+                            +movieDetails.get(0).director+"\n"
+                            +movieDetails.get(0).pubDate+"\n"
+                            +movieDetails.get(0).userRating+"\n"
+                            +movieDetails.get(0).link);
                             mProgressDialog.dismiss();
                         }
                     }
