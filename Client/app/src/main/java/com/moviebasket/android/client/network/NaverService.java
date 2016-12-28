@@ -6,9 +6,13 @@ package com.moviebasket.android.client.network;
 
 public interface NaverService {
 
+
     /*
+
+    @Headers("X-Naver-Client-Id: {"+ SecurityDataSet.NaverServiceClientID+"}",
+            "X-Naver-Client-Secret: {"+ SecurityDataSet.NaverServiceClientSecret+"}" )
     @GET("/movie.json")
-    Call<MainResult> getMainListData();
+    Call<MovieDataResult> getMovieDataResult(@Path());
 
 */
 }
