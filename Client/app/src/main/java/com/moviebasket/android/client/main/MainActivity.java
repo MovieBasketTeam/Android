@@ -17,12 +17,14 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화"};
+    private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
 
@@ -81,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
 
                 case 0:
-                    Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
+                    Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
+                    startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
+//                    Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
@@ -124,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
+            case REQEUST_CODE_FOR_BASKET_LIST:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
             case REQEUST_CODE_FOR_MOVIE_PACK:
                 if(resultCode==RESULT_OK){
 
