@@ -71,6 +71,13 @@ public class LoginActivity extends AppCompatActivity {
                                 isLoginSuccess = loginResult.result.message.equals(SUCCESS)? true : false;
                                 Log.i("LoginTest", "로그인 결과 : "+loginResult.result.message);
                             }
+                            if(isLoginSuccess){
+                                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(mainIntent);
+                                finish();
+                            }else{
+                                Toast.makeText(LoginActivity.this, "이메일 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                            }
 
                         }
                         @Override
@@ -79,14 +86,6 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("LoginTest", "요청메시지:"+call.toString());
                         }
                     });
-
-                    if(isLoginSuccess){
-                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(mainIntent);
-                        finish();
-                    }else{
-                        Toast.makeText(LoginActivity.this, "이메일 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
-                    }
                     break;
                 //signup 버튼 눌렀을 때
                 case R.id.signup:
