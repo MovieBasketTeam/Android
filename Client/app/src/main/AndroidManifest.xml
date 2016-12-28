@@ -8,10 +8,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".splash.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +24,6 @@
         <activity
             android:name=".join.JoinActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".mypage.basket.MypageBasketActivity" />
         <activity android:name=".mypage.movie_pack_list.MoviePackActivity" />
         <activity android:name=".mypage.movie_rec_list.MovieRecActivity"></activity>
     </application>
