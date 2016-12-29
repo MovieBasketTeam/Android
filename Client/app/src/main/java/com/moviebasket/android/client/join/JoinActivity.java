@@ -7,9 +7,12 @@ import com.moviebasket.android.client.R;
 
 public class JoinActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+
+
     }
 }
