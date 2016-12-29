@@ -1,8 +1,10 @@
 package com.moviebasket.android.client.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +22,16 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
+import com.moviebasket.android.client.search.MovieSearchActivity;
+import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화"};
+    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
+    private static final int REQEUST_CODE_FOR_TEST = 1003;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
-    ImageButton btn_toggle;
+    ImageButton btn_toggle, btn_tag;
 
     FloatingActionMenu fab_menu;
     FloatingActionButton fab_item1, fab_item2, fab_item3;
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
         btn_toggle = (ImageButton)findViewById(R.id.btn_toggle_drawer_main);
+        btn_tag = (ImageButton)findViewById(R.id.btn_tag_main);
 
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
         fab_item1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item1);
@@ -65,15 +71,47 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
         listView.setOnItemClickListener(new DrawerItemClickListener());
-        btn_toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(linearLayout);
-            }
-        });
+        btn_toggle.setOnClickListener(clickListener);
+        btn_tag.setOnClickListener(clickListener);
 
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                MainActivity.super.onBackPressed();
+            }
+        });
+        builder.setMessage("어플을 종료하시겠습니까?");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btn_tag_main:
+                    Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
+                    startActivity(tagIntent);
+                    break;
+                case R.id.btn_toggle_drawer_main:
+                    drawerLayout.openDrawer(linearLayout);
+                    break;
+            }
+        }
+    };
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
@@ -85,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
                     startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
-//                    Toast.makeText(MainActivity.this, nav_item_main[position], Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
@@ -97,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case 3:
+                    //테스트용
+                    Intent testIntent = new Intent(MainActivity.this, MovieSearchActivity.class);
+                    startActivityForResult(testIntent,REQEUST_CODE_FOR_TEST );
                     break;
                 case 4:
                     break;
@@ -139,6 +179,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case REQEUST_CODE_FOR_MOVIE_REC:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
+            case REQEUST_CODE_FOR_TEST:
                 if(resultCode==RESULT_OK){
 
                 }

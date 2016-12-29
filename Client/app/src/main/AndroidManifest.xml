@@ -28,6 +28,7 @@
         <activity android:name=".mypage.basket_list.BasketListActivity" />
         <activity android:name=".basket_detail.SpecificBasketActivity" />
         <activity android:name=".tag.tagged.TaggedBasketListActivity" />
+        <activity android:name=".tag.hashtag.HashTagActivity"/>
         <activity android:name=".search.MovieSearchActivity" />
         <activity android:name=".movie_detail.MovieDetailActivity"></activity>
     </application>
