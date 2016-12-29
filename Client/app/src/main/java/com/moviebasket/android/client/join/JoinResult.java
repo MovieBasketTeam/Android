@@ -5,4 +5,5 @@ package com.moviebasket.android.client.join;
  */
 public class JoinResult {
     public JoinMessage result;
+
 }

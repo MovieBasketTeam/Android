@@ -19,7 +19,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class JoinActivity extends AppCompatActivity {
-
     private static final String SUCCESS = "create";
     private static final String FAILURE = "repetition";
 
