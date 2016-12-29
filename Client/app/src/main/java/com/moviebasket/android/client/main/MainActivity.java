@@ -27,7 +27,7 @@ import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ","이필주짱!!!"};
+    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
@@ -132,14 +132,14 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
                     startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
-
                     break;
                 case 3:
                     //테스트용
                     Intent testIntent = new Intent(MainActivity.this, MovieSearchActivity.class);
                     startActivityForResult(testIntent,REQEUST_CODE_FOR_TEST );
                     break;
-
+                case 4:
+                    break;
             }
             drawerLayout.closeDrawer(linearLayout);
         }
