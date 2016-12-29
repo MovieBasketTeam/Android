@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     member_email = etxt_email.getText().toString().trim();
                     member_pwd = etxt_pw.getText().toString().trim();
                     Log.i("LoginTest", "email : "+member_email+" , pwd : "+member_pwd);
+
                     Call<LoginResult> getLoginResult = mbService.getLoginResult(member_email, member_pwd);
                     getLoginResult.enqueue(new Callback<LoginResult>() {
                         @Override
