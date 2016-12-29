@@ -23,6 +23,7 @@ import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.search.MovieSearchActivity;
+import com.moviebasket.android.client.search.PracticeActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
     private static final int REQEUST_CODE_FOR_TEST = 1003;
+    private static final int REQEUST_CODE_FOR_PRACTICE = 1004;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -139,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(testIntent,REQEUST_CODE_FOR_TEST );
                     break;
                 case 4:
+                    Intent intent = new Intent(MainActivity.this, PracticeActivity.class);
+                    startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE);
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);
