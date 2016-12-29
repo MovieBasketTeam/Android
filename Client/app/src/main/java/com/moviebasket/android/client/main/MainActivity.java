@@ -27,7 +27,7 @@ import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ"};
+    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;

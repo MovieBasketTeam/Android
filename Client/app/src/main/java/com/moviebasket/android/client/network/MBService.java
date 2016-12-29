@@ -1,5 +1,7 @@
 package com.moviebasket.android.client.network;
 
+
+import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
 
 import retrofit2.Call;
@@ -18,4 +20,7 @@ public interface MBService {
     @POST("/member")
     Call<LoginResult> getLoginResult(@Field("member_email") String member_email, @Field("member_pwd") String member_pwd);
 
+    @FormUrlEncoded
+    @POST("/member/signUp")
+    Call<JoinResult> getJoinResult(@Field("member_name") String member_name, @Field("member_email") String member_email, @Field("member_pwd") String member_pwd);
 }
