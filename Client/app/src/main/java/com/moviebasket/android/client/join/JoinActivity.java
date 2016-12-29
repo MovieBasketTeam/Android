@@ -35,10 +35,12 @@ public class JoinActivity extends AppCompatActivity {
     private String member_pwd;
     private String member_pwd_con;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+
 
         mbService = ApplicationController.getInstance().getMbService();
 

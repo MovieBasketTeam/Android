@@ -132,14 +132,14 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
                     startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
-
                     break;
                 case 3:
                     //테스트용
                     Intent testIntent = new Intent(MainActivity.this, MovieSearchActivity.class);
                     startActivityForResult(testIntent,REQEUST_CODE_FOR_TEST );
                     break;
-
+                case 4:
+                    break;
             }
             drawerLayout.closeDrawer(linearLayout);
         }

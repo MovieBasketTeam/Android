@@ -1,5 +1,6 @@
 package com.moviebasket.android.client.network;
 
+
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
 
