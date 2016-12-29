@@ -28,30 +28,30 @@
     <!--&lt;!&ndash; 추가해야 할 부분&ndash;&gt;-->
     <!--</LinearLayout>-->
     <LinearLayout
-    android:id="@+id/suggest_star"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffffff"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingBottom="16dp"
-    android:paddingLeft="18dp"
-    android:paddingTop="16dp">
-
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-
-        android:src="@mipmap/ic_launcher" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:id="@+id/suggest_star"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
         android:gravity="center_vertical"
-        android:text="오늘의 추천 태그"
-        android:textColor="#e42828"
-        android:textSize="14sp" />
-</LinearLayout>
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="오늘의 추천 태그"
+            android:textColor="#e42828"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <View
         android:layout_width="340dp"
