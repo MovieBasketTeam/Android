@@ -35,5 +35,10 @@ dependencies {
     //네트워킹 처리
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    //이미지 로딩
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    //원 이미지
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

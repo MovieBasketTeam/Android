@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.NaverService;
@@ -21,6 +23,8 @@ public class MovieSearchActivity extends AppCompatActivity {
 
     TextView textView;
     Button button;
+    ImageView image;
+    ImageView circularImage;
 
     NaverService naverService;
 
@@ -39,6 +43,8 @@ public class MovieSearchActivity extends AppCompatActivity {
 
         textView = (TextView)findViewById(R.id.test_textView);
         button = (Button)findViewById(R.id.test_button);
+        image = (ImageView)findViewById(R.id.test_imageView);
+        circularImage = (ImageView)findViewById(R.id.test_circularImageView);
 
         mProgressDialog = new ProgressDialog(MovieSearchActivity.this);
         mProgressDialog.setCancelable(false);
@@ -65,6 +71,14 @@ public class MovieSearchActivity extends AppCompatActivity {
                             +movieDetails.get(0).pubDate+"\n"
                             +movieDetails.get(0).userRating+"\n"
                             +movieDetails.get(0).link);
+
+                            String imgUrl = movieDetails.get(0).image;
+
+
+                            //glide 테스트
+                            Glide.with(MovieSearchActivity.this).load(imgUrl).thumbnail(0.1f).into(image);
+                            Glide.with(MovieSearchActivity.this).load(imgUrl).into(circularImage);
+
                             mProgressDialog.dismiss();
                         }
                     }

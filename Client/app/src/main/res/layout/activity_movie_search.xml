@@ -15,6 +15,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="얍"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#333"/>
+    <ImageView
+        android:id="@+id/test_imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#333"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/test_circularImageView"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
 
     <TextView
         android:id="@+id/test_textView"

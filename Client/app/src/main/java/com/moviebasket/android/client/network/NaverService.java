@@ -16,7 +16,7 @@ public interface NaverService {
 
     @Headers({"X-Naver-Client-Id :" + SecurityDataSet.NaverServiceClientID,
             "X-Naver-Client-Secret :" + SecurityDataSet.NaverServiceClientSecret})
-    @GET("movie.json?query=")
+    @GET("movie.json")
     Call<MovieDataResult> getMovieDataResult(@Query("query") String query);
 
 }
