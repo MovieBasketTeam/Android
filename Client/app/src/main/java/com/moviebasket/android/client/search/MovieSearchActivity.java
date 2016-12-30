@@ -63,10 +63,12 @@ public class MovieSearchActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
+
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        final MoviesAdapter adapter = new MoviesAdapter(mDatas);
+        //final MoviesAdapter adapter = new MoviesAdapter(mDatas);
+        final MoviesAdapter adapter = new MoviesAdapter(mDatas, recylerClickListener);
         recyclerView.setAdapter(adapter);
 
         mProgressDialog = new ProgressDialog(MovieSearchActivity.this);
@@ -109,8 +111,8 @@ public class MovieSearchActivity extends AppCompatActivity {
                             }
 
                             mProgressDialog.dismiss();
-
                             adapter.notifyDataSetChanged();
+
                         }
                     }
 
@@ -120,9 +122,26 @@ public class MovieSearchActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
                     }
                 });
+
             }
         });
     }
+
+    private View.OnClickListener recylerClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
+            int position = recyclerView.getChildLayoutPosition(v);
+            //2.position번째 항목의 Data를 가져오는 방법
+            String MovieTitle = mDatas.get(position).title;
+
+            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
+            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
+            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
+            //Toast.makeText(MovieSearchActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MovieSearchActivity.this, MovieTitle, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     //태그제거 메서드
     public String RemoveHTMLTag(String changeStr){

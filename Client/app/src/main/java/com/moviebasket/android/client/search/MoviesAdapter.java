@@ -18,12 +18,20 @@ import java.util.ArrayList;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder>{
 
     ArrayList<MoviesDatas> mDatas;
+    View.OnClickListener clickListener;
     private ViewGroup parent;
     private View itemView;
     private static final int FOOTER_VIEW = 1;
+
     public MoviesAdapter(ArrayList<MoviesDatas> mDatas) {
         this.mDatas = mDatas;
     }
+
+    public MoviesAdapter(ArrayList<MoviesDatas> mDatas, View.OnClickListener clickListener) {
+        this.mDatas = mDatas;
+        this.clickListener = clickListener;
+    }
+
 
     @Override
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,6 +47,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder>{
 
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_moviesearch, parent, false);
+        if(this.clickListener!=null)
+            itemView.setOnClickListener(clickListener);
+
         MoviesViewHolder viewHolder = new MoviesViewHolder(itemView);
 
         return viewHolder;
