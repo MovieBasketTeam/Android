@@ -28,13 +28,11 @@ public class MovieRecActivity extends AppCompatActivity {
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 
-
         // LayoutManager 초기화
         // layoutManager 설정
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
-
 
         /**
          * 2. recyclerview에 보여줄 data
