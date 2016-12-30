@@ -1,6 +1,7 @@
 package com.moviebasket.android.client.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -99,4 +100,34 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };
+
+    // 값 불러오기
+    private void getPreferences(){
+        SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
+        pref.getString("hi", "");
+    }
+
+    // 값 저장하기
+    private void savePreferences(){
+        SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("hi", "인사잘하네");
+        editor.commit();
+    }
+
+    // 값(Key Data) 삭제하기
+    private void removePreferences(){
+        SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("hi");
+        editor.commit();
+    }
+
+    // 값(ALL Data) 삭제하기
+    private void removeAllPreferences(){
+        SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
+    }
 }
