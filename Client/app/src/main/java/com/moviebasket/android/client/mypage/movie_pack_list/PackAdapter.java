@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.ArrayList;
+
 import com.moviebasket.android.client.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -16,13 +18,14 @@ import com.moviebasket.android.client.R;
 public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
     ArrayList<PackDatas> mDatas;
+    View.OnClickListener clickListener;
 
     public PackAdapter() {
 
     }
 
-    public PackAdapter(ArrayList<PackDatas> mDatas) {
-
+    public PackAdapter(ArrayList<PackDatas> mDatas, View.OnClickListener clickListener) {
+        this.clickListener = clickListener;
         this.mDatas = mDatas;
     }
 
@@ -31,6 +34,8 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     public PackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_pack, parent, false);
+        if(this.clickListener!=null)
+            itemView.setOnClickListener(clickListener);
         PackViewHolder viewHolder = new PackViewHolder(itemView);
 
         return viewHolder;

@@ -62,10 +62,11 @@ public class LoginActivity extends AppCompatActivity {
                     member_pwd = etxt_pw.getText().toString().trim();
                     Log.i("LoginTest", "email : "+member_email+" , pwd : "+member_pwd);
 
-                    Call<LoginResult> getLoginResult = mbService.getLoginResult(member_email, member_pwd);
+                    final Call<LoginResult> getLoginResult = mbService.getLoginResult(member_email, member_pwd);
                     getLoginResult.enqueue(new Callback<LoginResult>() {
                         @Override
                         public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+
                             if (response.isSuccessful()) {// 응답코드 200
                                 Log.i("LoginTest", "요청메시지:"+call.toString()+" 응답메시지:"+response.toString());
                                 LoginResult loginResult = response.body();
