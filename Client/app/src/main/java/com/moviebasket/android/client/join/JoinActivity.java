@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -41,7 +42,6 @@ public class JoinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-
         mbService = ApplicationController.getInstance().getMbService();
 
         signupBtn = (Button) findViewById(R.id.signupBtn);
@@ -49,8 +49,8 @@ public class JoinActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         confirm = (EditText) findViewById(R.id.confirm);
-        signupBtn.setOnClickListener(clickListener);
 
+        signupBtn.setOnClickListener(clickListener);
 
     }
 
@@ -59,7 +59,7 @@ public class JoinActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 //join on(signupBtn) 버튼 눌렀을 때
-                case R.id.signupBtn:
+                 case R.id.signupBtn:
                     //join을 위한 networking
                     member_name = username.getText().toString().trim();
                     member_email = email.getText().toString().trim();
