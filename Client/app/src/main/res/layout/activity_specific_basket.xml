@@ -9,27 +9,27 @@
     <RelativeLayout
         android:id="@+id/bar_header_rlayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_alignParentTop="true"
         android:background="#ffffff">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_centerInParent="true"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/main_bar_logo" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/main_bar_hash" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/main_bar_my" />
 
 
     </RelativeLayout>
@@ -41,25 +41,15 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="140dp">
+            android:layout_width="match_parent"
+            android:layout_height="148dp">
 
             <!-- 바스켓 이미지 -->
             <ImageView
                 android:id="@+id/basketImg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/basket_img" />
-
-            <!-- 텍스트이미지 -->
-            <ImageView
-                android:id="@+id/textImg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/text_image" />
+                android:layout_height="148dp"
+                android:src="@drawable/basket_base" />
 
             <!-- 텍스트 -->
             <TextView
@@ -68,40 +58,52 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="우울할때 더 우울해지는 영화" />
+                android:text="우울할때 더 우울해지는 영화"
+                android:textColor="#ffff"
+                android:textSize="16sp"/>
 
             <RelativeLayout
                 android:id="@+id/layout02"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="148dp">
 
                 <!-- 다운로드이미지 -->
                 <ImageView
                     android:id="@+id/downBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentBottom="true"
                     android:layout_toLeftOf="@+id/downCount"
-                    android:src="@drawable/down_btn" />
+                    android:src="@drawable/sub_basket_down" />
 
                 <!-- 다운로드수 텍스트 -->
                 <TextView
                     android:id="@+id/downCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:text="1,886" />
+                    android:text="1,886"
+                    android:textColor="#ffff"
+                    android:textSize="17dp"/>
 
                 <Button
                     android:id="@+id/btn_add_movie_specific"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="90dp"
+                    android:layout_width="55dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/textImg"
                     android:layout_centerHorizontal="true"
-                    android:text="+"
-                    android:background="@color/colorAccent"/>
+                    android:text=""
+                    android:background="@drawable/sub_plusbutton"/>
+
+                <!-- 텍스트이미지 -->
+                <ImageView
+                    android:id="@+id/textImg"
+                    android:layout_width="260dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/main_basket_ticket"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -112,7 +114,8 @@
             android:id="@+id/specific__Recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="8">
+            android:layout_weight="8"
+            android:background="@drawable/sub_backimage">
 
         </android.support.v7.widget.RecyclerView>
 
