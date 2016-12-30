@@ -75,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.i("LoginTest", "로그인 결과 : "+loginResult.result.message);
                             }
                             if(isLoginSuccess){
+                                String Token = response.body().result.member_token;
+                                savePreferences(Token);
+
                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainIntent);
                                 finish();
@@ -104,14 +107,15 @@ public class LoginActivity extends AppCompatActivity {
     // 값 불러오기
     private void getPreferences(){
         SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
-        pref.getString("hi", "");
+        String Token = pref.getString("PilKey", "");
+        Log.i("Token : ", Token);
     }
 
     // 값 저장하기
-    private void savePreferences(){
+    private void savePreferences(String Token){
         SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("hi", "인사잘하네");
+        editor.putString("PilKey", Token);
         editor.commit();
     }
 
@@ -119,15 +123,8 @@ public class LoginActivity extends AppCompatActivity {
     private void removePreferences(){
         SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.remove("hi");
+        editor.remove("PilKey");
         editor.commit();
     }
 
-    // 값(ALL Data) 삭제하기
-    private void removeAllPreferences(){
-        SharedPreferences pref = getSharedPreferences("MovieBasket", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.clear();
-        editor.commit();
-    }
 }
