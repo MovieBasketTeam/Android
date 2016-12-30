@@ -35,46 +35,38 @@
             android:layout_alignBottom="@+id/centerImg"
             android:layout_marginRight="10dp"/>
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--<LinearLayout-->
-        <!--android:layout_below="@+id/bar_header_rlayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-        <!--&lt;!&ndash; 추가해야 할 부분&ndash;&gt;-->
-        <!--</LinearLayout>-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/login_back">
-            <LinearLayout
-                android:id="@+id/backBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp">
-                <ImageView
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_width="43dp"
-                    android:layout_height="43dp"
-                    android:src="@drawable/hash_back"/>
-            </LinearLayout>
+
+            <View
+                android:layout_marginLeft="12dp"
+                android:layout_width="130dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="4dp"
+                android:background="#ededed"></View>
             <LinearLayout
                 android:id="@+id/suggest_star"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
 
                 android:background="#00ffffff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_marginBottom="14dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="4dp"
+                >
 
                 <TextView
+                    android:id="@+id/tv01"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -83,23 +75,12 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <View
-                android:layout_width="340dp"
-                android:layout_height="1dp"
-                android:layout_centerHorizontal="true"
-                android:background="#00ededed"></View>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="vertical"
                 android:background="#00444444">
 
-                <View
-                    android:id="@+id/search_view_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#00eeeeee"></View>
 
                 <GridView
                     android:id="@+id/gridView1"
@@ -116,23 +97,23 @@
                     android:layout_marginRight="7dp"
                     android:verticalSpacing="3dp"></GridView>
             </LinearLayout>
-
-
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerHorizontal="true"
-                android:background="#00ededed"></View>
+                android:layout_marginLeft="12dp"
+                android:layout_width="130dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="4dp"
+                android:background="#ededed"></View>
             <LinearLayout
                 android:id="@+id/themeB1"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="#00ffffff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="14dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="28dp">
+                android:layout_marginTop="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,7 +122,6 @@
                     android:text="내 상황"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
-                    android:layout_marginTop="4dp"
                     />
             </LinearLayout>
             <LinearLayout
@@ -150,11 +130,6 @@
                 android:orientation="vertical"
                 android:background="#00444444">
 
-                <View
-                    android:id="@+id/search_view_line2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#00eeeeee"></View>
 
                 <GridView
                     android:id="@+id/gridView2"
@@ -171,20 +146,22 @@
                     android:verticalSpacing="3dp"></GridView>
             </LinearLayout>
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerHorizontal="true"
-                android:background="#00ededed"></View>
+                android:layout_marginLeft="12dp"
+                android:layout_width="130dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="4dp"
+                android:background="#ededed"></View>
             <LinearLayout
                 android:id="@+id/themeB2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="#00ffffff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="14dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="28dp">
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -200,12 +177,6 @@
                 android:layout_height="60dp"
                 android:orientation="vertical"
                 android:background="#00444444">
-
-                <View
-                    android:id="@+id/search_view_line3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#00eeeeee"></View>
 
                 <GridView
                     android:id="@+id/gridView3"
@@ -223,20 +194,22 @@
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerHorizontal="true"
-                android:background="#00ededed"></View>
+                android:layout_marginLeft="12dp"
+                android:layout_width="130dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="4dp"
+                android:background="#ededed"></View>
             <LinearLayout
                 android:id="@+id/themeB3"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="#00ffffff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="28dp">
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -253,11 +226,6 @@
                 android:background="#00444444"
                 android:orientation="vertical">
 
-                <View
-                    android:id="@+id/search_view_line4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="#00ffffff"></View>
 
                 <GridView
                     android:id="@+id/gridView4"
