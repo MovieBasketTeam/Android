@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
-    ImageButton btn_toggle, btn_tag;
+    ImageView btn_toggle, btn_tag;
 
     /*
     FloatingActionMenu fab_menu;
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
         listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
-        btn_toggle = (ImageButton) findViewById(R.id.btn_toggle_drawer_main);
-        btn_tag = (ImageButton) findViewById(R.id.btn_tag_main);
+        btn_toggle = (ImageView) findViewById(R.id.btn_toggle_drawer_main);
+        btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
