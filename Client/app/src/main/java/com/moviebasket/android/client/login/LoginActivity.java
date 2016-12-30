@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -28,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_signup;
     EditText etxt_email;
     EditText etxt_pw;
+    ImageView eamil_x_btn;
+    ImageView pass_x_btn;
 
     private MBService mbService;
     private boolean isLoginSuccess;
@@ -41,11 +44,15 @@ public class LoginActivity extends AppCompatActivity {
 
         mbService = ApplicationController.getInstance().getMbService();
 
+        eamil_x_btn = (ImageView) findViewById(R.id.email_x);
+        pass_x_btn = (ImageView) findViewById(R.id.pass_x);
         btn_login = (Button) findViewById(R.id.login);
         btn_signup = (Button) findViewById(R.id.signup);
         etxt_email = (EditText) findViewById(R.id.email);
         etxt_pw = (EditText) findViewById(R.id.password);
 
+        eamil_x_btn.setOnClickListener(clickListener);
+        pass_x_btn.setOnClickListener(clickListener);
         btn_login.setOnClickListener(clickListener);
         btn_signup.setOnClickListener(clickListener);
 
@@ -56,6 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 //login 버튼 눌렀을 때
+                case R.id.email_x:
+                    etxt_email.setText("");
+                    break;
+                case R.id.pass_x:
+                    etxt_pw.setText("");
+                    break;
                 case R.id.login:
                     //login을 위한 networking
                     member_email = etxt_email.getText().toString().trim();
