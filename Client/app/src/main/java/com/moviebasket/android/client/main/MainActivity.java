@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
     private static final int REQEUST_CODE_FOR_TEST = 1003;
     private static final int REQEUST_CODE_FOR_PRACTICE = 1004;
+    private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
+    private static final int REQEUST_CODE_FOR_HASHTAG = 1006;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -104,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        //드로워 열려 있으면 닫기만 하기.
+        if(drawerLayout.isDrawerOpen(linearLayout)) {
+            drawerLayout.closeDrawer(linearLayout);
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
@@ -130,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.btn_tag_main:
                     Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
-                    startActivity(tagIntent);
+                    startActivityForResult(tagIntent, REQEUST_CODE_FOR_HASHTAG);
                     break;
                 case R.id.btn_toggle_drawer_main:
                     drawerLayout.openDrawer(linearLayout);
@@ -152,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             Toast.makeText(MainActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
+            Intent specificBasketIntent = new Intent(MainActivity.this, SpecificBasketActivity.class);
+            //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
+            startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
         }
     };
 
@@ -230,6 +242,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case REQEUST_CODE_FOR_TEST:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_PRACTICE:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_SPECIFIC_BASKET:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_HASHTAG:
                 if (resultCode == RESULT_OK) {
 
                 }

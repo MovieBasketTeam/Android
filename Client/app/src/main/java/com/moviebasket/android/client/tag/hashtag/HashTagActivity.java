@@ -2,6 +2,7 @@ package com.moviebasket.android.client.tag.hashtag;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,11 +15,15 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.tag.tagged.TaggedBasketListActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class HashTagActivity extends Activity {
+
+    private static final int REQUEST_CODE_FOR_TAGGED = 1005;
+
     Activity act = this;
     GridView gridView1, gridView2, gridView3, gridView4;
 
@@ -199,6 +204,11 @@ public class HashTagActivity extends Activity {
                     // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
                     Toast.makeText(getApplicationContext(),btn.getText().toString(),Toast.LENGTH_SHORT).show();
+
+                    //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
+                    Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
+                    //putExtra 해야함.
+                    startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
 
@@ -250,6 +260,11 @@ public class HashTagActivity extends Activity {
                     // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
                     Toast.makeText(getApplicationContext(),btn2.getText().toString(),Toast.LENGTH_SHORT).show();
+
+                    //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
+                    Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
+                    //putExtra 해야함.
+                    startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
 
@@ -301,6 +316,11 @@ public class HashTagActivity extends Activity {
                     // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
                     Toast.makeText(getApplicationContext(),btn3.getText().toString(),Toast.LENGTH_SHORT).show();
+
+                    //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
+                    Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
+                    //putExtra 해야함.
+                    startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
 
@@ -352,6 +372,11 @@ public class HashTagActivity extends Activity {
                     // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
                     Toast.makeText(getApplicationContext(),btn4.getText().toString(),Toast.LENGTH_SHORT).show();
+
+                    //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
+                    Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
+                    //putExtra 해야함.
+                    startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
 
@@ -359,4 +384,16 @@ public class HashTagActivity extends Activity {
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE_FOR_TAGGED:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
+        }
+    }
 }
