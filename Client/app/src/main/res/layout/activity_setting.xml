@@ -24,7 +24,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/back" />
-
+            <!--
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:textColor="#ffffff"
                 android:textSize="18dp"
                 android:layout_centerVertical="true"
-                />
+                />-->
         </RelativeLayout>
 
     </RelativeLayout>
@@ -67,6 +67,7 @@
             android:layout_marginTop="30dp"
             >
             <ImageView
+                android:id="@+id/userimage1"
                 android:layout_width="88dp"
                 android:layout_height="88dp"
                 android:src="@drawable/splash_logo"
