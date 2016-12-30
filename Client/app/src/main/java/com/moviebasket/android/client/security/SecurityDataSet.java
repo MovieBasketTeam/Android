@@ -10,5 +10,4 @@ public final class SecurityDataSet {
     public static final String NaverServiceClientID = "WhcQHOAcgYBIfWgQmNJt";
     public static final String NaverServiceClientSecret = "rowki2RPNW";
 
-
 }
