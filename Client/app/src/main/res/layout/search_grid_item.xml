@@ -11,18 +11,16 @@
 
         <Button
             android:id="@+id/gridItem"
-            android:layout_width="75dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/whitebttonshape"
+            android:layout_width="86dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3.5dp"
+            android:layout_marginRight="3.5dp"
+            android:background="@drawable/hash_ticket"
             android:clickable="true"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:text="product1"
             android:textSize="10sp"
-            android:textStyle="bold" />
+            android:textColor="#ffffff"/>
     </LinearLayout>
 </LinearLayout>
