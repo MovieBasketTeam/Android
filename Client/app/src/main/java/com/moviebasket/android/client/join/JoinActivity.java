@@ -46,7 +46,6 @@ public class JoinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-
         mbService = ApplicationController.getInstance().getMbService();
 
         signupBtn = (ImageView) findViewById(R.id.signupBtn);
@@ -61,12 +60,10 @@ public class JoinActivity extends AppCompatActivity {
         CPX = (ImageView) findViewById(R.id.CPX);
 
         signupBtn.setOnClickListener(clickListener);
-
         UsernameX.setOnClickListener(clickListener);
         E_mailX.setOnClickListener(clickListener);
         pwX.setOnClickListener(clickListener);
         CPX.setOnClickListener(clickListener);
-
 
     }
 
@@ -75,7 +72,7 @@ public class JoinActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 //join on(signupBtn) 버튼 눌렀을 때
-                case R.id.signupBtn:
+                 case R.id.signupBtn:
                     //join을 위한 networking
                     member_name = username.getText().toString().trim();
                     member_email = email.getText().toString().trim();
