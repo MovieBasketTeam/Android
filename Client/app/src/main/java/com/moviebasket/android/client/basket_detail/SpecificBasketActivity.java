@@ -1,17 +1,24 @@
 package com.moviebasket.android.client.basket_detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.search.MovieSearchActivity;
 
 import java.util.ArrayList;
 
 public class SpecificBasketActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_FOR_MOVIE_SEARCH = 1000;
+
+    Button btn_add_movie;
 
     RecyclerView recyclerView;
     ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
@@ -23,6 +30,15 @@ public class SpecificBasketActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_basket);
+
+        btn_add_movie = (Button)findViewById(R.id.btn_add_movie_specific);
+        btn_add_movie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent movieSearchIntent = new Intent(SpecificBasketActivity.this, MovieSearchActivity.class);
+                startActivityForResult(movieSearchIntent, REQUEST_CODE_FOR_MOVIE_SEARCH);
+            }
+        });
 
         /**
          * 1. recyclerview 초기화
@@ -78,4 +94,15 @@ public class SpecificBasketActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE_FOR_MOVIE_SEARCH:
+                if(resultCode == RESULT_OK){
+
+                }
+                break;
+        }
+    }
 }

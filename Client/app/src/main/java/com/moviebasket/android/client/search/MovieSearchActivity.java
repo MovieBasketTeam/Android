@@ -99,7 +99,6 @@ public class MovieSearchActivity extends AppCompatActivity {
                             movieDetails = result.items;
                             mDatas.clear();
                             for(int i = 0 ; i < movieDetails.size() ; i++) {
-
 //                                Log.i("태그제거전", movieDetails.get(i).title);
 //                                Log.i("제거이후", RemoveHTMLTag(movieDetails.get(i).title));
                                 mDatas.add(new MoviesDatas(movieDetails.get(i).image,
