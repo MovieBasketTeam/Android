@@ -16,14 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
+import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
+import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,14 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
+    ArrayList<BasketListDatas> basketListDatases;
+    BasketListAdapter basketListAdapter;
 
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
     ImageButton btn_toggle, btn_tag;
 
+    /*
     FloatingActionMenu fab_menu;
     FloatingActionButton fab_item1, fab_item2, fab_item3;
+    */
 
 
     @Override
@@ -52,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //변수초기화
-        drawerLayout = (DrawerLayout)findViewById(R.id.dllayout_drawer_main);
+        drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
         listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
-        btn_toggle = (ImageButton)findViewById(R.id.btn_toggle_drawer_main);
-        btn_tag = (ImageButton)findViewById(R.id.btn_tag_main);
+        btn_toggle = (ImageButton) findViewById(R.id.btn_toggle_drawer_main);
+        btn_tag = (ImageButton) findViewById(R.id.btn_tag_main);
 
+        /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
         fab_item1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item1);
         fab_item2 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item2);
@@ -66,8 +74,25 @@ public class MainActivity extends AppCompatActivity {
         fab_item1.setOnClickListener(fabClickListener);
         fab_item2.setOnClickListener(fabClickListener);
         fab_item3.setOnClickListener(fabClickListener);
+        */
 
-        rv = (RecyclerView)findViewById(R.id.rv_main);
+        rv = (RecyclerView) findViewById(R.id.rv_main);
+        layoutManager = new LinearLayoutManager(MainActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(layoutManager);
+        basketListDatases = new ArrayList<>();
+        //시험 데이터들
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+        rv.setAdapter(basketListAdapter);
 
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
@@ -102,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_tag_main:
                     Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
                     startActivity(tagIntent);
@@ -111,6 +136,22 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.openDrawer(linearLayout);
                     break;
             }
+        }
+    };
+
+    private View.OnClickListener recylerClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
+            int position = rv.getChildLayoutPosition(v);
+            //2.position번째 항목의 Data를 가져오는 방법
+            String basketName = basketListDatases.get(position).basketName;
+            String basketDownCount = basketListDatases.get(position).downCount;
+
+            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
+            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
+            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
+            Toast.makeText(MainActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -136,15 +177,18 @@ public class MainActivity extends AppCompatActivity {
                 case 3:
                     //테스트용
                     Intent testIntent = new Intent(MainActivity.this, MovieSearchActivity.class);
-                    startActivityForResult(testIntent,REQEUST_CODE_FOR_TEST );
+                    startActivityForResult(testIntent, REQEUST_CODE_FOR_TEST);
                     break;
                 case 4:
+                    Intent intent = new Intent(MainActivity.this, SpecificBasketActivity.class);
+                    startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE );
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);
         }
     }
 
+    /*
     View.OnClickListener fabClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -159,32 +203,34 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
             }
+
         }
     };
+    */
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
             case REQEUST_CODE_FOR_BASKET_LIST:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
 
                 }
                 break;
             case REQEUST_CODE_FOR_MOVIE_PACK:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
 
                 }
                 break;
             case REQEUST_CODE_FOR_MOVIE_REC:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
 
                 }
                 break;
             case REQEUST_CODE_FOR_TEST:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
 
                 }
                 break;

@@ -12,23 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:padding="1dp">
-        <ImageView
+        <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="1dp"
+            android:text="추천순"
             android:background="#97989879"/>
-        <ImageView
+        <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="1dp"
+            android:text="인기순"
             android:background="#97989879"/>
-        <ImageView
+        <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="1dp"
+            android:text="최신순"
             android:background="#97989879"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
