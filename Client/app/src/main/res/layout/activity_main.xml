@@ -12,9 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--
         <include
         android:id="@+id/fab_main"
         layout="@layout/layout_fab_menu" />
+        -->
 
         <RelativeLayout
             android:id="@+id/rl_toolbar_main"

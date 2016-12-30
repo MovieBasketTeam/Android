@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -64,6 +63,11 @@ public class MovieSearchActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
+        /**
+         * 3. Adapter 생성 후 recyclerview에 지정
+         */
+        final MoviesAdapter adapter = new MoviesAdapter(mDatas);
+        recyclerView.setAdapter(adapter);
 
         mProgressDialog = new ProgressDialog(MovieSearchActivity.this);
         mProgressDialog.setCancelable(false);
@@ -83,7 +87,6 @@ public class MovieSearchActivity extends AppCompatActivity {
                 /**
                  * 2. recyclerview에 보여줄 data
                  */
-                mDatas = new ArrayList<MoviesDatas>();
 
                 Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query);
                 getMovieData.enqueue(new Callback<MovieDataResult>() {
@@ -92,11 +95,11 @@ public class MovieSearchActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             result = response.body();
                             movieDetails = result.items;
+                            mDatas.clear();
                             for(int i = 0 ; i < movieDetails.size() ; i++) {
 
 //                                Log.i("태그제거전", movieDetails.get(i).title);
 //                                Log.i("제거이후", RemoveHTMLTag(movieDetails.get(i).title));
-
                                 mDatas.add(new MoviesDatas(movieDetails.get(i).image,
                                         RemoveHTMLTag(movieDetails.get(i).title),
                                         movieDetails.get(i).pubDate,
@@ -107,11 +110,7 @@ public class MovieSearchActivity extends AppCompatActivity {
 
                             mProgressDialog.dismiss();
 
-                            /**
-                             * 3. Adapter 생성 후 recyclerview에 지정
-                             */
-                            MoviesAdapter adapter = new MoviesAdapter(mDatas);
-                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                         }
                     }
 
