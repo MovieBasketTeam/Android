@@ -15,13 +15,15 @@ import java.util.ArrayList;
 public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     ArrayList<DetailDatas> mDatas;
+    View.OnClickListener clickListener;
 
     public DetailAdapter() {
 
     }
 
-    public DetailAdapter(ArrayList<DetailDatas> mDatas) {
+    public DetailAdapter(ArrayList<DetailDatas> mDatas, View.OnClickListener clickListener) {
         this.mDatas = mDatas;
+        this.clickListener = clickListener;
     }
 
 
@@ -29,6 +31,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     public DetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_detail, parent, false);
+        if(this.clickListener!=null)
+            itemView.setOnClickListener(clickListener);
         DetailViewHolder viewHolder = new DetailViewHolder(itemView);
 
         return viewHolder;

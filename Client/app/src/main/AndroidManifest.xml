@@ -23,7 +23,7 @@
         <activity android:name=".main.MainActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".join.JoinActivity" />
-        <activity android:name=".mypage.movie_pack_list.MoviePackActivity" />
+        <activity android:name=".mypage.movie_pack_list.MoviePackActivity"/>
         <activity android:name=".mypage.movie_rec_list.MovieRecActivity" />
         <activity android:name=".mypage.basket_list.BasketListActivity" />
         <activity android:name=".basket_detail.SpecificBasketActivity" />
