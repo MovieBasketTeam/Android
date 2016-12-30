@@ -25,6 +25,7 @@ import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
+import com.moviebasket.android.client.testpage.JsoupActivity;
 
 import java.util.ArrayList;
 
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(testIntent, REQEUST_CODE_FOR_TEST);
                     break;
                 case 4:
-                    Intent intent = new Intent(MainActivity.this, SpecificBasketActivity.class);
+                    Intent intent = new Intent(MainActivity.this, JsoupActivity.class);
                     startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE );
                     break;
             }
