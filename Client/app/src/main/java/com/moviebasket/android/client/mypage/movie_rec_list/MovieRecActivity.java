@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 
@@ -41,14 +43,33 @@ public class MovieRecActivity extends AppCompatActivity {
 
         //여기는 네이버 api에서 정보 받아와서 for문으로 돌려서 add해야될것같아요 임시로 넣어둠!!
         //7,8번째 파라미터는 if문으로 값이 0,1 일때 각각 다른이미지가 뜨도록 해야함!!
-        mDatas.add(new RecDatas(R.drawable.back, "owner", "1004", "라라랜드", "이필주", "미국", R.drawable.back, R.drawable.back));
-
+        mDatas.add(new RecDatas(R.drawable.back, "owner1", "1004", "라라랜드", "이필주", "미국", R.mipmap.ic_launcher, R.drawable.fab_add));
+        mDatas.add(new RecDatas(R.drawable.fab_add, "owner2", "1005", "영화", "이충민", "한국", R.drawable.back, R.drawable.back));
+        mDatas.add(new RecDatas(R.drawable.down_btn, "owner3", "1006", "신도림", "최서문", "미국", R.mipmap.ic_launcher, R.drawable.back));
+        mDatas.add(new RecDatas(R.drawable.menu_button_drawer, "owner4", "1004", "노블래스", "너구리", "미국", R.drawable.back, R.mipmap.ic_launcher));
+        mDatas.add(new RecDatas(R.drawable.back, "owner5", "2004", "대가리", "그냥너구리", "미국", R.mipmap.ic_launcher, R.drawable.fab_add));
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        RecAdapter adapter = new RecAdapter(mDatas);
-
+        RecAdapter adapter = new RecAdapter(mDatas, recylerClickListener);
+        //basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
         recyclerView.setAdapter(adapter);
 
     }
+
+    private View.OnClickListener recylerClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
+            int position = recyclerView.getChildLayoutPosition(v);
+            //2.position번째 항목의 Data를 가져오는 방법
+            String MovieTitle = mDatas.get(position).title;
+
+            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
+            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
+            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
+            //Toast.makeText(MovieSearchActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MovieRecActivity.this, MovieTitle, Toast.LENGTH_SHORT).show();
+        }
+    };
 }

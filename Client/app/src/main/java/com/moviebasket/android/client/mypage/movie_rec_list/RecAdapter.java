@@ -14,20 +14,27 @@ import java.util.ArrayList;
 public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
     ArrayList<RecDatas> mDatas;
-
-    public RecAdapter() {
-
-    }
+    View.OnClickListener clickListener;
+    private View itemView;
 
     public RecAdapter(ArrayList<RecDatas> mDatas) {
         this.mDatas = mDatas;
     }
-
+    public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener clickListener) {
+        this.mDatas = mDatas;
+        this.clickListener = clickListener;
+    }
 
     @Override
     public RecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_rec, parent, false);
+
+        if( this.clickListener != null )
+            itemView.setOnClickListener(clickListener);
+
         RecViewHolder viewHolder = new RecViewHolder(itemView);
 
         return viewHolder;
@@ -35,6 +42,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
     @Override
     public void onBindViewHolder(RecViewHolder holder, int position) {
+
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         holder.movie_image.setImageResource(mDatas.get(position).image);
         holder.owner.setText(mDatas.get(position).owner);
