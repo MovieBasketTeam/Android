@@ -5,11 +5,11 @@ package com.moviebasket.android.client.mypage.basket_list;
  */
 
 public class BasketListDatas {
-    int basketImg;
-    int textImg;
-    String basketName;
-    int downBtn;
-    String downCount;
+    public int basketImg;
+    public int textImg;
+    public String basketName;
+    public int downBtn;
+    public String downCount;
 
     public BasketListDatas(int basketImg, int textImg, String basketName, int downBtn, String downCount) {
         this.basketImg = basketImg;

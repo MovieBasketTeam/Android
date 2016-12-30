@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 public class SpecificBasketActivity extends AppCompatActivity {
 
+    RecyclerView recyclerView;
+    ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
+
+    LinearLayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        RecyclerView recyclerView;
-        ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
-
-        LinearLayoutManager mLayoutManager;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_basket);
@@ -25,7 +25,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
         /**
          * 1. recyclerview 초기화
          */
-        recyclerView = (RecyclerView) findViewById(R.id.myRecyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.specific__Recyclerview);
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 

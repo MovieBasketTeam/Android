@@ -16,15 +16,22 @@ import java.util.ArrayList;
 public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder>{
 
     ArrayList<BasketListDatas> mDatas;
+    View.OnClickListener clickListener;
     public BasketListAdapter(ArrayList<BasketListDatas> mDatas) {
         this.mDatas = mDatas;
     }
 
+    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener) {
+        this.mDatas = mDatas;
+        this.clickListener = clickListener;
+    }
 
     @Override
     public BasketListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_bl, parent, false);
+        if(this.clickListener!=null)
+            itemView.setOnClickListener(clickListener);
         BasketListViewHolder viewHolder = new BasketListViewHolder(itemView);
 
         return viewHolder;
