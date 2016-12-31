@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,6 +25,7 @@ import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
+import com.moviebasket.android.client.testpage.JsoupActivity;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
     private static final int REQEUST_CODE_FOR_TEST = 1003;
     private static final int REQEUST_CODE_FOR_PRACTICE = 1004;
+    private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
+    private static final int REQEUST_CODE_FOR_HASHTAG = 1006;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
-    ImageButton btn_toggle, btn_tag;
+    ImageView btn_toggle, btn_tag;
 
     /*
     FloatingActionMenu fab_menu;
@@ -62,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
         listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
-        btn_toggle = (ImageButton) findViewById(R.id.btn_toggle_drawer_main);
-        btn_tag = (ImageButton) findViewById(R.id.btn_tag_main);
+        btn_toggle = (ImageView) findViewById(R.id.btn_toggle_drawer_main);
+        btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
@@ -104,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        //드로워 열려 있으면 닫기만 하기.
+        if(drawerLayout.isDrawerOpen(linearLayout)) {
+            drawerLayout.closeDrawer(linearLayout);
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
@@ -130,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.btn_tag_main:
                     Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
-                    startActivity(tagIntent);
+                    startActivityForResult(tagIntent, REQEUST_CODE_FOR_HASHTAG);
                     break;
                 case R.id.btn_toggle_drawer_main:
                     drawerLayout.openDrawer(linearLayout);
@@ -152,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             Toast.makeText(MainActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
+            Intent specificBasketIntent = new Intent(MainActivity.this, SpecificBasketActivity.class);
+            //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
+            startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
         }
     };
 
@@ -180,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(testIntent, REQEUST_CODE_FOR_TEST);
                     break;
                 case 4:
-                    Intent intent = new Intent(MainActivity.this, SpecificBasketActivity.class);
+                    Intent intent = new Intent(MainActivity.this, JsoupActivity.class);
                     startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE );
                     break;
             }
@@ -230,6 +243,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case REQEUST_CODE_FOR_TEST:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_PRACTICE:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_SPECIFIC_BASKET:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_HASHTAG:
                 if (resultCode == RESULT_OK) {
 
                 }

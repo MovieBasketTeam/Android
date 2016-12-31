@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,11 +22,16 @@ public class JoinActivity extends AppCompatActivity {
     private static final String SUCCESS = "create";
     private static final String FAILURE = "repetition";
 
-    Button signupBtn;
+    ImageView signupBtn;
     EditText username;
     EditText email;
     EditText password;
     EditText confirm;
+
+    ImageView UsernameX;
+    ImageView E_mailX;
+    ImageView pwX;
+    ImageView CPX;
 
     private MBService mbService;
     private boolean isJoinSuccess;
@@ -44,13 +48,22 @@ public class JoinActivity extends AppCompatActivity {
 
         mbService = ApplicationController.getInstance().getMbService();
 
-        signupBtn = (Button) findViewById(R.id.signupBtn);
+        signupBtn = (ImageView) findViewById(R.id.signupBtn);
         username = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         confirm = (EditText) findViewById(R.id.confirm);
 
+        UsernameX = (ImageView) findViewById(R.id.UsernameX);
+        E_mailX = (ImageView) findViewById(R.id.E_mailX);
+        pwX = (ImageView) findViewById(R.id.pwX);
+        CPX = (ImageView) findViewById(R.id.CPX);
+
         signupBtn.setOnClickListener(clickListener);
+        UsernameX.setOnClickListener(clickListener);
+        E_mailX.setOnClickListener(clickListener);
+        pwX.setOnClickListener(clickListener);
+        CPX.setOnClickListener(clickListener);
 
     }
 
@@ -111,6 +124,20 @@ public class JoinActivity extends AppCompatActivity {
                         }
                     });
                     break;
+
+                case R.id.UsernameX:
+                    username.setText("");
+                    break;
+                case R.id.E_mailX:
+                    email.setText("");
+                    break;
+                case R.id.pwX:
+                    password.setText("");
+                    break;
+                case R.id.CPX:
+                    confirm.setText("");
+                    break;
+
             }
         }
     };

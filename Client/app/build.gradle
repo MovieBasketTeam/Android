@@ -41,4 +41,8 @@ dependencies {
 
     //원 이미지
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    //JSOUP 웹파싱
+    compile 'org.jsoup:jsoup:1.10.1'
+
 }
