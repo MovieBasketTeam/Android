@@ -44,12 +44,14 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     @Override
     public void onBindViewHolder(PackViewHolder holder, int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.movie_image.setImageResource(mDatas.get(position).image);
-        holder.owner.setText(mDatas.get(position).owner);
-        holder.likecount.setText(mDatas.get(position).likecount);
-        holder.title.setText(mDatas.get(position).title);
-        holder.direct_country.setText(mDatas.get(position).directer + "/" +mDatas.get(position).country);
-
+        holder.movieImage.setImageResource(mDatas.get(position).movieImage);
+        holder.basketName.setText(mDatas.get(position).basketName);
+        holder.BasketUserName.setText(mDatas.get(position).BasketUserName);
+        holder.year.setText(mDatas.get(position).year);
+        holder.director.setText(mDatas.get(position).director);
+        holder.downCount.setText(mDatas.get(position).downCount);
+        holder.heartImg.setImageResource(mDatas.get(position).heartImg);
+        holder.downImg.setImageResource(mDatas.get(position).downImg);
     }
 
     @Override
