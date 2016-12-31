@@ -44,7 +44,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
     public void onBindViewHolder(RecViewHolder holder, int position) {
 
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.movie_image.setImageResource(mDatas.get(position).movie_image);
+        holder.movie_image.setImageResource(R.drawable.sub_movie_down);//임시로 해놓은 이미지! 글라인더 해야함 데이터 받아서!!!
         holder.owner.setText(mDatas.get(position).owner);
         holder.likecount.setText(mDatas.get(position).movie_like);
         holder.movie_pub_date.setText(mDatas.get(position).movie_pub_date);
