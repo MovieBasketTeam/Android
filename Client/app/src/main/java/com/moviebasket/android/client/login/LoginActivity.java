@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String Token = response.body().result.member_token;
                                 ApplicationController.getInstance().savePreferences(Token);
 
+                                Log.i("TOKEN", ApplicationController.getInstance().getPreferences());
                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainIntent);
                                 Log.i("SOPT Token Test : ",  ApplicationController.getInstance().getPreferences());

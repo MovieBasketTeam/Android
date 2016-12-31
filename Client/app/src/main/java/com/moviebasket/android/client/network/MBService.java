@@ -6,12 +6,12 @@ import com.moviebasket.android.client.login.LoginResult;
 
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResult;
-import com.moviebasket.android.client.mypage.movie_pack_list.PackResult;
-
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
+import com.moviebasket.android.client.mypage.movie_pack_list.PackResult;
+import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
+import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
 import com.moviebasket.android.client.splash.VerifyVersionResult;
-
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -39,7 +39,7 @@ public interface MBService {
 
     //추천한 영화 목록 리스트 가져오기
     @GET("/mypage/movie/recommend")
-    Call<RecResult> getRecommendResult(@Header("member_token") String member_token );
+    Call<RecResultParent> getRecommendResult(@Header("member_token") String member_token );
 
     ////담은영화 리스트 가져오기
     @GET("/mypage/movie/cart")
@@ -56,5 +56,9 @@ public interface MBService {
     //연결 확인 (Connection)
     @GET("/member/version")
     Call<VerifyVersionResult> getVerifyVersionResult();
+
+    //마이페이지 환경설정
+    @GET("/mypage/setting")
+    Call<SettingResult> getSettingResult(@Header("member_token") String member_token);
 
 }
