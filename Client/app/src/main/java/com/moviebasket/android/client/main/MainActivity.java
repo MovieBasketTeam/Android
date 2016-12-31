@@ -215,19 +215,19 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.openDrawer(linearLayout);
                     break;
                 case R.id.newbtn:
-                    newbtn.setImageResource(R.drawable.main_recent_black);
-                    popularbtn.setImageResource(R.drawable.main_pop);
-                    recommendbtn.setImageResource(R.drawable.main_reco);
+                    newbtn.setBackgroundResource(R.drawable.main_recent_black);
+                    popularbtn.setBackgroundResource(R.drawable.main_pop);
+                    recommendbtn.setBackgroundResource(R.drawable.main_reco);
                     break;
                 case R.id.popularbtn:
-                    newbtn.setImageResource(R.drawable.main_recent);
-                    popularbtn.setImageResource(R.drawable.main_pop_black);
-                    recommendbtn.setImageResource(R.drawable.main_reco);
+                    newbtn.setBackgroundResource(R.drawable.main_recent);
+                    popularbtn.setBackgroundResource(R.drawable.main_pop_black);
+                    recommendbtn.setBackgroundResource(R.drawable.main_reco);
                     break;
                 case R.id.recommendbtn:
-                    newbtn.setImageResource(R.drawable.main_recent);
-                    popularbtn.setImageResource(R.drawable.main_pop);
-                    recommendbtn.setImageResource(R.drawable.main_reco_black);
+                    newbtn.setBackgroundResource(R.drawable.main_recent);
+                    popularbtn.setBackgroundResource(R.drawable.main_pop);
+                    recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
                     break;
 
             }

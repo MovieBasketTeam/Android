@@ -10,26 +10,27 @@
         android:src="@drawable/main_text"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="32dp"
         >
         <ImageView
             android:id="@+id/newbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/main_recent_black"/>
+            android:background="@drawable/main_recent_black"
+            />
         <ImageView
             android:id="@+id/popularbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/main_pop"/>
+            android:background="@drawable/main_pop"/>
         <ImageView
             android:id="@+id/recommendbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/main_reco"/>
+            android:background="@drawable/main_reco"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_main"
