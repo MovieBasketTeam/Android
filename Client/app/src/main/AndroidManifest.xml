@@ -30,7 +30,7 @@
         <activity android:name=".tag.tagged.TaggedBasketListActivity" />
         <activity android:name=".tag.hashtag.HashTagActivity" />
         <activity android:name=".search.MovieSearchActivity" />
-        <activity android:name=".movie_detail.MovieDetailActivity" />
+        <activity android:name=".movie_detail.MovieDetailActivity" />Se
         <activity android:name=".testpage.JsoupActivity"></activity>
         <activity android:name=".mypage.setting.SettingActivity"/>
     </application>

@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
-    ImageView btn_toggle, btn_tag;
+    ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn;
 
     /*
     FloatingActionMenu fab_menu;
@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
         btn_toggle = (ImageView) findViewById(R.id.btn_toggle_drawer_main);
         btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
+        newbtn = (ImageView) findViewById(R.id.newbtn);
+        popularbtn = (ImageView) findViewById(R.id.popularbtn);
+        recommendbtn= (ImageView) findViewById(R.id.recommendbtn);
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
@@ -102,8 +105,14 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
         listView.setOnItemClickListener(new DrawerItemClickListener());
+
         btn_toggle.setOnClickListener(clickListener);
         btn_tag.setOnClickListener(clickListener);
+        newbtn.setOnClickListener(clickListener);
+        popularbtn.setOnClickListener(clickListener);
+        recommendbtn.setOnClickListener(clickListener);
+
+
 
     }
 
@@ -147,6 +156,22 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btn_toggle_drawer_main:
                     drawerLayout.openDrawer(linearLayout);
                     break;
+                case R.id.newbtn:
+                    newbtn.setImageResource(R.drawable.main_recent_black);
+                    popularbtn.setImageResource(R.drawable.main_pop);
+                    recommendbtn.setImageResource(R.drawable.main_reco);
+                    break;
+                case R.id.popularbtn:
+                    newbtn.setImageResource(R.drawable.main_recent);
+                    popularbtn.setImageResource(R.drawable.main_pop_black);
+                    recommendbtn.setImageResource(R.drawable.main_reco);
+                    break;
+                case R.id.recommendbtn:
+                    newbtn.setImageResource(R.drawable.main_recent);
+                    popularbtn.setImageResource(R.drawable.main_pop);
+                    recommendbtn.setImageResource(R.drawable.main_reco_black);
+                    break;
+
             }
         }
     };

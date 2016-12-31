@@ -1,6 +1,7 @@
 package com.moviebasket.android.client.global;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.network.NaverService;
@@ -77,6 +78,26 @@ public class ApplicationController extends Application{
                 .build();
 
         mbService = retrofit.create(MBService.class);
+    }
+    public void getPreferences(){
+        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
+        String Token = pref.getString(SecurityDataSet.TK_KEY, "");
+    }
+
+    // 값 저장하기
+    public void savePreferences(String Token){
+        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(SecurityDataSet.TK_KEY, Token);
+        editor.commit();
+    }
+
+    // 값(Key Data) 삭제하기
+    public void removePreferences(){
+        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove(SecurityDataSet.TK_KEY);
+        editor.commit();
     }
 
 }
