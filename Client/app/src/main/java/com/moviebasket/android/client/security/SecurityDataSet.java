@@ -12,5 +12,4 @@ public final class SecurityDataSet {
     public static final String STR_NAME = "MovieBasketStore";
     public static final String TK_KEY = "MBT";
 
-
 }

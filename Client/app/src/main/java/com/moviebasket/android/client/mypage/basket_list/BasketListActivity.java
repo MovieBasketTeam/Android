@@ -11,6 +11,9 @@ import com.moviebasket.android.client.R;
 
 import java.util.ArrayList;
 
+import static com.moviebasket.android.client.R.id.basketName;
+import static com.moviebasket.android.client.R.id.downCount;
+
 public class BasketListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -44,11 +47,11 @@ public class BasketListActivity extends AppCompatActivity {
         mDatas = new ArrayList<BasketListDatas>();
 
         //여기는 네이버 api에서 정보 받아와서 for문으로 돌려서 add해야될것같아요 임시로 넣어둠!!
-        mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "김지원", R.drawable.down_btn, "2,647"));
-        mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "최서문", R.drawable.down_btn, "822"));
-        mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이충민", R.drawable.down_btn, "3,236"));
-        mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "권민하", R.drawable.down_btn, "7,457"));
+       // mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+     //   mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "김지원", R.drawable.down_btn, "2,647"));
+      //  mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "최서문", R.drawable.down_btn, "822"));
+     //   mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이충민", R.drawable.down_btn, "3,236"));
+     //   mDatas.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "권민하", R.drawable.down_btn, "7,457"));
 
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
@@ -65,8 +68,8 @@ public class BasketListActivity extends AppCompatActivity {
             int position = recyclerView.getChildLayoutPosition(v);
             //2.position번째 항목의 Data를 가져오는 방법
 
-            String basketName = mDatas.get(position).basketName;
-            String downCount = mDatas.get(position).downCount;
+           // String basketName = mDatas.get(position).basketName;
+           // String downCount = mDatas.get(position).downCount;
 
 
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
