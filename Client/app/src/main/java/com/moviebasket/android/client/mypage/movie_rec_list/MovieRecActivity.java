@@ -69,10 +69,12 @@ public class MovieRecActivity extends AppCompatActivity {
             getRecommendResult.enqueue(new Callback<RecResultParent>() {
                 @Override
                 public void onResponse(Call<RecResultParent> call, Response<RecResultParent> response) {
+                    Log.i("NetConfirm", "onResponse: 들어옴");
+
                     RecResultParent recResult = response.body();
                     if (response.isSuccessful()) {// 응답코드 200
                         Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                        isResponseSuccess = recResult.result.result.get(0).message.equals(FAILURE) ? false : true;
+                        isResponseSuccess = recResult.result.result.get(0).message==null ? true : false;
                         Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
                     }
                     if (isResponseSuccess) {
@@ -89,13 +91,17 @@ public class MovieRecActivity extends AppCompatActivity {
                                     recResult.result.result.get(i).movie_like,
                                     recResult.result.result.get(i).book_mark,
                                     recResult.result.result.get(i).is_liked,
-                                    recResult.result.result.get(i).message));
+                                    recResult.result.result.get(i).is_cart,
+                                    recResult.result.result.get(i).message,
+                                    recResult.result.result.get(i).basket_name ));
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RecResultParent> call, Throwable t) {
+                    Log.i("NetConfirm", "onFailure: 들어옴");
+
                     Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
                     Log.i("recommendMovie Test", "요청메시지:" + call.toString());
                 }

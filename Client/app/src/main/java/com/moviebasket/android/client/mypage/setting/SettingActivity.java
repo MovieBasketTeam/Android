@@ -38,7 +38,7 @@ public class SettingActivity extends AppCompatActivity {
         useremail = (TextView) findViewById(R.id. useremail);
         userimage.setOnClickListener(clickListener);
 
-        String token = ApplicationController.getInstance().getMember_token();
+        String token = ApplicationController.getInstance().getPreferences();
 
         Log.i("NetConfirm", "token: "+token);
 
@@ -49,7 +49,7 @@ public class SettingActivity extends AppCompatActivity {
                 SettingResult settingResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
                     Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    isResponseSuccess = settingResult.result.message.equals(FAILURE) ? false : true;
+                    isResponseSuccess = settingResult.result.message==null ? true : false;
                     Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
                 }
                 if (isResponseSuccess) {
