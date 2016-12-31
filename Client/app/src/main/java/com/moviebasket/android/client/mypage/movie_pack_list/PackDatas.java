@@ -5,21 +5,30 @@ package com.moviebasket.android.client.mypage.movie_pack_list;
  */
 
 public class PackDatas {
-    int image;
-    String owner;
-    String likecount;
-    String title;
-    String directer;
-    String country;
+//    int movieImage;
+    String movieImage;
+
+    String basketName;
+    String BasketUserName;
+    String movieName;
+    String year;
+    String director;
+    int downCount;
+    int heartImg;
+    int downImg;
 
 
 
-    public PackDatas(int image, String owner, String likecount, String title, String directer, String country) {
-        this.image = image;
-        this.owner = owner;
-        this.likecount = likecount;
-        this.title = title;
-        this.directer = directer;
-        this.country = country;
+
+    public PackDatas(String movieImage, String basketName, String BasketUserName, String movieName, String year, String director, int downCount, int heartImg, int downImg) {
+        this.movieImage = movieImage;
+        this.basketName = basketName;
+        this.BasketUserName = BasketUserName;
+        this.movieName = movieName;
+        this.year = year;
+        this.director = director;
+        this.downCount = downCount;
+        this.heartImg = heartImg;
+        this.downImg = downImg;
     }
 }

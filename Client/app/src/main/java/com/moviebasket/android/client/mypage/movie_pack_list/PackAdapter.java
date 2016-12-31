@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
     ArrayList<PackDatas> mDatas;
     View.OnClickListener clickListener;
+    private ViewGroup parent;
 
     public PackAdapter() {
 
@@ -32,6 +34,9 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
     @Override
     public PackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        this.parent = parent;
+
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_pack, parent, false);
         if(this.clickListener!=null)
@@ -44,12 +49,30 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     @Override
     public void onBindViewHolder(PackViewHolder holder, int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.movie_image.setImageResource(mDatas.get(position).image);
-        holder.owner.setText(mDatas.get(position).owner);
-        holder.likecount.setText(mDatas.get(position).likecount);
-        holder.title.setText(mDatas.get(position).title);
-        holder.direct_country.setText(mDatas.get(position).directer + "/" +mDatas.get(position).country);
 
+        //holder.movieImage.setImageResource(mDatas.get(position).movieImage);
+        Glide.with(parent.getContext()).load(mDatas.get(position).movieImage).into(holder.getMovieImageView());
+
+        holder.basketName.setText(mDatas.get(position).basketName);
+        holder.BasketUserName.setText(mDatas.get(position).BasketUserName);
+        holder.year.setText(mDatas.get(position).year);
+        holder.director.setText(mDatas.get(position).director);
+        holder.downCount.setText(mDatas.get(position).downCount);
+
+        if (mDatas.get(position).heartImg == 0) {
+            holder.heartImg.setImageResource(R.drawable.sub_no_heart);
+        } else {
+            holder.heartImg.setImageResource(R.drawable.sub_heart);
+        }
+//        holder.heartImg.setImageResource(mDatas.get(position).heartImg);
+
+
+        if (mDatas.get(position).downImg == 0) {
+            holder.downImg.setImageResource(R.drawable.sub_basket_nodown);
+        } else {
+            holder.downImg.setImageResource(R.drawable.sub_basket_down);
+        }
+//        holder.downImg.setImageResource(mDatas.get(position).downImg);
     }
 
     @Override
