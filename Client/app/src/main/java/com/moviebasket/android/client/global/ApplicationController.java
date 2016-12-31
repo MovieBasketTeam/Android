@@ -23,6 +23,8 @@ public class ApplicationController extends Application{
     private MBService mbService;
     private NaverService naverService;
 
+    private String member_token;
+
     public  ApplicationController(){
     }
 
@@ -38,6 +40,8 @@ public class ApplicationController extends Application{
         buildNaverService();
         //MBService Build
         buildMBService();
+        //Token 설정하기
+        this.member_token = getPreferences();
     }
 
     /**
@@ -55,12 +59,14 @@ public class ApplicationController extends Application{
         return naverService;
     }
 
+    public String getMember_token() {
+        return member_token;
+    }
+
     /**
      *  methods
      */
     public void buildNaverService(){
-
-
 
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder
@@ -79,12 +85,15 @@ public class ApplicationController extends Application{
 
         mbService = retrofit.create(MBService.class);
     }
-    public void getPreferences(){
+
+    // 토큰값 가져오기
+    public String getPreferences(){
         SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         String Token = pref.getString(SecurityDataSet.TK_KEY, "");
+        return Token;
     }
 
-    // 값 저장하기
+    // 토큰값 저장하기
     public void savePreferences(String Token){
         SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();

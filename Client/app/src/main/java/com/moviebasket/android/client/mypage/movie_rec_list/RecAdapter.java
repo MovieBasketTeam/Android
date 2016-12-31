@@ -44,13 +44,24 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
     public void onBindViewHolder(RecViewHolder holder, int position) {
 
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.movie_image.setImageResource(mDatas.get(position).image);
+        holder.movie_image.setImageResource(mDatas.get(position).movie_image);
         holder.owner.setText(mDatas.get(position).owner);
-        holder.likecount.setText(mDatas.get(position).likecount);
-        holder.title.setText(mDatas.get(position).title);
-        holder.direct_country.setText(mDatas.get(position).directer + "/" +mDatas.get(position).country);
-        holder.book_mark.setImageResource(mDatas.get(position).book_mark);
-        holder.heart.setImageResource(mDatas.get(position).heart);
+        holder.likecount.setText(mDatas.get(position).movie_like);
+        holder.movie_pub_date.setText(mDatas.get(position).movie_pub_date);
+        holder.title.setText(mDatas.get(position).movie_title);
+        holder.direct.setText(mDatas.get(position).movie_director);
+
+        if(mDatas.get(position).book_mark==1) {
+            holder.book_mark.setImageResource(R.drawable.sub_movie_down);
+        }else{
+            holder.book_mark.setImageResource(R.drawable.sub_movie_nodown);
+        }
+        if(mDatas.get(position).is_liked==1){
+            holder.is_liked.setImageResource(R.drawable.sub_heart);
+        }else{
+            holder.is_liked.setImageResource(R.drawable.sub_no_heart);
+        }
+
 
     }
 
