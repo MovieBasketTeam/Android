@@ -38,7 +38,7 @@ public class SettingActivity extends AppCompatActivity {
         useremail = (TextView) findViewById(R.id. useremail);
         userimage.setOnClickListener(clickListener);
 
-        String token = ApplicationController.getInstance().getMember_token();
+        String token = ApplicationController.getInstance().getPreferences();
 
         Log.i("NetConfirm", "token: "+token);
 
