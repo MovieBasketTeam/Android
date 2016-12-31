@@ -33,8 +33,16 @@ public class MoviePackActivity extends AppCompatActivity {
 
         */
 /**
-         * 1. recyclerview 초기화
-         *//*
+ * 1. recyclerview 초기화
+ * <p>
+ * 2. recyclerview에 보여줄 data
+ * <p>
+ * 3. Adapter 생성 후 recyclerview에 지정
+ * <p>
+ * 2. recyclerview에 보여줄 data
+ * <p>
+ * 3. Adapter 생성 후 recyclerview에 지정
+ *//*
 
         recyclerView = (RecyclerView)findViewById(R.id.myRecyclerview);
         //각 item의 크기가 일정할 경우 고정
@@ -48,8 +56,8 @@ public class MoviePackActivity extends AppCompatActivity {
 
         */
 /**
-         * 2. recyclerview에 보여줄 data
-         *//*
+ * 2. recyclerview에 보여줄 data
+ *//*
 
         mDatas = new ArrayList<PackDatas>();
 
@@ -70,8 +78,8 @@ public class MoviePackActivity extends AppCompatActivity {
 
         */
 /**
-         * 3. Adapter 생성 후 recyclerview에 지정
-         *//*
+ * 3. Adapter 생성 후 recyclerview에 지정
+ *//*
 
         PackAdapter adapter = new PackAdapter(mDatas, recylerClickListener);
 
@@ -110,6 +118,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -130,7 +139,7 @@ public class MoviePackActivity extends AppCompatActivity {
     LinearLayoutManager mLayoutManager;
     private MBService mbService;
 
-    PackResult result;
+    PackResultResult result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +151,7 @@ public class MoviePackActivity extends AppCompatActivity {
         /**
          * 1. recyclerview 초기화
          */
-        recyclerView = (RecyclerView)findViewById(R.id.myRecyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.myRecyclerview);
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 
@@ -156,25 +165,27 @@ public class MoviePackActivity extends AppCompatActivity {
          * 2. recyclerview에 보여줄 data
          */
         mDatas = new ArrayList<PackDatas>();
-        String token = ApplicationController.getInstance().getMember_token();
-        if ( !token.equals("") ) {
-            Call<PackResult> getMovieData = mbService.getMoviePackResult(token);
-            getMovieData.enqueue(new Callback<PackResult>() {
+        String token = ApplicationController.getInstance().getPreferences();
+        if (!token.equals("")) {
+            Call<PackResultResult> getMovieData = mbService.getMoviePackResult(token);
+            getMovieData.enqueue(new Callback<PackResultResult>() {
                 @Override
-                public void onResponse(Call<PackResult> call, Response<PackResult> response) {
+                public void onResponse(Call<PackResultResult> call, Response<PackResultResult> response) {
                     if (response.isSuccessful()) {
                         result = response.body();
                         mDatas.clear();
-                        packdetail = result.result;
+                        packdetail = result.result.result;
 
 /*                    mDatas.add(new PackDatas("http://imgmovie.naver.com/mdi/mit110/0475/47528_P50_144916.jpg",
                             "무비바스켓","+by. "+"존잘필", "라라랜드", "2016", "이필주", "11234",
                             R.drawable.sub_heart, R.drawable.sub_movie_down));
 */
 
-                        Toast.makeText(getApplicationContext(), packdetail.get(0).movie_image,Toast.LENGTH_SHORT);
+                        for (int i = 0; i < packdetail.size(); i++) {
+                            Log.i("SOPT : ",packdetail.get(i).movie_image+"/"+packdetail.get(i).basket_name+"/"+packdetail.get(i).movie_director+"/"+
+                                    packdetail.get(i).movie_title+"/"+packdetail.get(i).movie_pub_date+"/"+packdetail.get(i).movie_director+"/"+
+                                    packdetail.get(i).movie_like+"/"+packdetail.get(i).is_liked+"/"+packdetail.get(i).is_cart);
 
-                        for(int i = 0 ; i < packdetail.size() ; i ++ ) {
                             mDatas.add(new PackDatas(packdetail.get(i).movie_image,
                                     packdetail.get(i).basket_name,
                                     packdetail.get(i).movie_director,
@@ -198,8 +209,10 @@ public class MoviePackActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<PackResult> call, Throwable t) {
+                public void onFailure(Call<PackResultResult> call, Throwable t) {
+                    Log.i("SOPT", "실패");
                     Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
+
                 }
             });
         } else {
@@ -220,6 +233,7 @@ public class MoviePackActivity extends AppCompatActivity {
 
 
     }
+
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -230,14 +244,14 @@ public class MoviePackActivity extends AppCompatActivity {
             String basketName = mDatas.get(position).basketName;
             String BasketUserName = mDatas.get(position).BasketUserName;
             String movieName = mDatas.get(position).movieName;
-            String year = mDatas.get(position).year;
+            int year = mDatas.get(position).year;
             String director = mDatas.get(position).director;
             int downCount = mDatas.get(position).downCount;
 
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            Toast.makeText(MoviePackActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+basketName+"/"+BasketUserName+"/"+movieName+"/"+year+"/"+director+"/"+downCount, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MoviePackActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + BasketUserName + "/" + movieName + "/" + year + "/" + director + "/" + downCount, Toast.LENGTH_SHORT).show();
         }
     };
 }

@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        member_token = ApplicationController.getInstance().getMember_token();
+        member_token = ApplicationController.getInstance().getPreferences();
         mbService = ApplicationController.getInstance().getMbService();
 
         //바스켓리스트 사용자 추천순으로 가져와야함. (MBService)에서
