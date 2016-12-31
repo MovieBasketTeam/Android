@@ -61,26 +61,6 @@ public class JsoupActivity extends AppCompatActivity {
 
     }
 
-    public void np(){
-        Document doc = null;
-        String url = "http://movie.naver.com/movie/bi/mi/basic.nhn?code=67901";
-
-        try {
-            doc = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.i("ParsingTest", "run: IOException 오류남~~~ ");
-        }
-
-        Elements summary = doc.select("p.con_tx");
-        fullSummary = "";
-
-        Iterator it = summary.iterator();
-        while (it.hasNext()) {
-            fullSummary += it.next().toString();
-        }
-        isRunning = false;
-    }
 
     public class getDataAsyncTask extends AsyncTask<String,Void,String> {
 
