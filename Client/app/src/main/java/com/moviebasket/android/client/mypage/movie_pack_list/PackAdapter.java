@@ -53,11 +53,12 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         //holder.movieImage.setImageResource(mDatas.get(position).movieImage);
         Glide.with(parent.getContext()).load(mDatas.get(position).movieImage).into(holder.getMovieImageView());
 
+        holder.movieName.setText(mDatas.get(position).movieName);
         holder.basketName.setText(mDatas.get(position).basketName);
         holder.BasketUserName.setText(mDatas.get(position).BasketUserName);
-        holder.year.setText(mDatas.get(position).year);
+        holder.year.setText(String .valueOf(mDatas.get(position).year));
         holder.director.setText(mDatas.get(position).director);
-        holder.downCount.setText(mDatas.get(position).downCount);
+        holder.downCount.setText(String .valueOf(mDatas.get(position).downCount));
 
         if (mDatas.get(position).heartImg == 0) {
             holder.heartImg.setImageResource(R.drawable.sub_no_heart);
@@ -68,9 +69,9 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
 
         if (mDatas.get(position).downImg == 0) {
-            holder.downImg.setImageResource(R.drawable.sub_basket_nodown);
+            holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
         } else {
-            holder.downImg.setImageResource(R.drawable.sub_basket_down);
+            holder.downImg.setImageResource(R.drawable.sub_movie_down);
         }
 //        holder.downImg.setImageResource(mDatas.get(position).downImg);
     }

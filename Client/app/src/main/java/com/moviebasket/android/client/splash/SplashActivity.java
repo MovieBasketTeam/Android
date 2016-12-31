@@ -94,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
     //로그인 상태 확인하기.
     private void verifyLoginState(){
-        String token = ApplicationController.getInstance().getMember_token();
+        String token = ApplicationController.getInstance().getPreferences();
         //SharedPreferences pref = ApplicationController.getInstance().getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         //final String token = pref.getString(SecurityDataSet.TK_KEY, "");
         Log.i("NetConfirm", "verifyConnection token: "+token);

@@ -11,7 +11,7 @@ public class PackDatas {
     String basketName;
     String BasketUserName;
     String movieName;
-    String year;
+    int year;
     String director;
     int downCount;
     int heartImg;
@@ -20,7 +20,7 @@ public class PackDatas {
 
 
 
-    public PackDatas(String movieImage, String basketName, String BasketUserName, String movieName, String year, String director, int downCount, int heartImg, int downImg) {
+    public PackDatas(String movieImage, String basketName, String BasketUserName, String movieName, int year, String director, int downCount, int heartImg, int downImg) {
         this.movieImage = movieImage;
         this.basketName = basketName;
         this.BasketUserName = BasketUserName;
