@@ -61,7 +61,7 @@ public class MovieRecActivity extends AppCompatActivity {
         //mDatas.add(new RecDatas(R.drawable.menu_button_drawer, "owner4", "1004", "노블래스", "너구리", "미국", R.drawable.back, R.mipmap.ic_launcher));
         //mDatas.add(new RecDatas(R.drawable.back, "owner5", "2004", "대가리", "그냥너구리", "미국", R.mipmap.ic_launcher, R.drawable.fab_add));
 
-        String token = ApplicationController.getInstance().getMember_token();
+        String token = ApplicationController.getInstance().getPreferences();
 
         Log.i("NetConfirm", "token: "+token);
 

@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        member_token = ApplicationController.getInstance().getMember_token();
+        member_token = ApplicationController.getInstance().getPreferences();
         mbService = ApplicationController.getInstance().getMbService();
 
         //바스켓리스트 사용자 추천순으로 가져와야함. (MBService)에서
@@ -81,12 +82,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {
                 //바스켓리스트 가져옴.
+                BasketListDataResult result = response.body();
+                String message = result.result.message;
+                if(message==null){
+                    basketListDatases = result.result.baskets;
+
+                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
+                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+                    rv.setAdapter(basketListAdapter);
+                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
+                    basketListAdapter.notifyDataSetChanged();
+                }else{
+                    basketListDatases = new ArrayList<BasketListDatas>();
+                    Toast.makeText(MainActivity.this, "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<BasketListDataResult> call, Throwable t) {
                 //바스켓리스트를 가져오는데 실패함
-                Toast.makeText(MainActivity.this, "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -115,12 +130,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(MainActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(layoutManager);
-        basketListDatases = new ArrayList<>();
-        //시험 데이터들
-        //basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        //basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        //basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
-        rv.setAdapter(basketListAdapter);
+
 
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
@@ -152,8 +162,15 @@ public class MainActivity extends AppCompatActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
             }
-
         });
+
+        if(basketListDatases==null)
+            basketListDatases = new ArrayList<>();
+        if(basketListAdapter==null)
+            basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+
+        //rv.setAdapter(basketListAdapter);
+        basketListAdapter.notifyDataSetChanged();
 
     }
 
@@ -228,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            Toast.makeText(MainActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+" / "+basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
             Intent specificBasketIntent = new Intent(MainActivity.this, SpecificBasketActivity.class);
             //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
             startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);

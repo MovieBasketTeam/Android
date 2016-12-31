@@ -23,7 +23,6 @@ public class ApplicationController extends Application{
     private MBService mbService;
     private NaverService naverService;
 
-    private String member_token;
 
     public  ApplicationController(){
     }
@@ -40,9 +39,7 @@ public class ApplicationController extends Application{
         buildNaverService();
         //MBService Build
         buildMBService();
-        //Token 설정하기
-        this.member_token = getPreferences();
-    }
+        }
 
     /**
      *  Getter & Setter
@@ -57,10 +54,6 @@ public class ApplicationController extends Application{
 
     public NaverService getNaverService() {
         return naverService;
-    }
-
-    public String getMember_token() {
-        return member_token;
     }
 
     /**

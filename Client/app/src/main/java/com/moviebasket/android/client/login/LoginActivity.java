@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.i("TOKEN", ApplicationController.getInstance().getPreferences());
                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainIntent);
+                                Log.i("SOPT Token Test : ",  ApplicationController.getInstance().getPreferences());
                                 finish();
                             }else{
                                 Toast.makeText(LoginActivity.this, "이메일 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
