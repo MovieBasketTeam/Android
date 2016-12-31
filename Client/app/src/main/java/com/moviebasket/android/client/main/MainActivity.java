@@ -18,21 +18,29 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
+import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
+import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.mypage.setting.SettingActivity;
+import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 import com.moviebasket.android.client.testpage.JsoupActivity;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용", "세팅"};
+    private String member_token;
+    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용", "세팅", "로그아웃 확인"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
@@ -41,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
     private static final int REQEUST_CODE_FOR_HASHTAG = 1006;
     private static final int REQEUST_CODE_FOR_SETTING = 1007;
+
+    MBService mbService;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -62,6 +72,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        member_token = ApplicationController.getInstance().getMember_token();
+        mbService = ApplicationController.getInstance().getMbService();
+
+        //바스켓리스트 사용자 추천순으로 가져와야함. (MBService)에서
+        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, 1);
+        getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
+            @Override
+            public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {
+                //바스켓리스트 가져옴.
+            }
+
+            @Override
+            public void onFailure(Call<BasketListDataResult> call, Throwable t) {
+                //바스켓리스트를 가져오는데 실패함
+                Toast.makeText(MainActivity.this, "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //변수초기화
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
@@ -90,16 +117,9 @@ public class MainActivity extends AppCompatActivity {
         rv.setLayoutManager(layoutManager);
         basketListDatases = new ArrayList<>();
         //시험 데이터들
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+        //basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        //basketListDatases.add(new BasketListDatas(R.drawable.basket_img, R.drawable.text_image, "이필주", R.drawable.down_btn, "1,882"));
+        //basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
         rv.setAdapter(basketListAdapter);
 
         listView.setAdapter(
@@ -111,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         newbtn.setOnClickListener(clickListener);
         popularbtn.setOnClickListener(clickListener);
         recommendbtn.setOnClickListener(clickListener);
-
 
 
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -135,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
 
     }
 
@@ -205,8 +223,8 @@ public class MainActivity extends AppCompatActivity {
             //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = rv.getChildLayoutPosition(v);
             //2.position번째 항목의 Data를 가져오는 방법
-            String basketName = basketListDatases.get(position).basketName;
-            String basketDownCount = basketListDatases.get(position).downCount;
+            //String basketName = basketListDatases.get(position).basketName;
+          //  String basketDownCount = basketListDatases.get(position).downCount;
 
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
@@ -249,6 +267,10 @@ public class MainActivity extends AppCompatActivity {
                 case 5:
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING );
+                    break;
+                case 6:
+                    //로그아웃 확인하는 거
+                    ApplicationController.getInstance().savePreferences("");
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);

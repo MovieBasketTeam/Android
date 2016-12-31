@@ -40,11 +40,11 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
     @Override
     public void onBindViewHolder(BasketListViewHolder holder, int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.basketImg.setImageResource(mDatas.get(position).basketImg);
-        holder.textImg.setImageResource(mDatas.get(position).textImg);
-        holder.basketName.setText(mDatas.get(position).basketName);
-        holder.downBtn.setImageResource(mDatas.get(position).downBtn);
-        holder.downCount.setText(mDatas.get(position).downCount);
+       // holder.basketImg.setImageResource(mDatas.get(position).basketImg);
+        //holder.textImg.setImageResource(mDatas.get(position).textImg);
+       // holder.basketName.setText(mDatas.get(position).basketName);
+      //  holder.downBtn.setImageResource(mDatas.get(position).downBtn);
+      //  holder.downCount.setText(mDatas.get(position).downCount);
     }
 
     @Override
