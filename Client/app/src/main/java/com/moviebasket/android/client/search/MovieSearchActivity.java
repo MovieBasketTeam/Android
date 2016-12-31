@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -22,6 +23,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MovieSearchActivity extends AppCompatActivity {
+
+
 
     EditText searchMovieName;
     ImageButton searchMovieBtn;
@@ -89,6 +92,10 @@ public class MovieSearchActivity extends AppCompatActivity {
                 /**
                  * 2. recyclerview에 보여줄 data
                  */
+                TextView search_korean = (TextView)findViewById(R.id.search_korean);
+                ImageView search_nosearch = (ImageView)findViewById(R.id.search_nosearch);
+                search_korean.setText("");
+                search_nosearch.setImageResource(0);
 
                 Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query);
                 getMovieData.enqueue(new Callback<MovieDataResult>() {
@@ -107,6 +114,8 @@ public class MovieSearchActivity extends AppCompatActivity {
                                         movieDetails.get(i).director,
                                         "국가",
                                         movieDetails.get(i).userRating));
+
+
                             }
 
                             mProgressDialog.dismiss();

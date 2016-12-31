@@ -77,33 +77,7 @@ public class MainActivity extends AppCompatActivity {
         mbService = ApplicationController.getInstance().getMbService();
 
         //바스켓리스트 사용자 추천순으로 가져와야함. (MBService)에서
-        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, 1);
-        getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
-            @Override
-            public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {
-                //바스켓리스트 가져옴.
-                BasketListDataResult result = response.body();
-                String message = result.result.message;
-                if(message==null){
-                    basketListDatases = result.result.baskets;
-
-                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
-                    rv.setAdapter(basketListAdapter);
-                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    basketListAdapter.notifyDataSetChanged();
-                }else{
-                    basketListDatases = new ArrayList<BasketListDatas>();
-                    Toast.makeText(MainActivity.this, "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BasketListDataResult> call, Throwable t) {
-                //바스켓리스트를 가져오는데 실패함
-                Toast.makeText(MainActivity.this, "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        loadBasketListDatas(1);
 
         //변수초기화
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
@@ -218,16 +192,19 @@ public class MainActivity extends AppCompatActivity {
                     newbtn.setBackgroundResource(R.drawable.main_recent_black);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
+                    loadBasketListDatas(1);
                     break;
                 case R.id.popularbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop_black);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
+                    loadBasketListDatas(2);
                     break;
                 case R.id.recommendbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
+                    loadBasketListDatas(3);
                     break;
 
             }
@@ -360,5 +337,35 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void loadBasketListDatas(int mode){
+        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
+        getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
+            @Override
+            public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {
+                //바스켓리스트 가져옴.
+                BasketListDataResult result = response.body();
+                String message = result.result.message;
+                if(message==null){
+                    basketListDatases = result.result.baskets;
+
+                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
+                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+                    rv.setAdapter(basketListAdapter);
+                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
+                    basketListAdapter.notifyDataSetChanged();
+                }else{
+                    basketListDatases = new ArrayList<BasketListDatas>();
+                    Toast.makeText(MainActivity.this, "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasketListDataResult> call, Throwable t) {
+                //바스켓리스트를 가져오는데 실패함
+                Toast.makeText(MainActivity.this, "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
