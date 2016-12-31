@@ -1,7 +1,7 @@
 package com.moviebasket.android.client.testpage;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ public class JsoupActivity extends AppCompatActivity {
     TextView test_textview;
     String fullSummary;
     boolean isRunning;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,32 +29,35 @@ public class JsoupActivity extends AppCompatActivity {
 
         isRunning = true;
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                np();
-            }
-        });
-        thread.start();
-        /*
-        try {
-            doc = Jsoup.connect(url)
-                    .header("content-type", "multipart/form-data; boundary=---011000010111000001101001")
-                    .header("authorization", "Basic ZmJfMTY2MTUzMDc0NzQ2MTk5NDox").header("cache-control", "no-cache")
-                    .get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+        getDataAsyncTask asyncTask = new getDataAsyncTask();
+        asyncTask.execute();
 
-        Handler handler = new Handler();
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                test_textview.setText(fullSummary);
-            }
-        }, 2000);
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                np();
+//            }
+//        });
+//        thread.start();
+//        /*
+//        try {
+//            doc = Jsoup.connect(url)
+//                    .header("content-type", "multipart/form-data; boundary=---011000010111000001101001")
+//                    .header("authorization", "Basic ZmJfMTY2MTUzMDc0NzQ2MTk5NDox").header("cache-control", "no-cache")
+//                    .get();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        */
+//
+//        Handler handler = new Handler();
+//
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                test_textview.setText(fullSummary);
+//            }
+//        }, 2000);
 
     }
 
@@ -77,4 +81,52 @@ public class JsoupActivity extends AppCompatActivity {
         }
         isRunning = false;
     }
+
+    public class getDataAsyncTask extends AsyncTask<String,Void,String> {
+
+        public String result;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Document doc = null;
+            String url = "http://movie.naver.com/movie/bi/mi/basic.nhn?code=67901";
+
+            try {
+                doc = Jsoup.connect(url).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i("ParsingTest", "run: IOException 오류남~~~ ");
+            }
+
+            Elements summary = doc.select("p.con_tx");
+            fullSummary = "";
+
+            Iterator it = summary.iterator();
+            while (it.hasNext()) {
+                fullSummary += it.next().toString();
+            }
+            isRunning = false;
+
+            return fullSummary;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            test_textview.setText(s);
+
+            super.onPostExecute(s);
+        }
+    }
+
 }

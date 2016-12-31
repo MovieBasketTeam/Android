@@ -114,6 +114,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+
+                int scrollOffset = recyclerView.computeVerticalScrollOffset();
+                int scrollExtend = recyclerView.computeVerticalScrollExtent();
+                int scrollRange = recyclerView.computeVerticalScrollRange();
+
+                if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
+                    Toast.makeText(getApplicationContext(),"맨아래",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+            }
+
+        });
+
+
     }
 
     @Override
@@ -289,6 +312,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case REQEUST_CODE_FOR_HASHTAG:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
+            case REQEUST_CODE_FOR_SETTING:
                 if (resultCode == RESULT_OK) {
 
                 }
