@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
