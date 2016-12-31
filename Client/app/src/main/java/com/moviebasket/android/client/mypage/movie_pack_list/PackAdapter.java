@@ -69,9 +69,9 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
 
         if (mDatas.get(position).downImg == 0) {
-            holder.downImg.setImageResource(R.drawable.sub_basket_nodown);
+            holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
         } else {
-            holder.downImg.setImageResource(R.drawable.sub_basket_down);
+            holder.downImg.setImageResource(R.drawable.sub_movie_down);
         }
 //        holder.downImg.setImageResource(mDatas.get(position).downImg);
     }
