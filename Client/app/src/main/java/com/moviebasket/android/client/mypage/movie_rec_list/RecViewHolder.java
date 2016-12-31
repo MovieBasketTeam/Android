@@ -16,10 +16,10 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
     TextView owner;
     TextView likecount;
     TextView title;
-    TextView direct_country;
+    TextView direct;
+    TextView movie_pub_date;
     ImageView book_mark;
-    ImageView heart;
-
+    ImageView is_liked;
 
     public RecViewHolder(View itemView) {
         super(itemView);
@@ -28,8 +28,9 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
         owner = (TextView)itemView.findViewById(R.id.owner);
         likecount = (TextView)itemView.findViewById(R.id.likecount);
         title = (TextView)itemView.findViewById(R.id.title);
-        direct_country = (TextView)itemView.findViewById(R.id.direct_country);
+        direct = (TextView)itemView.findViewById(R.id.direct);
+        movie_pub_date =  (TextView)itemView.findViewById(R.id.movie_pub_date);
         book_mark = (ImageView)itemView.findViewById(R.id.book_mark);
-        heart = (ImageView)itemView.findViewById(R.id.heart);
+        is_liked = (ImageView)itemView.findViewById(R.id.heart);
     }
 }

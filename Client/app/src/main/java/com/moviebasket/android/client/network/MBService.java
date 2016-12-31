@@ -4,6 +4,7 @@ package com.moviebasket.android.client.network;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
 
+import com.moviebasket.android.client.mypage.movie_rec_list.RecResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResult;
 
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
@@ -35,7 +36,11 @@ public interface MBService {
     @POST("/member/signUp")
     Call<JoinResult> getJoinResult(@Field("member_name") String member_name, @Field("member_email") String member_email, @Field("member_pwd") String member_pwd);
 
+    //추천한 영화 목록 리스트 가져오기
+    @GET("/mypage/movie/recommend")
+    Call<RecResult> getRecommendResult(@Header("member_token") String member_token );
 
+    ////담은영화 리스트 가져오기
     @GET("/mypage/movie/cart")
     Call<PackResult> getMoviePackResult(@Header("member_token") String member_token);
 
