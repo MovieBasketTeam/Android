@@ -84,6 +84,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:text="1,886"
+                    android:gravity="center"
                     android:textColor="#ffff"
                     android:textSize="17dp"/>
 

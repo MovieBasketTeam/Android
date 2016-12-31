@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="142dp">
+        android:layout_height="145dp">
 
         <!-- 바스켓 이미지 -->
         <ImageView
@@ -59,7 +59,8 @@
                 android:layout_marginBottom="6dp"
                 android:text="1,886"
                 android:textColor="#ffff"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:gravity="center"/>
 
             <ImageView
                 android:id="@+id/textImg"

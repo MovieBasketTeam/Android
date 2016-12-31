@@ -176,15 +176,10 @@ public class MoviePackActivity extends AppCompatActivity {
                         mDatas.clear();
                         packdetail = result.result.result;
 
-/*                    mDatas.add(new PackDatas("http://imgmovie.naver.com/mdi/mit110/0475/47528_P50_144916.jpg",
-                            "무비바스켓","+by. "+"존잘필", "라라랜드", "2016", "이필주", "11234",
-                            R.drawable.sub_heart, R.drawable.sub_movie_down));
-*/
-
                         for (int i = 0; i < packdetail.size(); i++) {
-                            Log.i("SOPT : ",packdetail.get(i).movie_image+"/"+packdetail.get(i).basket_name+"/"+packdetail.get(i).movie_director+"/"+
+/*                            Log.i("SOPT : ",packdetail.get(i).movie_image+"/"+packdetail.get(i).basket_name+"/"+packdetail.get(i).movie_director+"/"+
                                     packdetail.get(i).movie_title+"/"+packdetail.get(i).movie_pub_date+"/"+packdetail.get(i).movie_director+"/"+
-                                    packdetail.get(i).movie_like+"/"+packdetail.get(i).is_liked+"/"+packdetail.get(i).is_cart);
+                                    packdetail.get(i).movie_like+"/"+packdetail.get(i).is_liked+"/"+packdetail.get(i).is_cart);*/
 
                             mDatas.add(new PackDatas(packdetail.get(i).movie_image,
                                     packdetail.get(i).basket_name,
@@ -196,7 +191,6 @@ public class MoviePackActivity extends AppCompatActivity {
                                     packdetail.get(i).is_liked,
                                     packdetail.get(i).is_cart));
                         }
-
 
                         /**
                          * 3. Adapter 생성 후 recyclerview에 지정
@@ -218,20 +212,6 @@ public class MoviePackActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "로그인을 해주세요.", Toast.LENGTH_SHORT);
         }
-
-
-/*
-        mDatas.add(new PackDatas("http://imgmovie.naver.com/mdi/mit110/0475/47528_P50_144916.jpg",
-                "무비바스켓","+by. "+"존잘필", "라라랜드", "2016", "이필주", "11234",
-                R.drawable.sub_heart, R.drawable.sub_movie_down));
-*/
-
-/*        mDatas.add(new PackDatas("http://imgmovie.naver.com/mdi/mit110/0475/47528_P50_144916.jpg",
-                "무비바스켓","+by. "+"존잘필", "라라랜드", "2016", "이필주", "11234",
-                R.drawable.sub_heart, R.drawable.sub_movie_down));
-*/
-
-
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
