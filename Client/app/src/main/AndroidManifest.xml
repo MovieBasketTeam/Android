@@ -32,6 +32,7 @@
         <activity android:name=".search.MovieSearchActivity" />
         <activity android:name=".movie_detail.MovieDetailActivity" />
         <activity android:name=".testpage.JsoupActivity"></activity>
+        <activity android:name=".mypage.setting.SettingActivity"/>
     </application>
 
 </manifest>
