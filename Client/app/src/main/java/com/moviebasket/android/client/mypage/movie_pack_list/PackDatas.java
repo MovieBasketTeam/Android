@@ -5,19 +5,22 @@ package com.moviebasket.android.client.mypage.movie_pack_list;
  */
 
 public class PackDatas {
-    int movieImage;
+//    int movieImage;
+    String movieImage;
+
     String basketName;
     String BasketUserName;
     String movieName;
     String year;
     String director;
-    String downCount;
+    int downCount;
     int heartImg;
     int downImg;
 
 
 
-    public PackDatas(int movieImage, String basketName, String BasketUserName, String movieName, String year, String director, String downCount, int heartImg, int downImg) {
+
+    public PackDatas(String movieImage, String basketName, String BasketUserName, String movieName, String year, String director, int downCount, int heartImg, int downImg) {
         this.movieImage = movieImage;
         this.basketName = basketName;
         this.BasketUserName = BasketUserName;

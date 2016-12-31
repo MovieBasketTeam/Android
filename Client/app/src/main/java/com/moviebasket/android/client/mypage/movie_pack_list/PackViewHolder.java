@@ -34,4 +34,8 @@ public class PackViewHolder extends RecyclerView.ViewHolder {
         heartImg = (ImageView)itemView.findViewById(R.id.heartImg);
         downImg = (ImageView)itemView.findViewById(R.id.downImg);
     }
+
+    public ImageView getMovieImageView(){
+        return movieImage;
+    }
 }
