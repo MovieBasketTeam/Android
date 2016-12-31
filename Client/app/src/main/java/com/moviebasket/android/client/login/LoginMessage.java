@@ -6,4 +6,5 @@ package com.moviebasket.android.client.login;
 
 public class LoginMessage {
     public String message;
+    public String member_token;
 }

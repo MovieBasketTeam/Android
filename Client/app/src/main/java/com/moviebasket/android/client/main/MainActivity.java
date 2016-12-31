@@ -23,6 +23,7 @@ import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
+import com.moviebasket.android.client.mypage.setting.SettingActivity;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 import com.moviebasket.android.client.testpage.JsoupActivity;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용"};
+    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용", "세팅"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQEUST_CODE_FOR_PRACTICE = 1004;
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
     private static final int REQEUST_CODE_FOR_HASHTAG = 1006;
+    private static final int REQEUST_CODE_FOR_SETTING = 1007;
 
     RecyclerView rv;
     LinearLayoutManager layoutManager;
@@ -195,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
                 case 4:
                     Intent intent = new Intent(MainActivity.this, JsoupActivity.class);
                     startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE );
+                    break;
+                case 5:
+                    Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING );
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);

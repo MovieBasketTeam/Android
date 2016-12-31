@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/loginin_back"
+    android:background="@drawable/login_back"
     tools:context="com.moviebasket.android.client.login.LoginActivity">
 
     <!--12.26 지원-->
