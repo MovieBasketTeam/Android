@@ -12,7 +12,6 @@ import com.moviebasket.android.client.main.MainActivity;
 
 public class SettingActivity extends AppCompatActivity {
 
-    ImageView backbutton;
     ImageView userimage;
 
     @Override
@@ -20,9 +19,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        backbutton = (ImageView) findViewById(R.id.backbutton);
         userimage = (ImageView) findViewById(R.id. userimage1);
-        backbutton.setOnClickListener(clickListener);
         userimage.setOnClickListener(clickListener);
 
     }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="96dp"
-    android:layout_marginBottom="1dp"
+    android:layout_marginTop="6dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
     >
 
     <RelativeLayout
@@ -11,11 +13,11 @@
 
         <ImageView
             android:id="@+id/ranking_image"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/sub_rank_one"/>
         <ImageView
             android:id="@+id/movie_image"
             android:layout_width="96dp"
@@ -25,62 +27,76 @@
             android:src="@mipmap/ic_launcher"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="18dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
             >
 
             <TextView
                 android:id="@+id/owner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="by. 서문" />
+                android:layout_width="26dp"
+                android:layout_height="18dp"
+                android:text="+by" />
+            <TextView
+                android:layout_width="52dp"
+                android:layout_height="match_parent"
+                android:text="서문이"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="28dp">
 
             <TextView
                 android:id="@+id/title_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="title(year)"/>
+                android:text="title(year)"
+                android:textSize="17sp"/>
             <TextView
                 android:id="@+id/direct_country"
+                android:layout_marginTop="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="감독/나라"/>
+                android:textSize="14sp"
+                android:text="감독/나라"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="65dp">
 
             <ImageView
                 android:id="@+id/download"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_width="30dp"
+                android:layout_height="29dp"
+                android:src="@drawable/sub_movie_nodown"/>
             <ImageView
                 android:id="@+id/heart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_width="33dp"
+                android:layout_height="29dp"
+                android:src="@drawable/sub_no_heart"/>
             <TextView
                 android:id="@+id/likecount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_width="41dp"
+                android:layout_height="29dp"
                 android:text="123"
                 />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
