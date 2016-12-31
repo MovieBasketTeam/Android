@@ -3,7 +3,6 @@ package com.moviebasket.android.client.tag.hashtag;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +22,8 @@ import java.util.Random;
 public class HashTagActivity extends Activity {
 
     private static final int REQUEST_CODE_FOR_TAGGED = 1005;
-
     Activity act = this;
     GridView gridView1, gridView2, gridView3, gridView4;
-
-
-
-    //이미지 배열 선언
-    ArrayList<Bitmap> picArr = new ArrayList<Bitmap>();
 
     //텍스트 배열 선언
     ArrayList<String> textArr = new ArrayList<String>();
@@ -39,20 +32,23 @@ public class HashTagActivity extends Activity {
     ArrayList<String> textArr4 = new ArrayList<String>();
 
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_list);
 
-        String totalRecomendation[] = {"#우울","#행복","#필주형","#서문","#비오는날","#맑음","#에어비앤비","#홍수빈인성","#ㅗㅗㅗ"};
-        String theme1[] = {"#테마1","#테마2","#테마3","#테마4","#테마5","#테마6","#테마7","#테마8","#테마9"};
-        String theme2[] = {"#테마11","#테마12","#테마13","#테마14","#테마15","#테마16","#테마17","#테마18","#테마19"};
-        String theme3[] = {"#테마21","#테마22","#테마23","#테마24","#테마25","#테마26","#테마27","#테마28","#테마29"};
+        String totalRecomendation[] = {"#썸탈 때","#연인","#가족","#혼자","#밤/새벽","#화창한 날","#흐린 날","#테마8","#우울/슬픔","#스트레스","#지칠 때","#행복/기쁨","#인물","#시대","#같은 장르","#OST","#홍수빈인성","#줼림줼림","#필주/미국","#김정은/북한"};
+        String theme1[] = {"#썸탈 때","#연인","#가족","#혼자","#밤/새벽","#화창한 날","#흐린 날","#테마8"};
+        String theme2[] = {"#우울/슬픔","#스트레스","#지칠 때","#행복/기쁨"};
+        String theme3[] = {"#인물","#시대","#같은 장르","#OST","#홍수빈인성","#줼림줼림","#필주/미국","#김정은/북한"};
+
 
         int total = totalRecomendation.length;
-        int theme1tot = theme1.length;
-        int theme2tot = theme2.length;
-        int theme3tot = theme3.length;
+//        int theme1tot = theme1.length;
+//        int theme2tot = theme2.length;
+//        int theme3tot = theme3.length;
 
 
         //추천 랜덤추출
@@ -82,21 +78,22 @@ public class HashTagActivity extends Activity {
         /////theme1
         //추천 랜덤추출
         int b[] = new int[8];
-        Random random1 = new Random();
-        for (int i = 0 ; i < 8 ; i++)
-        {
-            b[i] = random1.nextInt(theme1tot);
-            for(int j=0 ; j<i ; j++)
-            {
-                if(b[i]==b[j])
-                {
-                    i--;
-                }
-            }
-        }
+//        Random random1 = new Random();
+//        for (int i = 0 ; i < 8 ; i++)
+//        {
+//            b[i] = random1.nextInt(theme1tot);
+//            for(int j=0 ; j<i ; j++)
+//            {
+//                if(b[i]==b[j])
+//                {
+//                    i--;
+//                }
+//            }
+//        }
         for(int k=0 ; k<8 ; k++)
         {
-            textArr2.add(theme1[b[k]]);
+//            textArr2.add(theme1[b[k]]);
+            textArr2.add(theme1[k]);
         }
         //
 
@@ -108,21 +105,22 @@ public class HashTagActivity extends Activity {
         /////theme2
         //추천 랜덤추출
         int c[] = new int[4];
-        Random random2 = new Random();
-        for (int i = 0 ; i < 4 ; i++)
-        {
-            c[i] = random2.nextInt(theme2tot);
-            for(int j=0 ; j<i ; j++)
-            {
-                if(c[i]==c[j])
-                {
-                    i--;
-                }
-            }
-        }
+//        Random random2 = new Random();
+//        for (int i = 0 ; i < 4 ; i++)
+//        {
+//            c[i] = random2.nextInt(theme2tot);
+//            for(int j=0 ; j<i ; j++)
+//            {
+//                if(c[i]==c[j])
+//                {
+//                    i--;
+//                }
+//            }
+//        }
         for(int k=0 ; k<4 ; k++)
         {
-            textArr3.add(theme2[c[k]]);
+//            textArr3.add(theme2[c[k]]);
+            textArr3.add(theme2[k]);
         }
         //
 
@@ -135,21 +133,22 @@ public class HashTagActivity extends Activity {
         /////theme3
         //추천 랜덤추출
         int d[] = new int[8];
-        Random random3 = new Random();
-        for (int i = 0 ; i < 8 ; i++)
-        {
-            d[i] = random3.nextInt(theme3tot);
-            for(int j=0 ; j<i ; j++)
-            {
-                if(d[i]==d[j])
-                {
-                    i--;
-                }
-            }
-        }
+//        Random random3 = new Random();
+//        for (int i = 0 ; i < 8 ; i++)
+//        {
+//            d[i] = random3.nextInt(theme3tot);
+//            for(int j=0 ; j<i ; j++)
+//            {
+//                if(d[i]==d[j])
+//                {
+//                    i--;
+//                }
+//            }
+//        }
         for(int k=0 ; k<8 ; k++)
         {
-            textArr4.add(theme3[d[k]]);
+//            textArr4.add(theme3[d[k]]);
+            textArr4.add(theme3[k]);
         }
         //
 
@@ -207,7 +206,9 @@ public class HashTagActivity extends Activity {
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
-                    //putExtra 해야함.
+
+                    //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
+                    taggedBasketIntent.putExtra("hash_title",btn.getText().toString());
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
@@ -263,7 +264,9 @@ public class HashTagActivity extends Activity {
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
-                    //putExtra 해야함.
+
+                    //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
+                    taggedBasketIntent.putExtra("hash_title",btn2.getText().toString());
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
@@ -319,7 +322,9 @@ public class HashTagActivity extends Activity {
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
-                    //putExtra 해야함.
+
+                    //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
+                    taggedBasketIntent.putExtra("hash_title",btn3.getText().toString());
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
@@ -373,10 +378,14 @@ public class HashTagActivity extends Activity {
                     //이미지를 터치했을때 동작하는 곳
                     Toast.makeText(getApplicationContext(),btn4.getText().toString(),Toast.LENGTH_SHORT).show();
 
+
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
-                    //putExtra 해야함.
+
+                    //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
+                    taggedBasketIntent.putExtra("hash_title",btn4.getText().toString());
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
+
                 }
             });
 
