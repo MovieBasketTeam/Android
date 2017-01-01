@@ -70,11 +70,7 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-               case R.id.backbutton:
-                   Intent BackIntent = new Intent(SettingActivity.this, MainActivity.class);
-                   startActivity(BackIntent);
-                   finish();
-                   break;
+
                 case R.id.userimage1:
                     Toast.makeText(SettingActivity.this, "사진 바꾸기 준비중", Toast.LENGTH_SHORT).show();
                     break;

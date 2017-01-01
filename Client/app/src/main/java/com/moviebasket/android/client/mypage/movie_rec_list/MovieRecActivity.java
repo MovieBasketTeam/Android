@@ -28,6 +28,7 @@ public class MovieRecActivity extends AppCompatActivity {
 
 
     LinearLayoutManager mLayoutManager;
+    RecAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,53 +66,56 @@ public class MovieRecActivity extends AppCompatActivity {
 
         Log.i("NetConfirm", "token: "+token);
 
-            Call<RecResultParent> getRecommendResult = mbService.getRecommendResult(token);
-            getRecommendResult.enqueue(new Callback<RecResultParent>() {
-                @Override
-                public void onResponse(Call<RecResultParent> call, Response<RecResultParent> response) {
-                    Log.i("NetConfirm", "onResponse: 들어옴");
+        Call<RecResultParent> getRecommendResult = mbService.getRecommendResult(token);
+        getRecommendResult.enqueue(new Callback<RecResultParent>() {
+            @Override
+            public void onResponse(Call<RecResultParent> call, Response<RecResultParent> response) {
+                Log.i("NetConfirm", "onResponse: 들어옴");
 
-                    RecResultParent recResult = response.body();
-                    if (response.isSuccessful()) {// 응답코드 200
-                        Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                        isResponseSuccess = recResult.result.result.get(0).message==null ? true : false;
-                        Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
-                    }
-                    if (isResponseSuccess) {
-
-                        for (int i = 0; i < recResult.result.result.size(); i++) {
-                            mDatas.add(new RecDatas(recResult.result.result.get(i).movie_image,
-                                    recResult.result.result.get(i).movie_id,
-                                    recResult.result.result.get(i).owner,
-                                    recResult.result.result.get(i).movie_title,
-                                    recResult.result.result.get(i).movie_director,
-                                    recResult.result.result.get(i).movie_pub_date,
-                                    recResult.result.result.get(i).movie_user_rating,
-                                    recResult.result.result.get(i).movie_link,
-                                    recResult.result.result.get(i).movie_like,
-                                    recResult.result.result.get(i).book_mark,
-                                    recResult.result.result.get(i).is_liked,
-                                    recResult.result.result.get(i).is_cart,
-                                    recResult.result.result.get(i).message,
-                                    recResult.result.result.get(i).basket_name ));
-                        }
-                    }
+                RecResultParent recResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    isResponseSuccess = recResult.result.result.get(0).message==null ? true : false;
+                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
                 }
+                if (isResponseSuccess) {
 
-                @Override
-                public void onFailure(Call<RecResultParent> call, Throwable t) {
-                    Log.i("NetConfirm", "onFailure: 들어옴");
-
-                    Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+                    mDatas.addAll(recResult.result.result);
+                    adapter.notifyDataSetChanged();
+//
+//                    for (int i = 0; i < recResult.result.result.size(); i++) {
+//                        mDatas.add(new RecDatas(recResult.result.result.get(i).movie_image,
+//                                recResult.result.result.get(i).movie_id,
+//                                recResult.result.result.get(i).owner,
+//                                recResult.result.result.get(i).movie_title,
+//                                recResult.result.result.get(i).movie_director,
+//                                recResult.result.result.get(i).movie_pub_date,
+//                                recResult.result.result.get(i).movie_user_rating,
+//                                recResult.result.result.get(i).movie_link,
+//                                recResult.result.result.get(i).movie_like,
+//                                recResult.result.result.get(i).book_mark,
+//                                recResult.result.result.get(i).is_liked,
+//                                recResult.result.result.get(i).is_cart,
+//                                recResult.result.result.get(i).message,
+//                                recResult.result.result.get(i).basket_name ));
+//                    }
                 }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<RecResultParent> call, Throwable t) {
+                Log.i("NetConfirm", "onFailure: 들어옴");
+
+                Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+            }
+        });
 
 
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        RecAdapter adapter = new RecAdapter(mDatas, recylerClickListener);
+        adapter = new RecAdapter(mDatas, recylerClickListener);
         //basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
         recyclerView.setAdapter(adapter);
 

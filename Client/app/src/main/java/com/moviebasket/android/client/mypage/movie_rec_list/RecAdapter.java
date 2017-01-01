@@ -50,7 +50,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         holder.movie_pub_date.setText(String.valueOf(mDatas.get(position).movie_pub_date));
         holder.title.setText(mDatas.get(position).movie_title);
         holder.direct.setText(mDatas.get(position).movie_director);
-        holder.img_heart.setImageResource(R.drawable.sub_heart);
 
         if(mDatas.get(position).book_mark==1) {
             holder.book_mark.setImageResource(R.drawable.sub_movie_down);
