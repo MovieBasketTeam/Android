@@ -67,16 +67,6 @@ public class BasketListActivity extends AppCompatActivity {
                         BasketListDataResult basketList = response.body();
 
                         mDatas.addAll(basketList.result.baskets);
-                        Log.i("log", basketList.result.baskets.get(0).basket_name);
-                        Log.i("log", String.valueOf(basketList.result.baskets.get(0).basket_like));
-                        Log.i("log", String.valueOf(basketList.result.baskets.get(0).is_liked));
-
-                        Log.i("baskets : ", mDatas.get(0).basket_name);
-                        Log.i("baskets : ", String.valueOf(mDatas.get(0).basket_like));
-                        Log.i("baskets : ", String.valueOf(mDatas.get(0).is_liked));
-                        Log.i("baskets : ", String.valueOf(mDatas.get(0).basket_id));
-                        Log.i("baskets : ", mDatas.get(0).basket_image);
-
 
                         adapter = new BasketListAdapter(mDatas, recylerClickListener, subClickListener);
                         recyclerView.setAdapter(adapter);
