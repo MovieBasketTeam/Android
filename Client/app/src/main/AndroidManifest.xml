@@ -31,7 +31,6 @@
         <activity android:name=".tag.hashtag.HashTagActivity" />
         <activity android:name=".search.MovieSearchActivity"
             android:windowSoftInputMode="adjustNothing"/>
-        <activity android:name=".movie_detail.MovieDetailActivity" />Se
         <activity android:name=".testpage.JsoupActivity"></activity>
         <activity android:name=".mypage.setting.SettingActivity"/>
     </application>
