@@ -140,7 +140,7 @@ public class MoviePackActivity extends AppCompatActivity {
     private MBService mbService;
 
     PackResultResult result;
-
+    PackAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +154,7 @@ public class MoviePackActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.myRecyclerview);
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
+        adapter = new PackAdapter(mDatas, recylerClickListener);
 
         // LayoutManager 초기화
         // layoutManager 설정
@@ -195,8 +196,7 @@ public class MoviePackActivity extends AppCompatActivity {
                         /**
                          * 3. Adapter 생성 후 recyclerview에 지정
                          */
-                        PackAdapter adapter = new PackAdapter(mDatas, recylerClickListener);
-                        recyclerView.setAdapter(adapter);
+
 
                         adapter.notifyDataSetChanged();
                     }
@@ -212,6 +212,10 @@ public class MoviePackActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "로그인을 해주세요.", Toast.LENGTH_SHORT);
         }
+
+
+        recyclerView.setAdapter(adapter);
+        //
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
