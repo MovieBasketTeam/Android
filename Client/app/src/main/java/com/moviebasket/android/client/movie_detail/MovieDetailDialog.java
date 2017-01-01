@@ -10,17 +10,17 @@ import com.moviebasket.android.client.R;
 
 public class MovieDetailDialog extends Dialog {
 
+    TextView storybord;
+
     public MovieDetailDialog(Context context) {
         super(context);
     }
-
-    TextView storybord = (TextView)findViewById(R.id.storybord);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_movie_detail);
+        storybord= (TextView)findViewById(R.id.storybord);
         storybord.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 }

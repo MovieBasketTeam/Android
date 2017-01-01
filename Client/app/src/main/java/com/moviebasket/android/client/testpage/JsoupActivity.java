@@ -32,33 +32,6 @@ public class JsoupActivity extends AppCompatActivity {
         getDataAsyncTask asyncTask = new getDataAsyncTask();
         asyncTask.execute();
 
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                np();
-//            }
-//        });
-//        thread.start();
-//        /*
-//        try {
-//            doc = Jsoup.connect(url)
-//                    .header("content-type", "multipart/form-data; boundary=---011000010111000001101001")
-//                    .header("authorization", "Basic ZmJfMTY2MTUzMDc0NzQ2MTk5NDox").header("cache-control", "no-cache")
-//                    .get();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        */
-//
-//        Handler handler = new Handler();
-//
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                test_textview.setText(fullSummary);
-//            }
-//        }, 2000);
-
     }
 
 
