@@ -54,17 +54,7 @@ public class MovieRecActivity extends AppCompatActivity {
          */
         mDatas = new ArrayList<RecDatas>();
 
-        //여기는 네이버 api에서 정보 받아와서 for문으로 돌려서 add해야될것같아요 임시로 넣어둠!!
-        //7,8번째 파라미터는 if문으로 값이 0,1 일때 각각 다른이미지가 뜨도록 해야함!!
-
-        //mDatas.add(new RecDatas(R.drawable.fab_add, "owner2", "1005", "영화", "이충민", "한국", R.drawable.back, R.drawable.back));
-        //mDatas.add(new RecDatas(R.drawable.down_btn, "owner3", "1006", "신도림", "최서문", "미국", R.mipmap.ic_launcher, R.drawable.back));
-        //mDatas.add(new RecDatas(R.drawable.menu_button_drawer, "owner4", "1004", "노블래스", "너구리", "미국", R.drawable.back, R.mipmap.ic_launcher));
-        //mDatas.add(new RecDatas(R.drawable.back, "owner5", "2004", "대가리", "그냥너구리", "미국", R.mipmap.ic_launcher, R.drawable.fab_add));
-
         String token = ApplicationController.getInstance().getPreferences();
-
-        Log.i("NetConfirm", "token: "+token);
 
         Call<RecResultParent> getRecommendResult = mbService.getRecommendResult(token);
         getRecommendResult.enqueue(new Callback<RecResultParent>() {
@@ -82,23 +72,6 @@ public class MovieRecActivity extends AppCompatActivity {
 
                     mDatas.addAll(recResult.result.result);
                     adapter.notifyDataSetChanged();
-//
-//                    for (int i = 0; i < recResult.result.result.size(); i++) {
-//                        mDatas.add(new RecDatas(recResult.result.result.get(i).movie_image,
-//                                recResult.result.result.get(i).movie_id,
-//                                recResult.result.result.get(i).owner,
-//                                recResult.result.result.get(i).movie_title,
-//                                recResult.result.result.get(i).movie_director,
-//                                recResult.result.result.get(i).movie_pub_date,
-//                                recResult.result.result.get(i).movie_user_rating,
-//                                recResult.result.result.get(i).movie_link,
-//                                recResult.result.result.get(i).movie_like,
-//                                recResult.result.result.get(i).book_mark,
-//                                recResult.result.result.get(i).is_liked,
-//                                recResult.result.result.get(i).is_cart,
-//                                recResult.result.result.get(i).message,
-//                                recResult.result.result.get(i).basket_name ));
-//                    }
                 }
             }
 
@@ -116,7 +89,6 @@ public class MovieRecActivity extends AppCompatActivity {
          * 3. Adapter 생성 후 recyclerview에 지정
          */
         adapter = new RecAdapter(mDatas, recylerClickListener);
-        //basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
         recyclerView.setAdapter(adapter);
 
     }
