@@ -20,7 +20,6 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
     TextView movie_pub_date;
     ImageView book_mark;
     ImageView is_liked;
-    ImageView img_heart;
 
     public RecViewHolder(View itemView) {
         super(itemView);
@@ -33,7 +32,6 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
         movie_pub_date =  (TextView)itemView.findViewById(R.id.movie_pub_date);
         book_mark = (ImageView)itemView.findViewById(R.id.book_mark);
         is_liked = (ImageView)itemView.findViewById(R.id.heart);
-        img_heart = (ImageView)itemView.findViewById(R.id.img_heart);
 
     }
 }
