@@ -1,5 +1,6 @@
 package com.moviebasket.android.client.main.model;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
@@ -30,7 +32,7 @@ import retrofit2.Response;
 
 public class RecommendFragment extends Fragment {
 
-
+    private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
@@ -104,9 +106,9 @@ public class RecommendFragment extends Fragment {
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             Toast.makeText(getActivity(), position+"번째 리사이클러뷰 항목 클릭!"+" / "+basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
 
-//            Intent specificBasketIntent = new Intent(MainActivity.this, SpecificBasketActivity.class);
-//            //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
-//            startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
+            Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
+            //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
+            startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
         }
     };
 
