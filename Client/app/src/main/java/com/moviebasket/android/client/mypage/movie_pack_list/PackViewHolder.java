@@ -1,7 +1,5 @@
 package com.moviebasket.android.client.mypage.movie_pack_list;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +17,7 @@ public class PackViewHolder extends RecyclerView.ViewHolder {
     TextView director;
     TextView downCount;
     ImageView heartImg;
-    ImageView downImg;
+    ImageView removeImg;
 
     public PackViewHolder(View itemView) {
         super(itemView);
@@ -32,7 +30,7 @@ public class PackViewHolder extends RecyclerView.ViewHolder {
         director = (TextView)itemView.findViewById(R.id.director);
         downCount = (TextView)itemView.findViewById(R.id.downCount);
         heartImg = (ImageView)itemView.findViewById(R.id.heartImg);
-        downImg = (ImageView)itemView.findViewById(R.id.downImg);
+        removeImg = (ImageView)itemView.findViewById(R.id.removeImg);
     }
 
     public ImageView getMovieImageView(){
