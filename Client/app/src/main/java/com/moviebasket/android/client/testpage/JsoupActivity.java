@@ -92,6 +92,7 @@ public class JsoupActivity extends AppCompatActivity {
             }
             isRunning = false;
 
+            fullSummary = RemoveHTMLTag(fullSummary);
             return fullSummary;
         }
 
@@ -107,6 +108,15 @@ public class JsoupActivity extends AppCompatActivity {
 
             super.onPostExecute(s);
         }
+    }
+
+    public String RemoveHTMLTag(String changeStr){
+        if( changeStr != null && !changeStr.equals("") ) {
+            changeStr = changeStr.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+        } else {
+            changeStr = "";
+        }
+        return changeStr;
     }
 
 }
