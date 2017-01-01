@@ -17,6 +17,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     ArrayList<DetailDatas> mDatas;
     View.OnClickListener clickListener;
+    View.OnClickListener subClickListener;
     private ViewGroup parent;
 
 
@@ -24,9 +25,10 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     }
 
-    public DetailAdapter(ArrayList<DetailDatas> mDatas, View.OnClickListener clickListener) {
+    public DetailAdapter(ArrayList<DetailDatas> mDatas, View.OnClickListener clickListener, View.OnClickListener subClickListener) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
+        this.subClickListener = subClickListener;
     }
 
 
@@ -50,7 +52,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
         holder.movieName.setText(mDatas.get(position).movie_title);
         holder.year.setText(String.valueOf(mDatas.get(position).movie_pub_date));
         holder.director.setText(mDatas.get(position).movie_director);
-//        holder.basketName.setText(mDatas.get(position).basketName);
         holder.downCount.setText(String.valueOf(mDatas.get(position).movie_like));
 
 
@@ -59,21 +60,15 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
         } else {
             holder.heartImg.setImageResource(R.drawable.sub_heart);
         }
-//        holder.heartImg.setImageResource(mDatas.get(position).heartImg);
-
 
         if (mDatas.get(position).is_cart == 0) {
             holder.downImg.setImageResource(R.drawable.sub_movie_down);
         } else {
             holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
         }
-//        holder.downImg.setImageResource(mDatas.get(position).downImg);
 
-
-
-//        holder.heartImg.setImageResource(mDatas.get(position).is_liked);
-//        holder.downImg.setImageResource(mDatas.get(position).is_cart);
-
+        holder.downImg.setOnClickListener(subClickListener);
+        holder.heartImg.setOnClickListener(subClickListener);
     }
 
     @Override

@@ -49,6 +49,7 @@
                 android:id="@+id/basketImg"
                 android:layout_width="match_parent"
                 android:layout_height="148dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/basket_base" />
 
             <!-- 텍스트 -->
@@ -125,8 +126,6 @@
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 

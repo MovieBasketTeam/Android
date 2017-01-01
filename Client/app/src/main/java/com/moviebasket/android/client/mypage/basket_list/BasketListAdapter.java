@@ -18,6 +18,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
 
     ArrayList<BasketListDatas> mDatas;
     View.OnClickListener clickListener;
+    View.OnClickListener subClickListener;
 
     private ViewGroup parent;
     private View itemView;
@@ -25,9 +26,10 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
         this.mDatas = mDatas;
     }
 
-    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener) {
+    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, View.OnClickListener subClickListener ) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
+        this.subClickListener = subClickListener;
     }
 
     @Override
@@ -52,6 +54,12 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
         holder.basketName.setText(mDatas.get(position).basket_name);
         holder.downCount.setText(String.valueOf(mDatas.get(position).basket_like));
 
+        if ( mDatas.get(position).is_liked == 0 ) {
+            holder.downBtn.setImageResource(R.drawable.sub_basket_down);
+        } else {
+            holder.downBtn.setImageResource(R.drawable.sub_basket_nodown);
+        }
+        holder.downBtn.setOnClickListener(subClickListener);
     }
 
     @Override
