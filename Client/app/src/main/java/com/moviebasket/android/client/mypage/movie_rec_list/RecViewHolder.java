@@ -34,4 +34,8 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
         is_liked = (ImageView)itemView.findViewById(R.id.heart);
 
     }
+    public ImageView getMovieImageView(){
+        return movie_image;
+    }
+
 }
