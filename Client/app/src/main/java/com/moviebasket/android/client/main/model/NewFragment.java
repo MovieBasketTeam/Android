@@ -63,7 +63,7 @@ public class NewFragment extends Fragment {
 
         basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
 
-        loadBasketListDatas(1);
+        loadBasketListDatas(2);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

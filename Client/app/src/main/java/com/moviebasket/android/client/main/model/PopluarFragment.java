@@ -63,7 +63,7 @@ public class PopluarFragment extends Fragment {
 
         basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
 
-        loadBasketListDatas(2);
+        loadBasketListDatas(3);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

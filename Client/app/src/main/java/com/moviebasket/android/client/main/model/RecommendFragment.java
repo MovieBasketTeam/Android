@@ -63,7 +63,7 @@ public class RecommendFragment extends Fragment {
 
         basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
 
-        loadBasketListDatas(3);
+        loadBasketListDatas(1);
 
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
