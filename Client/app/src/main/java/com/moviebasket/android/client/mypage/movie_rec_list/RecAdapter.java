@@ -16,15 +16,22 @@ import java.util.ArrayList;
 public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
     ArrayList<RecDatas> mDatas;
+    View.OnClickListener recyclerclickListener;
     View.OnClickListener clickListener;
     private View itemView;
     private ViewGroup parent;
+
 
     public RecAdapter(ArrayList<RecDatas> mDatas) {
         this.mDatas = mDatas;
     }
     public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener clickListener) {
         this.mDatas = mDatas;
+        this.recyclerclickListener = clickListener;
+    }
+    public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener recyclerclickListener, View.OnClickListener clickListener) {
+        this.mDatas = mDatas;
+        this.recyclerclickListener = recyclerclickListener;
         this.clickListener = clickListener;
     }
 
@@ -34,8 +41,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_rec, parent, false);
 
-        if( this.clickListener != null )
-            itemView.setOnClickListener(clickListener);
+        if( this.recyclerclickListener != null )
+            itemView.setOnClickListener(recyclerclickListener);
 
         RecViewHolder viewHolder = new RecViewHolder(itemView);
 
@@ -64,6 +71,11 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
             holder.is_liked.setImageResource(R.drawable.sub_heart);
         }else{
             holder.is_liked.setImageResource(R.drawable.sub_no_heart);
+        }
+
+        if(clickListener != null){
+            holder.book_mark.setOnClickListener(clickListener);
+            holder.is_liked.setOnClickListener(clickListener);
         }
     }
 

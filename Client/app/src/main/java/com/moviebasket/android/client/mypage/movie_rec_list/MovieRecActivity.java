@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -21,6 +22,9 @@ import retrofit2.Response;
 public class MovieRecActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<RecDatas> mDatas = new ArrayList<RecDatas>();
+
+    ImageView heart;
+    ImageView book_mark;
 
     private MBService mbService;
     private boolean isResponseSuccess;
@@ -40,6 +44,8 @@ public class MovieRecActivity extends AppCompatActivity {
          */
         recyclerView = (RecyclerView) findViewById(R.id.myRecyclerview);
         mbService = ApplicationController.getInstance().getMbService();
+        heart = (ImageView)findViewById(R.id.heart);
+        book_mark = (ImageView)findViewById(R.id.heart);
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 
@@ -88,7 +94,7 @@ public class MovieRecActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        adapter = new RecAdapter(mDatas, recylerClickListener);
+        adapter = new RecAdapter(mDatas, recylerClickListener, clickListener);
         recyclerView.setAdapter(adapter);
 
     }
@@ -106,6 +112,21 @@ public class MovieRecActivity extends AppCompatActivity {
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             //Toast.makeText(MovieSearchActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
             Toast.makeText(MovieRecActivity.this, MovieTitle, Toast.LENGTH_SHORT).show();
+        }
+    };
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+
+                case R.id.book_mark:
+                    Toast.makeText(MovieRecActivity.this, "담기를 눌렸당", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.heart:
+                    Toast.makeText(MovieRecActivity.this, "하트를 눌렀당", Toast.LENGTH_SHORT).show();
+                    break;
+
+            }
         }
     };
 }
