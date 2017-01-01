@@ -65,4 +65,7 @@ public interface MBService {
     @GET("/basket/detail/{basket_id}")
     Call<DetailResultParent> getBasketDetail(@Header("member_token") String member_token, @Path("basket_id") int basket_id);
 
+    //담은 바스켓리스트 보기
+    @GET("/mypage/basket")
+    Call<BasketListDataResult> getMyBasketListResult(@Header("member_token") String member_token);
 }
