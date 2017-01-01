@@ -22,7 +22,7 @@
             android:id="@+id/rl_toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:background="#FFF"
+            android:background="#ffff"
             android:layout_alignParentTop="true">
             <ImageView
                 android:layout_width="38dp"
@@ -50,7 +50,8 @@
             android:id="@+id/view_base_rlayout_main"
             android:layout_below="@+id/rl_toolbar_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#ffff">
             <include
                 layout="@layout/layout_default_main"/>
 
@@ -71,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"/>
+
         <ListView
             android:id="@+id/listview_nav_item_main"
             android:layout_width="match_parent"

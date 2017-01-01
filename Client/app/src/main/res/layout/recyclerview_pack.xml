@@ -5,12 +5,13 @@
     android:background="@drawable/sub_ticket"
     android:layout_marginTop="6dp">
 
-
     <LinearLayout
         android:id="@+id/movieLayout"
-        android:layout_alignParentLeft="true"
         android:layout_width="96dp"
-        android:layout_height="96dp">
+        android:layout_height="96dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/movieImage"
@@ -90,23 +91,21 @@
             android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:text="1,023"/>
-
         <ImageView
             android:id="@+id/heartImg"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/downCount"
-            android:layout_width="33dp"
-            android:layout_height="29dp"
-            android:src="@drawable/sub_heart"/>
-
-        <ImageView
-            android:id="@+id/downImg"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/heartImg"
             android:layout_width="30dp"
             android:layout_height="29dp"
-            android:src="@drawable/sub_movie_down"
+            android:src="@drawable/sub_heart"
             />
+        <ImageView
+            android:id="@+id/removeImg"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/heartImg"
+            android:layout_width="33dp"
+            android:layout_height="29dp"
+            android:src="@drawable/x_button"/>
 
 
     </RelativeLayout>
