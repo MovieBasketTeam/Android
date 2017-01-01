@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
@@ -249,7 +250,16 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 6:
                     //로그아웃 확인하는 거
+                    Toast.makeText(MainActivity.this, "로그아웃!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+                    //토큰값 지우기
                     ApplicationController.getInstance().savePreferences("");
+                    //스플래시 화면으로 가기.
+                    /*
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    */
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);
