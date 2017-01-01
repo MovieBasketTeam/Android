@@ -18,19 +18,20 @@ import java.util.ArrayList;
 
 public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
-    ArrayList<PackDatas> mDatas;
+    ArrayList<PackDetail> packDetails;
     View.OnClickListener clickListener;
+    View.OnClickListener subClickListener;
     private ViewGroup parent;
 
     public PackAdapter() {
 
     }
 
-    public PackAdapter(ArrayList<PackDatas> mDatas, View.OnClickListener clickListener) {
+    public PackAdapter(ArrayList<PackDetail> packDetails, View.OnClickListener clickListener, View.OnClickListener subClickListener) {
+        this.packDetails = packDetails;
         this.clickListener = clickListener;
-        this.mDatas = mDatas;
+        this.subClickListener = subClickListener;
     }
-
 
     @Override
     public PackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,38 +49,29 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
 
     @Override
     public void onBindViewHolder(PackViewHolder holder, int position) {
-        //리싸이클뷰에 항목을 뿌려주는 메소드.
 
-        //holder.movieImage.setImageResource(mDatas.get(position).movieImage);
-        Glide.with(parent.getContext()).load(mDatas.get(position).movieImage).into(holder.getMovieImageView());
+        Glide.with(parent.getContext()).load(packDetails.get(position).movie_image).into(holder.movieImage);
+        holder.movieName.setText(packDetails.get(position).movie_title);
+        holder.basketName.setText(packDetails.get(position).basket_name);
+        holder.BasketUserName.setText(packDetails.get(position).movie_movie_adder);
+        holder.year.setText(String .valueOf(packDetails.get(position).movie_pub_date));
+        holder.director.setText(packDetails.get(position).movie_director);
+        holder.downCount.setText(String .valueOf(packDetails.get(position).movie_like));
 
-        holder.movieName.setText(mDatas.get(position).movieName);
-        holder.basketName.setText(mDatas.get(position).basketName);
-        holder.BasketUserName.setText(mDatas.get(position).BasketUserName);
-        holder.year.setText(String .valueOf(mDatas.get(position).year));
-        holder.director.setText(mDatas.get(position).director);
-        holder.downCount.setText(String .valueOf(mDatas.get(position).downCount));
-
-        if (mDatas.get(position).heartImg == 0) {
+        if (packDetails.get(position).is_liked == 0) {
             holder.heartImg.setImageResource(R.drawable.sub_no_heart);
         } else {
             holder.heartImg.setImageResource(R.drawable.sub_heart);
         }
-//        holder.heartImg.setImageResource(mDatas.get(position).heartImg);
 
-
-        if (mDatas.get(position).downImg == 0) {
-            holder.downImg.setImageResource(R.drawable.sub_movie_down);
-        } else {
-            holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
-        }
-//        holder.downImg.setImageResource(mDatas.get(position).downImg);
+        holder.removeImg.setOnClickListener(subClickListener);
+        holder.heartImg.setOnClickListener(subClickListener);
     }
 
     @Override
     public int getItemCount() {
 
-        return (mDatas != null) ? mDatas.size() : 0;
+        return (packDetails != null) ? packDetails.size() : 0;
     }
 }
 
