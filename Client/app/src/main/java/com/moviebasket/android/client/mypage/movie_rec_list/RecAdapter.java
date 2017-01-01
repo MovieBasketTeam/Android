@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
     ArrayList<RecDatas> mDatas;
     View.OnClickListener clickListener;
     private View itemView;
+    private ViewGroup parent;
 
     public RecAdapter(ArrayList<RecDatas> mDatas) {
         this.mDatas = mDatas;
@@ -27,8 +30,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
     @Override
     public RecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-
+        this.parent = parent;
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_rec, parent, false);
 
@@ -44,7 +46,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
     public void onBindViewHolder(RecViewHolder holder, int position) {
 
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.movie_image.setImageResource(R.drawable.sub_movie_down);//임시로 해놓은 이미지! 글라인더 해야함 데이터 받아서!!!
+        //holder.movie_image.setImageResource(R.drawable.sub_movie_down);
+        Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
         holder.owner.setText(mDatas.get(position).owner);
         holder.likecount.setText(String.valueOf(mDatas.get(position).movie_like));
         holder.movie_pub_date.setText(String.valueOf(mDatas.get(position).movie_pub_date));
