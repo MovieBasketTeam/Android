@@ -3,27 +3,21 @@ package com.moviebasket.android.client.main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
-import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.presenter.PagerAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
-import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
-import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
-import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.mypage.setting.SettingActivity;
@@ -31,12 +25,6 @@ import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 import com.moviebasket.android.client.testpage.JsoupActivity;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,11 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     MBService mbService;
 
-    RecyclerView rv;
-    LinearLayoutManager layoutManager;
-    ArrayList<BasketListDatas> basketListDatases;
-    BasketListAdapter basketListAdapter;
-
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
@@ -69,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     */
 
 
+    ViewPager viewPager;
+    PagerAdapter pagerAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mbService = ApplicationController.getInstance().getMbService();
 
         //바스켓리스트 사용자 추천순으로 가져와야함. (MBService)에서
-        loadBasketListDatas(1);
+//        loadBasketListDatas(1);
 
         //변수초기화
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
@@ -88,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         newbtn = (ImageView) findViewById(R.id.newbtn);
         popularbtn = (ImageView) findViewById(R.id.popularbtn);
         recommendbtn= (ImageView) findViewById(R.id.recommendbtn);
+
+        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());//tabLayout.getTabCount(),Integer.valueOf(user_id));
+        viewPager.setAdapter(pagerAdapter);
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
@@ -100,11 +91,6 @@ public class MainActivity extends AppCompatActivity {
         fab_item3.setOnClickListener(fabClickListener);
         */
 
-        rv = (RecyclerView) findViewById(R.id.rv_main);
-        layoutManager = new LinearLayoutManager(MainActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(layoutManager);
-
 
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
@@ -116,35 +102,45 @@ public class MainActivity extends AppCompatActivity {
         popularbtn.setOnClickListener(clickListener);
         recommendbtn.setOnClickListener(clickListener);
 
-
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                int scrollOffset = recyclerView.computeVerticalScrollOffset();
-                int scrollExtend = recyclerView.computeVerticalScrollExtent();
-                int scrollRange = recyclerView.computeVerticalScrollRange();
+            }
 
-                if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
-                    Toast.makeText(getApplicationContext(),"맨아래",Toast.LENGTH_SHORT).show();
+            @Override
+            public void onPageSelected(int position) {
+
+                switch (position){
+                    case 0:
+                        newbtn.setBackgroundResource(R.drawable.main_recent_black);
+                        popularbtn.setBackgroundResource(R.drawable.main_pop);
+                        recommendbtn.setBackgroundResource(R.drawable.main_reco);
+
+                        break;
+                    case 1:
+                        newbtn.setBackgroundResource(R.drawable.main_recent);
+                        popularbtn.setBackgroundResource(R.drawable.main_pop_black);
+                        recommendbtn.setBackgroundResource(R.drawable.main_reco);
+
+                        break;
+                    
+                    case 2:
+                        newbtn.setBackgroundResource(R.drawable.main_recent);
+                        popularbtn.setBackgroundResource(R.drawable.main_pop);
+                        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
+
+                        break;
                 }
 
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
 
-        if(basketListDatases==null)
-            basketListDatases = new ArrayList<>();
-        if(basketListAdapter==null)
-            basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
-
-        //rv.setAdapter(basketListAdapter);
-        basketListAdapter.notifyDataSetChanged();
 
     }
 
@@ -192,40 +188,30 @@ public class MainActivity extends AppCompatActivity {
                     newbtn.setBackgroundResource(R.drawable.main_recent_black);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
-                    loadBasketListDatas(1);
+//                    loadBasketListDatas(1);
+
+                    viewPager.setCurrentItem(0);
+
                     break;
                 case R.id.popularbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop_black);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
-                    loadBasketListDatas(2);
+//                    loadBasketListDatas(2);
+
+                    viewPager.setCurrentItem(1);
+
                     break;
                 case R.id.recommendbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
-                    loadBasketListDatas(3);
+//                    loadBasketListDatas(3)
+                    viewPager.setCurrentItem(2);
+
                     break;
 
             }
-        }
-    };
-    private View.OnClickListener recylerClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
-            int position = rv.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
-            //String basketName = basketListDatases.get(position).basketName;
-          //  String basketDownCount = basketListDatases.get(position).downCount;
-
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            Toast.makeText(MainActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+" / "+basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
-            Intent specificBasketIntent = new Intent(MainActivity.this, SpecificBasketActivity.class);
-            //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
-            startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
         }
     };
 
@@ -339,33 +325,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadBasketListDatas(int mode){
-        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
-        getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
-            @Override
-            public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {
-                //바스켓리스트 가져옴.
-                BasketListDataResult result = response.body();
-                String message = result.result.message;
-                if(message==null){
-                    basketListDatases = result.result.baskets;
-
-                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
-                    rv.setAdapter(basketListAdapter);
-                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    basketListAdapter.notifyDataSetChanged();
-                }else{
-                    basketListDatases = new ArrayList<BasketListDatas>();
-                    Toast.makeText(MainActivity.this, "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BasketListDataResult> call, Throwable t) {
-                //바스켓리스트를 가져오는데 실패함
-                Toast.makeText(MainActivity.this, "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
