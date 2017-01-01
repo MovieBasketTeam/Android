@@ -1,13 +1,12 @@
 package com.moviebasket.android.client.network;
 
 
+import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
 
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
-import com.moviebasket.android.client.mypage.movie_rec_list.RecResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
-import com.moviebasket.android.client.mypage.movie_pack_list.PackResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
@@ -19,6 +18,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -60,5 +60,9 @@ public interface MBService {
     //마이페이지 환경설정
     @GET("/mypage/setting")
     Call<SettingResult> getSettingResult(@Header("member_token") String member_token);
+
+    ////바스켓 상세보기
+    @GET("/basket/detail/{basket_id}")
+    Call<DetailResultParent> getBasketDetail(@Header("member_token") String member_token, @Path("basket_id") int basket_id);
 
 }

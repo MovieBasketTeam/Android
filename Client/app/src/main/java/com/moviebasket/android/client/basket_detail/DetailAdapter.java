@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     ArrayList<DetailDatas> mDatas;
     View.OnClickListener clickListener;
+    private ViewGroup parent;
+
 
     public DetailAdapter() {
 
@@ -29,6 +32,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     @Override
     public DetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.parent = parent;
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_detail, parent, false);
         if(this.clickListener!=null)
@@ -41,14 +45,34 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     @Override
     public void onBindViewHolder(DetailViewHolder holder, int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        holder.ranking_image.setImageResource(mDatas.get(position).ranking);
-        holder.movie_image.setImageResource(mDatas.get(position).image);
-        holder.owner.setText(mDatas.get(position).owner);
-        holder.title_year.setText(mDatas.get(position).title + "(" + mDatas.get(position).year + ")");
-        holder.direct_country.setText(mDatas.get(position).directer + "/" + mDatas.get(position).country);
-        holder.download.setImageResource(mDatas.get(position).download);
-        holder.heart.setImageResource(mDatas.get(position).heart);
-        holder.likecount.setText(mDatas.get(position).likecount);
+        Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
+        holder.BasketUserName.setText(mDatas.get(position).movie_adder);
+        holder.movieName.setText(mDatas.get(position).movie_title);
+        holder.year.setText(String.valueOf(mDatas.get(position).movie_pub_date));
+        holder.director.setText(mDatas.get(position).movie_director);
+//        holder.basketName.setText(mDatas.get(position).basketName);
+        holder.downCount.setText(String.valueOf(mDatas.get(position).movie_like));
+
+
+        if (mDatas.get(position).is_liked == 0) {
+            holder.heartImg.setImageResource(R.drawable.sub_no_heart);
+        } else {
+            holder.heartImg.setImageResource(R.drawable.sub_heart);
+        }
+//        holder.heartImg.setImageResource(mDatas.get(position).heartImg);
+
+
+        if (mDatas.get(position).is_cart == 0) {
+            holder.downImg.setImageResource(R.drawable.sub_movie_down);
+        } else {
+            holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
+        }
+//        holder.downImg.setImageResource(mDatas.get(position).downImg);
+
+
+
+//        holder.heartImg.setImageResource(mDatas.get(position).is_liked);
+//        holder.downImg.setImageResource(mDatas.get(position).is_cart);
 
     }
 

@@ -66,7 +66,6 @@ public class NewFragment extends Fragment {
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
 
                 int scrollOffset = recyclerView.computeVerticalScrollOffset();
                 int scrollExtend = recyclerView.computeVerticalScrollExtent();
@@ -83,7 +82,6 @@ public class NewFragment extends Fragment {
 
             }
         });
-
 
         recyclerView.setAdapter(basketListAdapter);
 
@@ -107,6 +105,13 @@ public class NewFragment extends Fragment {
 
             Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
             //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
+
+            specificBasketIntent.putExtra("basket_id", basketListDatases.get(position).basket_id);
+            specificBasketIntent.putExtra("basket_name", basketListDatases.get(position).basket_name);
+            specificBasketIntent.putExtra("basket_image", basketListDatases.get(position).basket_image);
+            specificBasketIntent.putExtra("basket_like", basketListDatases.get(position).basket_like);
+            specificBasketIntent.putExtra("is_liked", basketListDatases.get(position).is_liked);
+
             startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
         }
     };
@@ -141,5 +146,4 @@ public class NewFragment extends Fragment {
             }
         });
     }
-
 }

@@ -11,26 +11,32 @@ import com.moviebasket.android.client.R;
  * Created by user on 2016-12-28.
  */
 public class DetailViewHolder extends RecyclerView.ViewHolder {
-    ImageView ranking_image;
-    ImageView movie_image;
-    TextView owner;
-    TextView title_year;
-    TextView direct_country;
-    ImageView download;
-    ImageView heart;
-    TextView likecount;
 
+    ImageView movieImage;
+    TextView basketName;
+    TextView BasketUserName;
+    TextView movieName;
+    TextView year;
+    TextView director;
+    TextView downCount;
+    ImageView heartImg;
+    ImageView downImg;
 
     public DetailViewHolder(View itemView) {
         super(itemView);
 
-        ranking_image = (ImageView) itemView.findViewById(R.id.ranking_image);
-        movie_image = (ImageView) itemView.findViewById(R.id.movie_image);
-        owner = (TextView) itemView.findViewById(R.id.owner);
-        title_year = (TextView) itemView.findViewById(R.id.title_year);
-        direct_country = (TextView) itemView.findViewById(R.id.direct_country);
-        download = (ImageView) itemView.findViewById(R.id.download);
-        heart = (ImageView) itemView.findViewById(R.id.heart);
-        likecount = (TextView) itemView.findViewById(R.id.likecount);
+        movieImage = (ImageView)itemView.findViewById(R.id.movieImage);
+        basketName = (TextView)itemView.findViewById(R.id.basketName);
+        BasketUserName = (TextView)itemView.findViewById(R.id.BasketUserName);
+        movieName = (TextView)itemView.findViewById(R.id.movieName);
+        year = (TextView)itemView.findViewById(R.id.year);
+        director = (TextView)itemView.findViewById(R.id.director);
+        downCount = (TextView)itemView.findViewById(R.id.downCount);
+        heartImg = (ImageView)itemView.findViewById(R.id.heartImg);
+        downImg = (ImageView)itemView.findViewById(R.id.downImg);
+    }
+
+    public ImageView getMovieImageView(){
+        return movieImage;
     }
 }
