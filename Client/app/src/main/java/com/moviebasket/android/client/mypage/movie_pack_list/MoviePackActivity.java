@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class MoviePackActivity extends AppCompatActivity {
 
     PackResultResult result;
     PackAdapter adapter;
+
+    private MovieDetailDialog detailDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +82,7 @@ public class MoviePackActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<PackResultResult> call, Throwable t) {
-                    Log.i("SOPT", "실패");
                     Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
-
                 }
             });
         } else {
@@ -94,14 +96,12 @@ public class MoviePackActivity extends AppCompatActivity {
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = recyclerView.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
 
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            Toast.makeText(MoviePackActivity.this, position + "번째 리사이클러뷰 항목 클릭!" , Toast.LENGTH_SHORT).show();
+            //영화 상세보기 다이얼로그를 띄워주기 위함
+            detailDialog = new MovieDetailDialog(MoviePackActivity.this);
+            detailDialog.show();
+
         }
     };
 
