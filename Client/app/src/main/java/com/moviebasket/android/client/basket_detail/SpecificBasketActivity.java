@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 
@@ -40,6 +41,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
     ImageView downBtn;
     TextView downCount;
 
+    private MovieDetailDialog detailDialog;
 
     RecyclerView recyclerView;
     ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
@@ -154,16 +156,9 @@ public class SpecificBasketActivity extends AppCompatActivity {
         public void onClick(View v) {
             //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = recyclerView.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
 
-            String BasketUserName = mDatas.get(position).movie_adder;
-            String movieName = mDatas.get(position).movie_title;
-            int year = mDatas.get(position).movie_pub_date;
-            String director = mDatas.get(position).movie_director;
-            int downCount = mDatas.get(position).movie_like;
-
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //Toast.makeText(SpecificBasketActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+title+"/"+directer+"/"+likecount, Toast.LENGTH_SHORT).show();
+            detailDialog = new MovieDetailDialog(SpecificBasketActivity.this);
+            detailDialog.show();
         }
     };
 
