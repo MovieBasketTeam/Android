@@ -5,23 +5,49 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class SpecificBasketActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_FOR_MOVIE_SEARCH = 1000;
 
+    private MBService mbService;
+    DetailAdapter adapter;
     Button btn_add_movie;
+
+    ImageView basketImg;
+    TextView basketName;
+    ImageView downBtn;
+    TextView downCount;
+
 
     RecyclerView recyclerView;
     ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
+
+
+    /*
+    가장상단의 바스켓 정보 표시를 위하여 로드
+     */
+//    ArrayList<BasketListDatas> basketListDatases;
+//    BasketListAdapter basketListAdapter;
 
     LinearLayoutManager mLayoutManager;
 
@@ -30,6 +56,34 @@ public class SpecificBasketActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_basket);
+
+        Intent basketInfo  = getIntent();
+        mbService = ApplicationController.getInstance().getMbService();
+
+        int basket_id;
+        basket_id = basketInfo.getExtras().getInt("basket_id");
+
+        Log.i("Info_BasketId : ", String.valueOf(basket_id));
+
+        basketImg = (ImageView)findViewById(R.id.basketImg);
+        basketName = (TextView)findViewById(R.id.basketName);
+        downBtn = (ImageView)findViewById(R.id.downBtn);
+        downCount = (TextView)findViewById(R.id.downCount);
+
+
+        Glide.with(getApplicationContext()).load(basketInfo.getExtras().getString("basket_image")).into(basketImg);
+        basketName.setText(basketInfo.getExtras().getString("basket_name"));
+        if ( basketInfo.getExtras().getInt("is_liked") == 0 ) {
+            downBtn.setImageResource(R.drawable.sub_movie_down);
+        } else {
+            downBtn.setImageResource(R.drawable.sub_movie_nodown);
+        }
+        downCount.setText(String.valueOf(basketInfo.getExtras().getString("downCount")));
+
+
+/*        Log.i("Info : ", basketInfo.getExtras().getInt("basket_id")+"/"+basketInfo.getExtras().getString("basket_name")+"/"
+                +basketInfo.getExtras().getString("basket_image")+"/"+basketInfo.getExtras().getInt("basket_like")+"/"+
+        +basketInfo.getExtras().getInt("is_liked"));*/
 
         btn_add_movie = (Button)findViewById(R.id.btn_add_movie_specific);
         btn_add_movie.setOnClickListener(new View.OnClickListener() {
@@ -60,17 +114,43 @@ public class SpecificBasketActivity extends AppCompatActivity {
          */
         mDatas = new ArrayList<DetailDatas>();
 
-        //여기는 네이버 api에서 정보 받아와서 for문으로 돌려서 add해야될것같아요 임시로 넣어둠!!
-        //7,8번째 파라미터는 if문으로 값이 0,1 일때 각각 다른이미지가 뜨도록 해야함!!
-        mDatas.add(new DetailDatas(R.drawable.back, R.drawable.back, "owner", "페런트트랩", "1998", "이필주", "미국", R.drawable.back, R.drawable.back, "2016"));
-        mDatas.add(new DetailDatas(R.drawable.back, R.drawable.back, "by,남채은", "매드맥스", "2015", "홍수빈", "미국", R.drawable.back, R.drawable.back, "2016"));
-        mDatas.add(new DetailDatas(R.drawable.back, R.drawable.back, "by,하태경", "해리포터", "2000", "김지원", "영국", R.drawable.back, R.drawable.back, "2016"));
+
+        String token = ApplicationController.getInstance().getPreferences();
+        Log.i("Info_Token : ",token);
+
+        Call<DetailResultParent> getBasketDetail = mbService.getBasketDetail(token, basket_id);
+        getBasketDetail.enqueue(new Callback<DetailResultParent>() {
+            @Override
+            public void onResponse(Call<DetailResultParent> call, Response<DetailResultParent> response) {
+                Log.i("NetConfirm", "onResponse: 들어옴");
+
+                DetailResultParent recResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+
+                    mDatas.addAll(recResult.result.result);
+                    adapter.notifyDataSetChanged();
+                }
+
+                Log.i("myTag", String.valueOf(recResult.result.result.size()));
+
+            }
+
+            @Override
+            public void onFailure(Call<DetailResultParent> call, Throwable t) {
+                Log.i("NetConfirm", "onFailure: 들어옴");
+
+                Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+            }
+        });
+
+
 
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        DetailAdapter adapter = new DetailAdapter(mDatas, recylerClickListener);
-
+        adapter = new DetailAdapter(mDatas, recylerClickListener);
         recyclerView.setAdapter(adapter);
 
     }
@@ -81,16 +161,17 @@ public class SpecificBasketActivity extends AppCompatActivity {
             int position = recyclerView.getChildLayoutPosition(v);
             //2.position번째 항목의 Data를 가져오는 방법
 
-            String title = mDatas.get(position).title;
-            String year = mDatas.get(position).year;
-            String directer = mDatas.get(position).directer;
-            String country = mDatas.get(position).country;
-            String likecount = mDatas.get(position).likecount;
+//            String basketName = mDatas.get(position).basketName;
+            String BasketUserName = mDatas.get(position).movie_adder;
+            String movieName = mDatas.get(position).movie_title;
+            int year = mDatas.get(position).movie_pub_date;
+            String director = mDatas.get(position).movie_director;
+            int downCount = mDatas.get(position).movie_like;
 
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            Toast.makeText(SpecificBasketActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+title+"/"+directer+"/"+likecount, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SpecificBasketActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+title+"/"+directer+"/"+likecount, Toast.LENGTH_SHORT).show();
         }
     };
 
