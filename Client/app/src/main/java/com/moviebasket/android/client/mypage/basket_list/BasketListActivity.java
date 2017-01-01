@@ -1,6 +1,8 @@
 package com.moviebasket.android.client.mypage.basket_list;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +58,7 @@ public class BasketListActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        BasketListAdapter adapter = new BasketListAdapter(mDatas, recylerClickListener);
+        BasketListAdapter adapter = new BasketListAdapter(mDatas, recylerClickListener, subClickListener);
 
         recyclerView.setAdapter(adapter);
     }
@@ -76,6 +78,31 @@ public class BasketListActivity extends AppCompatActivity {
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             Toast.makeText(BasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
+        }
+    };
+    private View.OnClickListener subClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            switch (v.getId()){
+                case R.id.downBtn:
+                    //바스켓 담기|제거버튼
+                    AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
+                    BasketBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    BasketBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    BasketBuilder.show();
+                    break;
+            }
         }
     };
 }

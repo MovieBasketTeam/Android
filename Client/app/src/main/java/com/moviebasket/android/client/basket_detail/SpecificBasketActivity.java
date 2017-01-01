@@ -1,7 +1,9 @@
 package com.moviebasket.android.client.basket_detail;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,13 +44,6 @@ public class SpecificBasketActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
 
-
-    /*
-    가장상단의 바스켓 정보 표시를 위하여 로드
-     */
-//    ArrayList<BasketListDatas> basketListDatases;
-//    BasketListAdapter basketListAdapter;
-
     LinearLayoutManager mLayoutManager;
 
     @Override
@@ -61,7 +56,9 @@ public class SpecificBasketActivity extends AppCompatActivity {
         mbService = ApplicationController.getInstance().getMbService();
 
         int basket_id;
+        int basket_count;
         basket_id = basketInfo.getExtras().getInt("basket_id");
+        basket_count = basketInfo.getExtras().getInt("basket_like");
 
         Log.i("Info_BasketId : ", String.valueOf(basket_id));
 
@@ -74,12 +71,13 @@ public class SpecificBasketActivity extends AppCompatActivity {
         Glide.with(getApplicationContext()).load(basketInfo.getExtras().getString("basket_image")).into(basketImg);
         basketName.setText(basketInfo.getExtras().getString("basket_name"));
         if ( basketInfo.getExtras().getInt("is_liked") == 0 ) {
-            downBtn.setImageResource(R.drawable.sub_movie_down);
+            downBtn.setImageResource(R.drawable.sub_basket_nodown);
         } else {
-            downBtn.setImageResource(R.drawable.sub_movie_nodown);
+            downBtn.setImageResource(R.drawable.sub_basket_down);
         }
-        downCount.setText(String.valueOf(basketInfo.getExtras().getString("downCount")));
+        downCount.setText(String.valueOf(basket_count));
 
+        downBtn.setOnClickListener(subClickListener);
 
 /*        Log.i("Info : ", basketInfo.getExtras().getInt("basket_id")+"/"+basketInfo.getExtras().getString("basket_name")+"/"
                 +basketInfo.getExtras().getString("basket_image")+"/"+basketInfo.getExtras().getInt("basket_like")+"/"+
@@ -131,9 +129,6 @@ public class SpecificBasketActivity extends AppCompatActivity {
                     mDatas.addAll(recResult.result.result);
                     adapter.notifyDataSetChanged();
                 }
-
-                Log.i("myTag", String.valueOf(recResult.result.result.size()));
-
             }
 
             @Override
@@ -150,7 +145,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        adapter = new DetailAdapter(mDatas, recylerClickListener);
+        adapter = new DetailAdapter(mDatas, recylerClickListener, subClickListener);
         recyclerView.setAdapter(adapter);
 
     }
@@ -161,7 +156,6 @@ public class SpecificBasketActivity extends AppCompatActivity {
             int position = recyclerView.getChildLayoutPosition(v);
             //2.position번째 항목의 Data를 가져오는 방법
 
-//            String basketName = mDatas.get(position).basketName;
             String BasketUserName = mDatas.get(position).movie_adder;
             String movieName = mDatas.get(position).movie_title;
             int year = mDatas.get(position).movie_pub_date;
@@ -169,9 +163,69 @@ public class SpecificBasketActivity extends AppCompatActivity {
             int downCount = mDatas.get(position).movie_like;
 
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             //Toast.makeText(SpecificBasketActivity.this, position+"번째 리사이클러뷰 항목 클릭!"+title+"/"+directer+"/"+likecount, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private View.OnClickListener subClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            switch (v.getId()){
+                case R.id.downBtn:
+                    //바스켓 담기|제거버튼
+                    AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
+                    BasketBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    BasketBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    BasketBuilder.show();
+                    break;
+                case R.id.downImg:
+                    //담은 영화를 제거한 경우
+                    AlertDialog.Builder packBuilder = new AlertDialog.Builder(v.getContext());
+                    packBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    packBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(v.getContext(), "담은영화 제거했다고 치자", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    packBuilder.show();
+                    break;
+                case R.id.heartImg:
+                    //추천한 영화를 제거한 경우
+                    AlertDialog.Builder recBuilder = new AlertDialog.Builder(v.getContext());
+                    recBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    recBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(v.getContext(), "추천한 영화 제거했다고 치자", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    recBuilder.show();
+                    break;
+            }
         }
     };
 
