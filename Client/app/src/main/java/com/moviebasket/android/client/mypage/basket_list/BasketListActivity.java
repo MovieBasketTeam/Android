@@ -247,14 +247,13 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     public void processOneMethodAtPosition(final int position) {
 
         Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
-        Log.i("Cart", token);
-        Call<HeartResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
-        getCartResult.enqueue(new Callback<HeartResult>() {
+        Call<BasketResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
+        getCartResult.enqueue(new Callback<BasketResult>() {
             @Override
-            public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
-                HeartResult heartResult = response.body();
+            public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                BasketResult basketResult = response.body();
                 Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                Log.i("Cart", "응답 결과 : " + heartResult.result.message);
+                Log.i("Cart", "응답 결과 : " + basketResult.result.message);
                 if (response.isSuccessful()) {// 응답코드 200
                     isCartSuccess = true;
                     Log.i("Cart", "응답 결과 : " + isCartSuccess);
@@ -268,7 +267,7 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             }
 
             @Override
-            public void onFailure(Call<HeartResult> call, Throwable t) {
+            public void onFailure(Call<BasketResult> call, Throwable t) {
                 Toast.makeText(BasketListActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
             }
         });
