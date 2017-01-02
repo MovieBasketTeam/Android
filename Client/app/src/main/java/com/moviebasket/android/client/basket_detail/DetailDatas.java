@@ -7,7 +7,7 @@ public class DetailDatas {
     //    int movieImage;
 
 
-
+    int movie_id;
     String movie_image;
 
 //    String basketName;
@@ -22,7 +22,8 @@ public class DetailDatas {
 
 
 
-    public DetailDatas(String movieImage, String BasketUserName, String movieName, int year, String director, int downCount, int heartImg, int downImg) {
+    public DetailDatas(int movie_id, String movieImage, String BasketUserName, String movieName, int year, String director, int downCount, int heartImg, int downImg) {
+        this.movie_id = movie_id;
         this.movie_image = movieImage;
 //        this.basketName = basketName;
         this.movie_adder = BasketUserName;
