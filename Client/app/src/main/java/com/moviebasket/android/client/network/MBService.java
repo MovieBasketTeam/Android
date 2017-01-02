@@ -65,7 +65,13 @@ public interface MBService {
     @GET("/basket/detail/{basket_id}")
     Call<DetailResultParent> getBasketDetail(@Header("member_token") String member_token, @Path("basket_id") int basket_id);
 
+    //추천하기 및 추천해제하기
     @FormUrlEncoded
     @POST("/basket/movie/recommend")
     Call<HeartResult> getHeartResult(@Field("movie_id") int movie_id, @Field("is_liked") int is_liked, @Header("member_token") String member_token);
+
+    //담은 바스켓리스트 보기
+    @GET("/mypage/basket")
+    Call<BasketListDataResult> getMyBasketListResult(@Header("member_token") String member_token);
+
 }

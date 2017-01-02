@@ -1,8 +1,10 @@
 package com.moviebasket.android.client.main.model;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,9 +61,9 @@ public class NewFragment extends Fragment {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
 
-        loadBasketListDatas(1);
+        loadBasketListDatas(2);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -116,6 +118,32 @@ public class NewFragment extends Fragment {
         }
     };
 
+    private View.OnClickListener subClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            switch (v.getId()){
+                case R.id.downBtn:
+                    //바스켓 담기|제거버튼
+                    AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
+                    BasketBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    BasketBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    BasketBuilder.show();
+                    break;
+            }
+        }
+    };
+
 
     private void loadBasketListDatas(int mode){
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
@@ -129,7 +157,7 @@ public class NewFragment extends Fragment {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener);
+                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
                     recyclerView.setAdapter(basketListAdapter);
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
                     basketListAdapter.notifyDataSetChanged();

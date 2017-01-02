@@ -17,18 +17,22 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/main_bar_logo" />
 
         <ImageView
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/main_bar_hash" />
 
         <ImageView
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:src="@drawable/main_bar_my" />
 
 
@@ -49,6 +53,7 @@
                 android:id="@+id/basketImg"
                 android:layout_width="match_parent"
                 android:layout_height="148dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/basket_base" />
 
             <!-- 텍스트 -->
@@ -125,8 +130,6 @@
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 
