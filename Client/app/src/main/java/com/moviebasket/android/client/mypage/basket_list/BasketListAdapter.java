@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.OneClickable;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
     ArrayList<BasketListDatas> mDatas;
     View.OnClickListener clickListener;
     View.OnClickListener subClickListener;
+    OneClickable clickable;
 
     private ViewGroup parent;
     private View itemView;
@@ -26,10 +28,12 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
     public BasketListAdapter(ArrayList<BasketListDatas> mDatas) {
         this.mDatas = mDatas;
     }
-    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, View.OnClickListener subClickListener ) {
+
+
+    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, OneClickable clickable) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
-        this.subClickListener = subClickListener;
+        this.clickable = clickable;
     }
 
     @Override

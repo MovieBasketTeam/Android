@@ -1,8 +1,9 @@
 package com.moviebasket.android.client.search;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -144,14 +145,14 @@ public class MovieSearchActivity extends AppCompatActivity {
             int position = recyclerView.getChildLayoutPosition(v);
 
             //서버에 요청해야할 매개변수들
-            String token = ApplicationController.getInstance().getPreferences();
-            int basket_id = Integer.parseInt(getIntent().getExtras().getString("basket_id"));
-            String movie_title = RemoveHTMLTag(movieDetails.get(position).title);
-            String movie_image = movieDetails.get(position).image;
-            int movie_pub_date = Integer.parseInt(movieDetails.get(position).pubDate);
-            String movie_director = RemoveSpecitialCharacter(movieDetails.get(position).director);
-            String movie_user_rating = movieDetails.get(position).userRating;
-            String movie_link = movieDetails.get(position).link;
+            final String token = ApplicationController.getInstance().getPreferences();
+            final int basket_id = getIntent().getExtras().getInt("basket_id");
+            final String movie_title = RemoveHTMLTag(movieDetails.get(position).title);
+            final String movie_image = movieDetails.get(position).image;
+            final int movie_pub_date = Integer.parseInt(movieDetails.get(position).pubDate);
+            final String movie_director = RemoveSpecitialCharacter(movieDetails.get(position).director);
+            final String movie_user_rating = movieDetails.get(position).userRating;
+            final String movie_link = movieDetails.get(position).link;
 
 
             /* SpecificBasket에 보여줄 것
@@ -160,13 +161,57 @@ public class MovieSearchActivity extends AppCompatActivity {
             String movie_title;
             int movie_pub_date;
             String movie_director;
-            int movie_like;
+            int movie_like; = 1
             int is_liked;
             int is_cart;
             */
+            AlertDialog.Builder addBuilder = new AlertDialog.Builder(MovieSearchActivity.this);
+            addBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            addBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Call<VerifyMovieAddResult> verifyMovieAddResultCall =
+                            mbService.verifyMovieAddResult(
+                                    token, basket_id, movie_title, movie_image, movie_pub_date, movie_director, movie_user_rating, movie_link
+                            );
+                    verifyMovieAddResultCall.enqueue(new Callback<VerifyMovieAddResult>() {
+                        @Override
+                        public void onResponse(Call<VerifyMovieAddResult> call, Response<VerifyMovieAddResult> response) {
+                            //추가 성공했을 때
+                            VerifyMovieAddResult result = response.body();
+                            if(result.result.message.equals("movie add success")){
+                                //Intent data = new Intent();
+                                //추가된 영화를 보내준다.
+                                // data.putExtra("addedMovie", );
+                                // setResult(RESULT_OK, data);
+                                setResult(RESULT_OK);
+                                finish();
+                            }else{
+                                Toast.makeText(MovieSearchActivity.this, "바스켓에 영화를 추가하는데 실패했습니다", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<VerifyMovieAddResult> call, Throwable t) {
+                            //통신 실패했을 때
+                            Toast.makeText(MovieSearchActivity.this, "서버와 연결을 실패하였습니다", Toast.LENGTH_SHORT).show();
+                            setResult(RESULT_CANCELED);
+                        }
+                    });
+                }
+            });
+            addBuilder.setMessage("해당 영화를 바스켓에 추가하시겠습니까?");
+            addBuilder.show();
 
 
-
+            /*
             Call<VerifyMovieAddResult> verifyMovieAddResultCall =
                     mbService.verifyMovieAddResult(
                             token, basket_id, movie_title, movie_image, movie_pub_date, movie_director, movie_user_rating, movie_link
@@ -177,10 +222,10 @@ public class MovieSearchActivity extends AppCompatActivity {
                     //추가 성공했을 때
                     VerifyMovieAddResult result = response.body();
                     if(result.result.message.equals("movie add success")){
-                        Intent data = new Intent();
+                        //Intent data = new Intent();
                         //추가된 영화를 보내준다.
                         // data.putExtra("addedMovie", );
-                        setResult(RESULT_OK, data);
+                        // setResult(RESULT_OK, data);
                     }else{
                         Toast.makeText(MovieSearchActivity.this, "바스켓에 영화를 추가하는데 실패했습니다", Toast.LENGTH_SHORT).show();
                     }
@@ -194,6 +239,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                     setResult(RESULT_CANCELED);
                 }
             });
+            */
 
         }
     };
@@ -213,5 +259,9 @@ public class MovieSearchActivity extends AppCompatActivity {
         String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
         str =str.replaceAll(match, " ");
         return str;
+    }
+
+    private void addMovieIntoMBServer(){
+
     }
 }

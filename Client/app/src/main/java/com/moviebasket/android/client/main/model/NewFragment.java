@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
+import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
@@ -32,7 +33,7 @@ import retrofit2.Response;
  * Created by kh on 2017. 1. 1..
  */
 
-public class NewFragment extends Fragment {
+public class NewFragment extends Fragment implements OneClickable{
 
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
@@ -61,7 +62,7 @@ public class NewFragment extends Fragment {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
+        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, this);
 
         loadBasketListDatas(2);
 
@@ -94,15 +95,8 @@ public class NewFragment extends Fragment {
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = recyclerView.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
-            //String basketName = basketListDatases.get(position).basketName;
-            //  String basketDownCount = basketListDatases.get(position).downCount;
 
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             Toast.makeText(getActivity(), position+"번째 리사이클러뷰 항목 클릭!"+" / "+basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
 
             Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
@@ -157,8 +151,7 @@ public class NewFragment extends Fragment {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
-                    recyclerView.setAdapter(basketListAdapter);
+
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
                     basketListAdapter.notifyDataSetChanged();
                 }else{
@@ -173,5 +166,12 @@ public class NewFragment extends Fragment {
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, this);
+        recyclerView.setAdapter(basketListAdapter);
+    }
+
+    @Override
+    public void processOneMethodAtPosition(int position) {
+        //바스켓 담으면 바스켓 담고, 이미지 변경.
     }
 }
