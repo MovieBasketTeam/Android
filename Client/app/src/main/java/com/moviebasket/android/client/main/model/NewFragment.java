@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.global.ApplicationController;
-import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.network.MBService;
@@ -39,7 +38,7 @@ public class NewFragment extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ArrayList<BasketListDatas> basketListDatases;
-    BasketListAdapter basketListAdapter;
+    MainAdapter mainadapter;
 
     MBService mbService;
     private String member_token;
@@ -61,7 +60,7 @@ public class NewFragment extends Fragment {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
+        mainadapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
 
         loadBasketListDatas(2);
 
@@ -85,7 +84,7 @@ public class NewFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(basketListAdapter);
+        recyclerView.setAdapter(mainadapter);
 
 
         return view;
@@ -157,10 +156,10 @@ public class NewFragment extends Fragment {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
-                    recyclerView.setAdapter(basketListAdapter);
+                    mainadapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+                    recyclerView.setAdapter(mainadapter);
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    basketListAdapter.notifyDataSetChanged();
+                    mainadapter.notifyDataSetChanged();
                 }else{
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();

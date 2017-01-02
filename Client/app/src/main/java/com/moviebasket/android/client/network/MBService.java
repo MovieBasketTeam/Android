@@ -85,6 +85,9 @@ public interface MBService {
                                                     @Field("movie_director") String movie_director,
                                                     @Field("movie_user_rating") String movie_user_rating,
                                                     @Field("movie_link") String movie_link);
-
+    //바스켓 담기 || 담은거해제
+    @FormUrlEncoded
+    @POST("/mypage/basket/delete")
+    Call<HeartResult> getCartResult(@Field("basket_id") int basket_id, @Header("member_token") String member_token);
 
 }

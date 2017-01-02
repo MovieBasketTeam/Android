@@ -13,11 +13,11 @@ import com.moviebasket.android.client.R;
 
 public class BasketListViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView basketImg;
-    ImageView textImg;
-    TextView basketName;
-    ImageView downBtn;
-    TextView downCount;
+    public ImageView basketImg;
+    public ImageView textImg;
+    public TextView basketName;
+    public ImageView downBtn;
+    public TextView downCount;
 
 
     public BasketListViewHolder(View itemView) {
