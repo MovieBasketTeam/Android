@@ -1,12 +1,14 @@
 package com.moviebasket.android.client.mypage.basket_list;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.OneClickable;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
 
     ArrayList<BasketListDatas> mDatas;
     View.OnClickListener clickListener;
-    View.OnClickListener subClickListener;
+    OneClickable oneClickable;
 
     private ViewGroup parent;
     private View itemView;
@@ -26,10 +28,10 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
     public BasketListAdapter(ArrayList<BasketListDatas> mDatas) {
         this.mDatas = mDatas;
     }
-    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, View.OnClickListener subClickListener ) {
+    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, OneClickable oneClickable) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
-        this.subClickListener = subClickListener;
+        this.oneClickable = oneClickable;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
     }
 
     @Override
-    public void onBindViewHolder(BasketListViewHolder holder, int position) {
+    public void onBindViewHolder(BasketListViewHolder holder, final int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         Glide.with(parent.getContext()).load(mDatas.get(position).basket_image).into(holder.basketImg);
         holder.basketName.setText(mDatas.get(position).basket_name);
@@ -59,7 +61,14 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
         } else {
             holder.downBtn.setImageResource(R.drawable.trash);
         }
-        holder.downBtn.setOnClickListener(subClickListener);
+
+        holder.downBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                oneClickable.processOneMethodAtPosition(position);
+            }
+        });
+
     }
 
     @Override

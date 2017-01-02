@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.main.model.MainAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 
@@ -67,7 +68,8 @@ public class TaggedBasketListActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        BasketListAdapter adapter = new BasketListAdapter(mDatas, recylerClickListener, subClickListener);
+
+        MainAdapter adapter = new MainAdapter(mDatas, recylerClickListener, subClickListener);
 
         recyclerView.setAdapter(adapter);
     }

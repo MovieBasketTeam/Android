@@ -39,7 +39,7 @@ public class RecommendFragment extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ArrayList<BasketListDatas> basketListDatases;
-    BasketListAdapter basketListAdapter;
+    MainAdapter mainAdapter;
 
     MBService mbService;
     private String member_token;
@@ -61,7 +61,7 @@ public class RecommendFragment extends Fragment {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
+        mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
 
         loadBasketListDatas(1);
 
@@ -88,7 +88,7 @@ public class RecommendFragment extends Fragment {
         });
 
 
-        recyclerView.setAdapter(basketListAdapter);
+        recyclerView.setAdapter(mainAdapter);
 
 
         return view;
@@ -160,10 +160,10 @@ public class RecommendFragment extends Fragment {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
-                    recyclerView.setAdapter(basketListAdapter);
+                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+                    recyclerView.setAdapter(mainAdapter);
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    basketListAdapter.notifyDataSetChanged();
+                    mainAdapter.notifyDataSetChanged();
                 }else{
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
