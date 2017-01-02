@@ -1,7 +1,6 @@
-package com.moviebasket.android.client.mypage.basket_list;
+package com.moviebasket.android.client.main.model;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,44 +8,47 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.clickable.OneClickable;
+import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
+import com.moviebasket.android.client.mypage.basket_list.BasketListViewHolder;
 
 import java.util.ArrayList;
 
 /**
- * Created by pilju on 2016-12-28.
+ * Created by pilju on 2017-01-02.
  */
 
-public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder>{
+public class MainAdapter extends RecyclerView.Adapter<BasketListViewHolder> {
+
 
     ArrayList<BasketListDatas> mDatas;
     View.OnClickListener clickListener;
-
     View.OnClickListener subClickListener;
-
     OneClickable oneClickable;
-
 
     private ViewGroup parent;
     private View itemView;
 
-    public BasketListAdapter(ArrayList<BasketListDatas> mDatas) {
+    public MainAdapter(ArrayList<BasketListDatas> mDatas) {
         this.mDatas = mDatas;
     }
 
+    public MainAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, View.OnClickListener subClickListener) {
+        this.mDatas = mDatas;
+        this.clickListener = clickListener;
+        this.subClickListener = subClickListener;
+    }
 
-
-    public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, OneClickable oneClickable) {
+    public MainAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, OneClickable oneClickable) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
         this.oneClickable = oneClickable;
-
     }
 
     @Override
     public BasketListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 뷰홀더 패턴을 생성하는 메소드.
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_mybl, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_bl, parent, false);
         if(this.clickListener!=null)
             itemView.setOnClickListener(clickListener);
 
@@ -65,12 +67,11 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
         holder.downCount.setText(String.valueOf(mDatas.get(position).basket_like));
 
         if ( mDatas.get(position).is_liked == 1 ) {
-            holder.downBtn.setImageResource(R.drawable.trash_white);
+            holder.downBtn.setImageResource(R.drawable.sub_basket_down);
         } else {
-            holder.downBtn.setImageResource(R.drawable.trash);
+            holder.downBtn.setImageResource(R.drawable.sub_basket_nodown);
         }
-
-        holder.downBtn.setOnClickListener(new View.OnClickListener(){
+        holder.downBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 oneClickable.processOneMethodAtPosition(position);

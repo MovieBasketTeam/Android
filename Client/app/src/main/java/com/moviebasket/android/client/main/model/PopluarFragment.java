@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
+import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
-import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.network.MBService;
@@ -32,24 +32,25 @@ import retrofit2.Response;
  * Created by kh on 2017. 1. 1..
  */
 
-public class PopluarFragment extends Fragment {
+public class PopluarFragment extends Fragment implements OneClickable {
 
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ArrayList<BasketListDatas> basketListDatases;
-    BasketListAdapter basketListAdapter;
+    MainAdapter mainAdapter;
+
 
     MBService mbService;
     private String member_token;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LinearLayout view = (LinearLayout)inflater.inflate(R.layout.viewpage_main_view, container, false);
+        LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_view, container, false);
 
 
-        recyclerView = (RecyclerView)view.findViewById(R.id.myRecyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.myRecyclerview);
 
         mbService = ApplicationController.getInstance().getMbService();
 
@@ -61,7 +62,9 @@ public class PopluarFragment extends Fragment {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
+
+        mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
+
 
         loadBasketListDatas(3);
 
@@ -74,7 +77,7 @@ public class PopluarFragment extends Fragment {
                 int scrollRange = recyclerView.computeVerticalScrollRange();
 
                 if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
-                    Toast.makeText(getActivity(),"맨아래",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "맨아래", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -85,7 +88,7 @@ public class PopluarFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(basketListAdapter);
+        recyclerView.setAdapter(mainAdapter);
 
 
         return view;
@@ -103,7 +106,7 @@ public class PopluarFragment extends Fragment {
             //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
             //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
             //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            Toast.makeText(getActivity(), position+"번째 리사이클러뷰 항목 클릭!"+" / "+basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), position + "번째 리사이클러뷰 항목 클릭!" + " / " + basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
 
             Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
             //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
@@ -121,7 +124,7 @@ public class PopluarFragment extends Fragment {
     private View.OnClickListener subClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.downBtn:
                     //바스켓 담기|제거버튼
                     AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
@@ -145,7 +148,7 @@ public class PopluarFragment extends Fragment {
     };
 
 
-    private void loadBasketListDatas(int mode){
+    private void loadBasketListDatas(int mode) {
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
             @Override
@@ -153,15 +156,14 @@ public class PopluarFragment extends Fragment {
                 //바스켓리스트 가져옴.
                 BasketListDataResult result = response.body();
                 String message = result.result.message;
-                if(message==null){
+                if (message == null) {
                     basketListDatases = result.result.baskets;
 
-                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, subClickListener);
-                    recyclerView.setAdapter(basketListAdapter);
+                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : " + basketListDatases.toString());
+
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    basketListAdapter.notifyDataSetChanged();
-                }else{
+                    mainAdapter.notifyDataSetChanged();
+                } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -173,5 +175,13 @@ public class PopluarFragment extends Fragment {
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+        mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
+        recyclerView.setAdapter(mainAdapter);
+        mainAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void processOneMethodAtPosition(int position) {
+
     }
 }

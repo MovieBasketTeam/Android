@@ -4,15 +4,18 @@ package com.moviebasket.android.client.network;
 import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
+import com.moviebasket.android.client.main.CartBasketResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.BasketListDataDeleteResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
+import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.search.VerifyMovieAddResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
 import com.moviebasket.android.client.splash.VerifyVersionResult;
+import com.moviebasket.android.client.tag.hashtag.SearchResult;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -76,6 +79,7 @@ public interface MBService {
     @GET("/mypage/basket")
     Call<BasketListDataResult> getMyBasketListResult(@Header("member_token") String member_token);
 
+    //영화 검색 후 바스켓에 영화 추가하기
     @FormUrlEncoded
     @POST("/basket/movie/add")
     Call<VerifyMovieAddResult> verifyMovieAddResult(@Header("member_token") String member_token,
@@ -91,6 +95,18 @@ public interface MBService {
     @POST("/mypage/movie/cart/delete")
     Call<BasketListDataDeleteResult> getBasketListDataDeleteResult(@Header("member_token") String member_token, @Field("movie_id") int movie_id );
 
+    //검색 메인 화면 조회
+    @GET("/search")
+    Call<SearchResult> getSearchResult();
 
+    //바스켓 담기(좋아요 눌러서 1오름)
+    @FormUrlEncoded
+    @POST("/basket/like")
+    Call<CartBasketResult> cartBasket(@Header("member_token") String member_token, @Field("basket_id") int basket_id);
+
+    //바스켓 담은거 해제
+    @FormUrlEncoded
+    @POST("/mypage/basket/delete")
+    Call<BasketResult> getCartResult(@Field("basket_id") int basket_id, @Header("member_token") String member_token);
 
 }
