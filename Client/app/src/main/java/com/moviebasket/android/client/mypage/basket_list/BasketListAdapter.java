@@ -20,7 +20,11 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
 
     ArrayList<BasketListDatas> mDatas;
     View.OnClickListener clickListener;
+
+    View.OnClickListener subClickListener;
+
     OneClickable oneClickable;
+
 
     private ViewGroup parent;
     private View itemView;
@@ -28,10 +32,14 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
     public BasketListAdapter(ArrayList<BasketListDatas> mDatas) {
         this.mDatas = mDatas;
     }
+
+
+
     public BasketListAdapter(ArrayList<BasketListDatas> mDatas, View.OnClickListener clickListener, OneClickable oneClickable) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
         this.oneClickable = oneClickable;
+
     }
 
     @Override

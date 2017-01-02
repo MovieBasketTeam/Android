@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
+import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
@@ -32,15 +33,15 @@ import retrofit2.Response;
  * Created by kh on 2017. 1. 1..
  */
 
-public class PopluarFragment extends Fragment {
+public class PopluarFragment extends Fragment implements OneClickable{
 
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ArrayList<BasketListDatas> basketListDatases;
-    MainAdapter mainListAdapter;
-    //mainListAdapter
+    MainAdapter mainAdapter;
+
 
     MBService mbService;
     private String member_token;
@@ -62,7 +63,9 @@ public class PopluarFragment extends Fragment {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        mainListAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+
+        mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+
 
         loadBasketListDatas(3);
 
@@ -86,7 +89,7 @@ public class PopluarFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(mainListAdapter);
+        recyclerView.setAdapter(mainAdapter);
 
 
         return view;
@@ -158,10 +161,9 @@ public class PopluarFragment extends Fragment {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    mainListAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
-                    recyclerView.setAdapter(mainListAdapter);
+
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    mainListAdapter.notifyDataSetChanged();
+                    mainAdapter.notifyDataSetChanged();
                 }else{
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -174,5 +176,12 @@ public class PopluarFragment extends Fragment {
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+                    recyclerView.setAdapter(mainAdapter);
+    }
+
+    @Override
+    public void processOneMethodAtPosition(int position) {
+
     }
 }

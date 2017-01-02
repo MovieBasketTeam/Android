@@ -43,6 +43,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
 
     int basket_id;
     int basket_count;
+    String token;
 
     private MovieDetailDialog detailDialog;
 
@@ -116,42 +117,10 @@ public class SpecificBasketActivity extends AppCompatActivity {
          * 2. recyclerview에 보여줄 data
          */
         mDatas = new ArrayList<DetailDatas>();
+        token = ApplicationController.getInstance().getPreferences();
 
-
-        String token = ApplicationController.getInstance().getPreferences();
-        Log.i("Info_Token : ",token);
-
-        Call<DetailResultParent> getBasketDetail = mbService.getBasketDetail(token, basket_id);
-        getBasketDetail.enqueue(new Callback<DetailResultParent>() {
-            @Override
-            public void onResponse(Call<DetailResultParent> call, Response<DetailResultParent> response) {
-                Log.i("NetConfirm", "onResponse: 들어옴");
-
-                DetailResultParent recResult = response.body();
-                if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-
-                    mDatas.addAll(recResult.result.result);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DetailResultParent> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴");
-
-                Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
-            }
-        });
-
-
-
-        /**
-         * 3. Adapter 생성 후 recyclerview에 지정
-         */
-        adapter = new DetailAdapter(mDatas, recylerClickListener, subClickListener);
-        recyclerView.setAdapter(adapter);
+        //바스켓 리스트를 가져온다.
+        loadBasketList();
 
     }
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
@@ -228,14 +197,53 @@ public class SpecificBasketActivity extends AppCompatActivity {
     };
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadBasketList();
+        //데이터 다시 불러오기
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CODE_FOR_MOVIE_SEARCH:
                 if(resultCode == RESULT_OK){
-
+                    Toast.makeText(this, "영화를 추가하였습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
+
+    private void loadBasketList(){
+        Call<DetailResultParent> getBasketDetail = mbService.getBasketDetail(token, basket_id);
+        getBasketDetail.enqueue(new Callback<DetailResultParent>() {
+            @Override
+            public void onResponse(Call<DetailResultParent> call, Response<DetailResultParent> response) {
+                Log.i("NetConfirm", "onResponse: 들어옴");
+
+                DetailResultParent recResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    mDatas.clear();
+                    mDatas.addAll(recResult.result.result);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailResultParent> call, Throwable t) {
+                Log.i("NetConfirm", "onFailure: 들어옴");
+
+                Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+            }
+        });
+
+        adapter = new DetailAdapter(mDatas, recylerClickListener, subClickListener);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+
 }

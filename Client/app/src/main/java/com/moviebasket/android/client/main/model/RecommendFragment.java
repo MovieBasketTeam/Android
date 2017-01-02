@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
+import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
@@ -32,7 +33,7 @@ import retrofit2.Response;
  * Created by kh on 2017. 1. 1..
  */
 
-public class RecommendFragment extends Fragment {
+public class RecommendFragment extends Fragment implements OneClickable{
 
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
@@ -160,8 +161,8 @@ public class RecommendFragment extends Fragment {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
-                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
-                    recyclerView.setAdapter(mainAdapter);
+
+
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
                     mainAdapter.notifyDataSetChanged();
                 }else{
@@ -176,7 +177,15 @@ public class RecommendFragment extends Fragment {
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+                    recyclerView.setAdapter(mainAdapter);
+
+
     }
 
 
+    @Override
+    public void processOneMethodAtPosition(int position) {
+
+    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,10 +15,15 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.tag.tagged.TaggedBasketListActivity;
 
 import java.util.ArrayList;
-import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HashTagActivity extends Activity {
 
@@ -25,59 +31,141 @@ public class HashTagActivity extends Activity {
     Activity act = this;
     GridView gridView1, gridView2, gridView3, gridView4;
 
+
     //텍스트 배열 선언
     ArrayList<String> textArr = new ArrayList<String>();
     ArrayList<String> textArr2 = new ArrayList<String>();
     ArrayList<String> textArr3 = new ArrayList<String>();
     ArrayList<String> textArr4 = new ArrayList<String>();
 
+    //통신관련
+    private MBService mbService;
+    private boolean isSearchSuccess;
+    ArrayList<SearchCategoriesData> mDatas = new ArrayList<SearchCategoriesData>();
+    ArrayList<SearchCategoriesData> searchcategoriesDatas = new ArrayList<SearchCategoriesData>();
+    ArrayList<SearchCategoriesData> searchcategoriesDatas1 = new ArrayList<SearchCategoriesData>();
+    ArrayList<SearchCategoriesData> searchcategoriesDatas2 = new ArrayList<SearchCategoriesData>();
+    ArrayList<SearchCategoriesData> searchcategoriesDatas3 = new ArrayList<SearchCategoriesData>();
 
-
+    SearchResult result;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_list);
 
-        String totalRecomendation[] = {"#썸탈 때","#연인","#가족","#혼자","#밤/새벽","#화창한 날","#흐린 날","#테마8","#우울/슬픔","#스트레스","#지칠 때","#행복/기쁨","#인물","#시대","#같은 장르","#OST","#홍수빈인성","#줼림줼림","#필주/미국","#김정은/북한"};
-        String theme1[] = {"#썸탈 때","#연인","#가족","#혼자","#밤/새벽","#화창한 날","#흐린 날","#테마8"};
-        String theme2[] = {"#우울/슬픔","#스트레스","#지칠 때","#행복/기쁨"};
-        String theme3[] = {"#인물","#시대","#같은 장르","#OST","#홍수빈인성","#줼림줼림","#필주/미국","#김정은/북한"};
+        //String totalRecomendation[]={"1","2","3","4"};// = {"#썸탈 때","#연인","#가족","#혼자"};
+//
+//        String theme1[] = {"#썸탈 때","#연인","#가족","#혼자","#밤/새벽","#화창한 날","#흐린 날","#테마8"};
+//        String theme2[] = {"#우울/슬픔","#스트레스","#지칠 때","#행복/기쁨"};
+//        String theme3[] = {"#인물","#시대","#같은 장르","#OST","#홍수빈인성","#줼림줼림","#필주/미국","#김정은/북한"};
 
 
-        int total = totalRecomendation.length;
+        final gridAdapter adapter = new gridAdapter();
+        final gridAdapter2 adapter2 = new gridAdapter2();
+        final gridAdapter3 adapter3 = new gridAdapter3();
+        final gridAdapter4 adapter4 = new gridAdapter4();
+
+
+
+//        int total = totalRecomendation.length;
 //        int theme1tot = theme1.length;
 //        int theme2tot = theme2.length;
 //        int theme3tot = theme3.length;
 
+///////////////////////////////// 이제 통신을 시작해 보자
+        mbService = ApplicationController.getInstance().getMbService();
+
+        Call<SearchResult> getSearchResult = mbService.getSearchResult();
+        getSearchResult.enqueue(new Callback<SearchResult>() {
+            @Override
+            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+                Log.i("tag : ","성공");
+
+                result =response.body();
+                searchcategoriesDatas = result.result.today_recommand;
+                searchcategoriesDatas1 = result.result.categories.big_category_1;
+                searchcategoriesDatas2 = result.result.categories.big_category_2;
+                searchcategoriesDatas3 = result.result.categories.big_category_3;
+                mDatas.clear();
+                mDatas.addAll(searchcategoriesDatas);
+                //adapter.notifyDataSetChanged();
+//                    total = mDatas.toArray(new String[mDatas.size()]);
+                for(int i=0 ; i<mDatas.size();i++) {
+                    Log.i("tag",mDatas.get(i).small_category);
+                    textArr.add(mDatas.get(i).small_category);
+                    adapter.notifyDataSetChanged();
+                }
+                gridView1.setAdapter(adapter);
+                mDatas.clear();
+
+                mDatas.addAll(searchcategoriesDatas1);
+                for(int i=0 ; i<mDatas.size();i++) {
+                    Log.i("tag",mDatas.get(i).small_category);
+                    textArr2.add(mDatas.get(i).small_category);
+                    adapter.notifyDataSetChanged();
+                }
+                gridView2.setAdapter(adapter2);
+                mDatas.clear();
+
+                mDatas.addAll(searchcategoriesDatas2);
+                for(int i=0 ; i<mDatas.size();i++) {
+                    Log.i("tag",mDatas.get(i).small_category);
+                    textArr3.add(mDatas.get(i).small_category);
+                    adapter.notifyDataSetChanged();
+                }
+                gridView3.setAdapter(adapter3);
+                mDatas.clear();
+
+                mDatas.addAll(searchcategoriesDatas3);
+                for(int i=0 ; i<mDatas.size();i++) {
+                    Log.i("tag",mDatas.get(i).small_category);
+                    textArr4.add(mDatas.get(i).small_category);
+                    adapter.notifyDataSetChanged();
+                }
+                gridView4.setAdapter(adapter4);
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<SearchResult> call, Throwable t) {
+                Log.i("tag : ", "실패" + t.getMessage());
+            }
+        });
+
+
+        ///////////////////////////////통신 끝
 
         //추천 랜덤추출
         int a[] = new int[4];
-        Random random = new Random();
-        for (int i = 0 ; i < 4 ; i++)
-        {
-            a[i] = random.nextInt(total);
-            for(int j=0 ; j<i ; j++)
-            {
-                if(a[i]==a[j])
-                {
-                    i--;
-                }
-            }
-        }
-        for(int k=0 ; k<4 ; k++)
-        {
-            textArr.add(totalRecomendation[a[k]]);
-        }
+//        Random random = new Random();
+//        for (int i = 0 ; i < 4 ; i++)
+//        {
+//            a[i] = random.nextInt(total);
+//            for(int j=0 ; j<i ; j++)
+//            {
+//                if(a[i]==a[j])
+//                {
+//                    i--;
+//                }
+//            }
+//        }
+//        for(int k=0 ; k<4 ; k++)
+//        {
+//            //textArr.add(totalRecomendation[a[k]]);
+//            textArr.add(totalRecomendation[k]);
+//        }
         //
 
 
         gridView1 = (GridView) findViewById(R.id.gridView1);
-        gridView1.setAdapter(new gridAdapter());
+        //gridView1.setAdapter(adapter);
 
         /////theme1
         //추천 랜덤추출
-        int b[] = new int[8];
+//        int b[] = new int[8];
 //        Random random1 = new Random();
 //        for (int i = 0 ; i < 8 ; i++)
 //        {
@@ -90,21 +178,21 @@ public class HashTagActivity extends Activity {
 //                }
 //            }
 //        }
-        for(int k=0 ; k<8 ; k++)
+//        for(int k=0 ; k<8 ; k++)
         {
 //            textArr2.add(theme1[b[k]]);
-            textArr2.add(theme1[k]);
+            //    textArr2.add(theme1[k]);
         }
         //
 
 
         gridView2 = (GridView) findViewById(R.id.gridView2);
-        gridView2.setAdapter(new gridAdapter2());
+        //gridView2.setAdapter(new gridAdapter2());
 
 /////////
         /////theme2
         //추천 랜덤추출
-        int c[] = new int[4];
+//        int c[] = new int[4];
 //        Random random2 = new Random();
 //        for (int i = 0 ; i < 4 ; i++)
 //        {
@@ -117,22 +205,22 @@ public class HashTagActivity extends Activity {
 //                }
 //            }
 //        }
-        for(int k=0 ; k<4 ; k++)
-        {
-//            textArr3.add(theme2[c[k]]);
-            textArr3.add(theme2[k]);
-        }
-        //
+//        for(int k=0 ; k<4 ; k++)
+//        {
+////            textArr3.add(theme2[c[k]]);
+//            textArr3.add(theme2[k]);
+//        }
+//        //
 
 
         gridView3 = (GridView) findViewById(R.id.gridView3);
-        gridView3.setAdapter(new gridAdapter3());
+        //gridView3.setAdapter(new gridAdapter3());
 
 /////////
 
         /////theme3
         //추천 랜덤추출
-        int d[] = new int[8];
+//        int d[] = new int[8];
 //        Random random3 = new Random();
 //        for (int i = 0 ; i < 8 ; i++)
 //        {
@@ -145,16 +233,16 @@ public class HashTagActivity extends Activity {
 //                }
 //            }
 //        }
-        for(int k=0 ; k<8 ; k++)
-        {
-//            textArr4.add(theme3[d[k]]);
-            textArr4.add(theme3[k]);
-        }
+//        for(int k=0 ; k<8 ; k++)
+//        {
+////            textArr4.add(theme3[d[k]]);
+//            textArr4.add(theme3[k]);
+//        }
         //
 
 
         gridView4 = (GridView) findViewById(R.id.gridView4);
-        gridView4.setAdapter(new gridAdapter4());
+        // gridView4.setAdapter(new gridAdapter4());
 
 /////////
     }

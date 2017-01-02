@@ -4,6 +4,7 @@ package com.moviebasket.android.client.network;
 import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
+import com.moviebasket.android.client.main.CartBasketResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
@@ -12,6 +13,7 @@ import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.search.VerifyMovieAddResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
 import com.moviebasket.android.client.splash.VerifyVersionResult;
+import com.moviebasket.android.client.tag.hashtag.SearchResult;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -75,6 +77,7 @@ public interface MBService {
     @GET("/mypage/basket")
     Call<BasketListDataResult> getMyBasketListResult(@Header("member_token") String member_token);
 
+    //영화 검색 후 바스켓에 영화 추가하기
     @FormUrlEncoded
     @POST("/basket/movie/add")
     Call<VerifyMovieAddResult> verifyMovieAddResult(@Header("member_token") String member_token,
@@ -85,6 +88,16 @@ public interface MBService {
                                                     @Field("movie_director") String movie_director,
                                                     @Field("movie_user_rating") String movie_user_rating,
                                                     @Field("movie_link") String movie_link);
+
+    //검색 메인 화면 조회
+    @GET("/search")
+    Call<SearchResult> getSearchResult();
+
+    //바스켓 담기(좋아요 눌러서 1오름)
+    @FormUrlEncoded
+    @POST("/basket/like")
+    Call<CartBasketResult> cartBasket(@Header("member_token") String member_token, @Field("basket_id") int basket_id);
+
     //바스켓 담기 || 담은거해제
     @FormUrlEncoded
     @POST("/mypage/basket/delete")
