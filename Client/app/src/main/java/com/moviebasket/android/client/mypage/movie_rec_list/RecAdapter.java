@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.OneClickable;
+
 import java.util.ArrayList;
 
 /**
@@ -20,7 +22,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
     private View itemView;
     private ViewGroup parent;
-    MovieRecView movierecview;
+    OneClickable oneClickable;
 
 
     public RecAdapter(ArrayList<RecDatas> mDatas) {
@@ -30,10 +32,11 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         this.mDatas = mDatas;
         this.recyclerclickListener = clickListener;
     }
-    public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener recyclerclickListener, MovieRecView movierecview) {
+
+    public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener recyclerclickListener, OneClickable oneClickable) {
         this.mDatas = mDatas;
         this.recyclerclickListener = recyclerclickListener;
-        this.movierecview = movierecview;
+        this.oneClickable = oneClickable;
     }
 
     @Override
@@ -77,7 +80,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         holder.is_liked.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                movierecview.setHeartLike(position);
+                oneClickable.processOneMethodAtPosition(position);
             }
         });
 
