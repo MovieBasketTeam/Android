@@ -217,6 +217,8 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
     }
 
+
+    //TODO : 영화 담기 수정해야함.
     @Override
     public void processTwoMethodAtPosition(final int position) {
         Call<HeartResult> getHeartReasult = mbService.getHeartResult(mDatas.get(position).movie_id, mDatas.get(position).is_liked, token);
