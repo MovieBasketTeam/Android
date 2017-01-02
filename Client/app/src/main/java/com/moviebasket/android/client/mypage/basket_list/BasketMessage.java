@@ -5,5 +5,5 @@ package com.moviebasket.android.client.mypage.basket_list;
  */
 
 public class BasketMessage {
-    String message;
+    public String message;
 }

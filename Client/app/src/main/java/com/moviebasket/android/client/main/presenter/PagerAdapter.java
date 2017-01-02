@@ -13,7 +13,6 @@ import com.moviebasket.android.client.main.model.RecommendFragment;
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
-
     public Fragment[] fragments = new Fragment[3];
 
     public PagerAdapter(FragmentManager fm) {

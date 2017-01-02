@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
+import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -48,23 +48,19 @@ public class RecommendFragment extends Fragment implements OneClickable {
                              Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_view, container, false);
 
-
         recyclerView = (RecyclerView) view.findViewById(R.id.myRecyclerview);
-
         mbService = ApplicationController.getInstance().getMbService();
-
         member_token = ApplicationController.getInstance().getPreferences();
 
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
+        basketListDatases = new ArrayList<>();
 
         loadBasketListDatas(1);
-
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,9 +83,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
             }
         });
 
-
         recyclerView.setAdapter(mainAdapter);
-
 
         return view;
     }
@@ -97,15 +91,8 @@ public class RecommendFragment extends Fragment implements OneClickable {
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = recyclerView.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
-            //String basketName = basketListDatases.get(position).basketName;
-            //  String basketDownCount = basketListDatases.get(position).downCount;
 
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
             Toast.makeText(getActivity(), position + "번째 리사이클러뷰 항목 클릭!" + " / " + basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
 
             Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
@@ -157,12 +144,11 @@ public class RecommendFragment extends Fragment implements OneClickable {
                 BasketListDataResult result = response.body();
                 String message = result.result.message;
                 if (message == null) {
-                    basketListDatases = result.result.baskets;
+                    basketListDatases.clear();
+                    basketListDatases.addAll(result.result.baskets);
 
-                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : " + basketListDatases.toString());
-
-
-                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
+                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, RecommendFragment.this);
+                    recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
@@ -176,15 +162,34 @@ public class RecommendFragment extends Fragment implements OneClickable {
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
-        recyclerView.setAdapter(mainAdapter);
         mainAdapter.notifyDataSetChanged();
 
     }
 
 
     @Override
-    public void processOneMethodAtPosition(int position) {
+    public void processOneMethodAtPosition(final int position) {
+        //바스켓 담으면 바스켓 담고, 이미지 변경.
+        Toast.makeText(getContext(), "바스켓 담았다고~ ㅎ "+position+"번째", Toast.LENGTH_SHORT).show();
+//바스켓 담으면 바스켓 담고, 이미지 변경.
+        Call<BasketResult> cartResult = mbService.getCartPutResult(basketListDatases.get(position).basket_id, member_token);
+        cartResult.enqueue(new Callback<BasketResult>() {
+            @Override
+            public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                if(response.isSuccessful()){
+                    BasketResult result = response.body();
+                    if(result.result.message.equals("like update success")){
+                        Toast.makeText(getContext(), "바스켓 담았다고~ ㅎ "+position+"번째 항목", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(), "바스켓 담았다고 실패~ ㅎ "+position+"번째 항목", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<BasketResult> call, Throwable t) {
+                Toast.makeText(getContext(), "서버와 통신을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

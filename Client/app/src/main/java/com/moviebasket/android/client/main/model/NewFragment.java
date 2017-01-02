@@ -20,6 +20,7 @@ import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
+import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -47,8 +48,6 @@ public class NewFragment extends Fragment implements OneClickable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_view, container, false);
-
-
         recyclerView = (RecyclerView) view.findViewById(R.id.myRecyclerview);
 
         mbService = ApplicationController.getInstance().getMbService();
@@ -61,9 +60,7 @@ public class NewFragment extends Fragment implements OneClickable {
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-
         mainadapter = new MainAdapter(basketListDatases, recylerClickListener, this);
-
 
         loadBasketListDatas(2);
 
@@ -88,7 +85,6 @@ public class NewFragment extends Fragment implements OneClickable {
         });
 
         recyclerView.setAdapter(mainadapter);
-
 
         return view;
     }
@@ -152,8 +148,10 @@ public class NewFragment extends Fragment implements OneClickable {
                     basketListDatases = result.result.baskets;
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : " + basketListDatases.toString());
-
+                    //mainadapter = new MainAdapter(basketListDatases, recylerClickListener, this)
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
+                    mainadapter = new MainAdapter(basketListDatases, recylerClickListener, NewFragment.this);
+                    recyclerView.setAdapter(mainadapter);
                     mainadapter.notifyDataSetChanged();
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
@@ -167,15 +165,34 @@ public class NewFragment extends Fragment implements OneClickable {
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        mainadapter = new MainAdapter(basketListDatases, recylerClickListener, this);
-        recyclerView.setAdapter(mainadapter);
-        mainadapter.notifyDataSetChanged();
+
 
     }
 
     @Override
-    public void processOneMethodAtPosition(int position) {
+    public void processOneMethodAtPosition(final int position) {
         //바스켓 담으면 바스켓 담고, 이미지 변경.
-        Toast.makeText(getContext(), "바스켓 담았다고~ ㅎ "+position+"번째", Toast.LENGTH_SHORT).show();
+        Call<BasketResult> cartResult = mbService.getCartPutResult(basketListDatases.get(position).basket_id, member_token);
+        cartResult.enqueue(new Callback<BasketResult>() {
+            @Override
+            public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                if(response.isSuccessful()){
+                    BasketResult result = response.body();
+                    if(result.result==null){
+                        return;
+                    }
+                    if(result.result.message.equals("like update success")){
+                        Toast.makeText(getContext(), "바스켓 담았다고~ ㅎ "+position+"번째 항목", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(), "바스켓 담았다고 실패~ ㅎ "+position+"번째 항목", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasketResult> call, Throwable t) {
+                Toast.makeText(getContext(), "서버와 통신을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

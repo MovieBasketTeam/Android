@@ -4,12 +4,11 @@ package com.moviebasket.android.client.network;
 import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
-import com.moviebasket.android.client.main.CartBasketResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
+import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.BasketListDataDeleteResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
-import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.search.VerifyMovieAddResult;
@@ -108,5 +107,10 @@ public interface MBService {
     @FormUrlEncoded
     @POST("/mypage/basket/delete")
     Call<BasketResult> getCartResult(@Field("basket_id") int basket_id, @Header("member_token") String member_token);
+
+    //바스켓 담기
+    @FormUrlEncoded
+    @POST("/basket/like")
+    Call<BasketResult> getCartPutResult(@Field("basket_id") int basket_id, @Header("member_token") String member_token);
 
 }
