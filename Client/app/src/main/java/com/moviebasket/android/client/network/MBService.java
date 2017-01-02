@@ -6,6 +6,7 @@ import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketResult;
+import com.moviebasket.android.client.mypage.movie_pack_list.BasketListDataDeleteResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
@@ -89,9 +90,18 @@ public interface MBService {
                                                     @Field("movie_user_rating") String movie_user_rating,
                                                     @Field("movie_link") String movie_link);
 
+    @FormUrlEncoded
+    @POST("/mypage/movie/cart/delete")
+    Call<BasketListDataDeleteResult> getBasketListDataDeleteResult(@Header("member_token") String member_token, @Field("movie_id") int movie_id );
+
     //검색 메인 화면 조회
     @GET("/search")
     Call<SearchResult> getSearchResult();
+
+    //바스켓 담기(좋아요 눌러서 1오름)
+    @FormUrlEncoded
+    @POST("/basket/like")
+    Call<CartBasketResult> cartBasket(@Header("member_token") String member_token, @Field("basket_id") int basket_id);
 
     //바스켓 담은거 해제
     @FormUrlEncoded

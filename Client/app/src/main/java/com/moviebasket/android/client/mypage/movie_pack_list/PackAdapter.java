@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.TwoClickable;
 
 import java.util.ArrayList;
 
@@ -21,16 +22,17 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     ArrayList<PackDetail> packDetails;
     View.OnClickListener clickListener;
     View.OnClickListener subClickListener;
+    TwoClickable two;
     private ViewGroup parent;
 
     public PackAdapter() {
 
     }
 
-    public PackAdapter(ArrayList<PackDetail> packDetails, View.OnClickListener clickListener, View.OnClickListener subClickListener) {
+    public PackAdapter(ArrayList<PackDetail> packDetails, View.OnClickListener clickListener, TwoClickable two) {
         this.packDetails = packDetails;
         this.clickListener = clickListener;
-        this.subClickListener = subClickListener;
+        this.two = two;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PackViewHolder holder, int position) {
+    public void onBindViewHolder(PackViewHolder holder, final int position) {
 
         Glide.with(parent.getContext()).load(packDetails.get(position).movie_image).into(holder.movieImage);
         holder.movieName.setText(packDetails.get(position).movie_title);
@@ -64,8 +66,18 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
             holder.heartImg.setImageResource(R.drawable.sub_heart);
         }
 
-        holder.removeImg.setOnClickListener(subClickListener);
-        holder.heartImg.setOnClickListener(subClickListener);
+        holder.removeImg.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                two.processOneMethodAtPosition(position);
+            }
+        });
+        holder.heartImg.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                two.processTwoMethodAtPosition(position);
+            }
+        });
+
+
     }
 
     @Override
