@@ -1,6 +1,7 @@
 package com.moviebasket.android.client.search;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.network.NaverService;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class MovieSearchActivity extends AppCompatActivity {
     ImageView image;
 
     NaverService naverService;
+    MBService mbService;
 
     RecyclerView recyclerView;
     ArrayList<MoviesDatas> mDatas = new ArrayList<MoviesDatas>();
@@ -49,6 +52,7 @@ public class MovieSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_search);
 
         naverService = ApplicationController.getInstance().getNaverService();
+        mbService = ApplicationController.getInstance().getMbService();
 
         searchMovieName = (EditText)findViewById(R.id.searchMovieName);
         searchMovieBtn = (ImageButton)findViewById(R.id.searchMovieBtn);
@@ -70,7 +74,6 @@ public class MovieSearchActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        //final MoviesAdapter adapter = new MoviesAdapter(mDatas);
         final MoviesAdapter adapter = new MoviesAdapter(mDatas, recylerClickListener);
         recyclerView.setAdapter(adapter);
 
@@ -105,7 +108,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                             result = response.body();
                             movieDetails = result.items;
                             mDatas.clear();
-                            for(int i = 0 ; i < movieDetails.size() ; i++) {
+                            for (int i = 0; i < movieDetails.size(); i++) {
 //                                Log.i("태그제거전", movieDetails.get(i).title);
 //                                Log.i("제거이후", RemoveHTMLTag(movieDetails.get(i).title));
                                 mDatas.add(new MoviesDatas(movieDetails.get(i).image,
@@ -138,16 +141,48 @@ public class MovieSearchActivity extends AppCompatActivity {
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = recyclerView.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
-            String MovieTitle = mDatas.get(position).title;
 
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
-            //Toast.makeText(MovieSearchActivity.this, position+"번째 리사이클러뷰 항목 클릭!", Toast.LENGTH_SHORT).show();
-            Toast.makeText(MovieSearchActivity.this, MovieTitle, Toast.LENGTH_SHORT).show();
+            //서버에 요청해야할 매개변수들
+            String token = ApplicationController.getInstance().getPreferences();
+            int basket_id = Integer.parseInt(getIntent().getExtras().getString("basket_id"));
+            String movie_title = RemoveHTMLTag(movieDetails.get(position).title);
+            String movie_image = movieDetails.get(position).image;
+            int movie_pub_date = Integer.parseInt(movieDetails.get(position).pubDate);
+            String movie_director = RemoveSpecitialCharacter(movieDetails.get(position).director);
+            String movie_user_rating = movieDetails.get(position).userRating;
+            String movie_link = movieDetails.get(position).link;
+
+
+
+            Call<VerifyMovieAddResult> verifyMovieAddResultCall =
+                    mbService.verifyMovieAddResult(
+                            token, basket_id, movie_title, movie_image, movie_pub_date, movie_director, movie_user_rating, movie_link
+                    );
+            verifyMovieAddResultCall.enqueue(new Callback<VerifyMovieAddResult>() {
+                @Override
+                public void onResponse(Call<VerifyMovieAddResult> call, Response<VerifyMovieAddResult> response) {
+                    //추가 성공했을 때
+                    VerifyMovieAddResult result = response.body();
+                    if(result.result.message.equals("movie add success")){
+                        Intent data = new Intent();
+                        //추가된 영화를 보내준다.
+                        // data.putExtra("addedMovie", );
+                        setResult(RESULT_OK, data);
+                    }else{
+                        Toast.makeText(MovieSearchActivity.this, "바스켓에 영화를 추가하는데 실패했습니다", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<VerifyMovieAddResult> call, Throwable t) {
+                    //통신 실패했을 때
+                    Toast.makeText(MovieSearchActivity.this, "서버와 연결을 실패하였습니다", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_CANCELED);
+                }
+            });
+
         }
     };
 
@@ -159,5 +194,12 @@ public class MovieSearchActivity extends AppCompatActivity {
             changeStr = "";
         }
         return changeStr;
+    }
+
+    //특수문자 제거
+    public String RemoveSpecitialCharacter(String str){
+        String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
+        str =str.replaceAll(match, " ");
+        return str;
     }
 }

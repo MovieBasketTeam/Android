@@ -9,6 +9,7 @@ import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
+import com.moviebasket.android.client.search.VerifyMovieAddResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
 import com.moviebasket.android.client.splash.VerifyVersionResult;
 
@@ -73,5 +74,17 @@ public interface MBService {
     //담은 바스켓리스트 보기
     @GET("/mypage/basket")
     Call<BasketListDataResult> getMyBasketListResult(@Header("member_token") String member_token);
+
+    @FormUrlEncoded
+    @POST("/basket/movie/add")
+    Call<VerifyMovieAddResult> verifyMovieAddResult(@Header("member_token") String member_token,
+                                                    @Field("basket_id") int basket_id,
+                                                    @Field("movie_title") String movie_title,
+                                                    @Field("movie_image") String movie_image,
+                                                    @Field("movie_pub_date") int movie_pub_date,
+                                                    @Field("movie_director") String movie_director,
+                                                    @Field("movie_user_rating") String movie_user_rating,
+                                                    @Field("movie_link") String movie_link);
+
 
 }
