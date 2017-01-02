@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.TwoClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
+import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 
@@ -28,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SpecificBasketActivity extends AppCompatActivity {
+public class SpecificBasketActivity extends AppCompatActivity implements TwoClickable {
 
     private static final int REQUEST_CODE_FOR_MOVIE_SEARCH = 1000;
 
@@ -46,6 +48,8 @@ public class SpecificBasketActivity extends AppCompatActivity {
     String token;
 
     private MovieDetailDialog detailDialog;
+
+    private boolean isHeartSuccess = false;
 
     RecyclerView recyclerView;
     ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
@@ -81,8 +85,6 @@ public class SpecificBasketActivity extends AppCompatActivity {
             downBtn.setImageResource(R.drawable.sub_basket_down);
         }
         downCount.setText(String.valueOf(basket_count));
-
-        downBtn.setOnClickListener(subClickListener);
 
 /*        Log.i("Info : ", basketInfo.getExtras().getInt("basket_id")+"/"+basketInfo.getExtras().getString("basket_name")+"/"
                 +basketInfo.getExtras().getString("basket_image")+"/"+basketInfo.getExtras().getInt("basket_like")+"/"+
@@ -134,67 +136,6 @@ public class SpecificBasketActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener subClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(final View v) {
-            switch (v.getId()){
-                case R.id.downBtn:
-                    //바스켓 담기|제거버튼
-                    AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
-                    BasketBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    BasketBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    BasketBuilder.show();
-                    break;
-                case R.id.downImg:
-                    //담은 영화를 제거한 경우
-                    AlertDialog.Builder packBuilder = new AlertDialog.Builder(v.getContext());
-                    packBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    packBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Toast.makeText(v.getContext(), "담은영화 제거했다고 치자", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    packBuilder.show();
-                    break;
-                case R.id.heartImg:
-                    //추천한 영화를 제거한 경우
-                    AlertDialog.Builder recBuilder = new AlertDialog.Builder(v.getContext());
-                    recBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    recBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Toast.makeText(v.getContext(), "추천한 영화 제거했다고 치자", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    recBuilder.show();
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onResume() {
@@ -240,10 +181,71 @@ public class SpecificBasketActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new DetailAdapter(mDatas, recylerClickListener, subClickListener);
+        adapter = new DetailAdapter(mDatas, recylerClickListener, this);
         recyclerView.setAdapter(adapter);
 
     }
 
+    @Override
+    public void processOneMethodAtPosition(final int position) {
+        Call<HeartResult> getHeartReasult = mbService.getHeartResult(mDatas.get(position).movie_id, mDatas.get(position).is_liked, token);
+        getHeartReasult.enqueue(new Callback<HeartResult>() {
+            @Override
+            public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
+                Log.i("NetConfirm", "onResponse: 1번메서드(하트)");
+                HeartResult heartResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("Heart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    Log.i("Heart", "응답 결과 : " + heartResult.result.message);
+                    isHeartSuccess = heartResult.result.message != null ? true : false;
+                    Log.i("Heart", "응답 결과 : " + isHeartSuccess);
+                    Log.i("Heart", "포지션 : " + mDatas.get(position));
+                    Log.i("Heart", "무비아이디 : " + mDatas.get(position).movie_id);
+                }
+                if (isHeartSuccess) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HeartResult> call, Throwable t) {
+                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
+                Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    @Override
+    public void processTwoMethodAtPosition(final int position) {
+        Call<HeartResult> getHeartReasult = mbService.getHeartResult(mDatas.get(position).movie_id, mDatas.get(position).is_liked, token);
+        getHeartReasult.enqueue(new Callback<HeartResult>() {
+            @Override
+            public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
+                Log.i("NetConfirm", "onResponse: 2번메서드(담기)");
+                HeartResult heartResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    Log.i("Cart", "응답 결과 : " + heartResult.result.message);
+                    isHeartSuccess = heartResult.result.message != null ? true : false;
+                    Log.i("Cart", "응답 결과 : " + isHeartSuccess);
+                    Log.i("Cart", "포지션 : " + mDatas.get(position));
+                    Log.i("Cart", "무비아이디 : " + mDatas.get(position).movie_id);
+                }
+                if (isHeartSuccess) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HeartResult> call, Throwable t) {
+                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
+                Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
 
 }

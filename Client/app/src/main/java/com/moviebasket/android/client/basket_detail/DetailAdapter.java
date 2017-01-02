@@ -1,12 +1,14 @@
 package com.moviebasket.android.client.basket_detail;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.TwoClickable;
 
 import java.util.ArrayList;
 
@@ -19,16 +21,17 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     View.OnClickListener clickListener;
     View.OnClickListener subClickListener;
     private ViewGroup parent;
+    TwoClickable twoClickable;
 
 
     public DetailAdapter() {
 
     }
 
-    public DetailAdapter(ArrayList<DetailDatas> mDatas, View.OnClickListener clickListener, View.OnClickListener subClickListener) {
+    public DetailAdapter(ArrayList<DetailDatas> mDatas, View.OnClickListener clickListener, TwoClickable twoClickable) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
-        this.subClickListener = subClickListener;
+        this.twoClickable = twoClickable;
     }
 
 
@@ -45,7 +48,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(DetailViewHolder holder, int position) {
+    public void onBindViewHolder(final DetailViewHolder holder, final int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
         holder.BasketUserName.setText(mDatas.get(position).movie_adder);
@@ -67,8 +70,29 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
             holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
         }
 
-        holder.downImg.setOnClickListener(subClickListener);
-        holder.heartImg.setOnClickListener(subClickListener);
+        holder.heartImg.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                twoClickable.processOneMethodAtPosition(position);
+                if(mDatas.get(position).is_liked == 0) {
+                    holder.downCount.setText(String.valueOf(++mDatas.get(position).movie_like));
+                    holder.heartImg.setImageResource(R.drawable.sub_heart);
+                    mDatas.get(position).is_liked = 1;
+                } else {
+                    holder.downCount.setText(String.valueOf(--mDatas.get(position).movie_like));
+                    holder.heartImg.setImageResource(R.drawable.sub_no_heart);
+                    mDatas.get(position).is_liked = 0;
+                }
+
+            }
+        });
+
+        holder.downImg.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                twoClickable.processTwoMethodAtPosition(position);
+            }
+        });
     }
 
     @Override
