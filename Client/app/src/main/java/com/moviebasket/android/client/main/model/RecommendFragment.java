@@ -40,7 +40,7 @@ public class RecommendFragment extends Fragment implements OneClickable{
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ArrayList<BasketListDatas> basketListDatases;
-    BasketListAdapter basketListAdapter;
+    MainAdapter mainAdapter;
 
     MBService mbService;
     private String member_token;
@@ -62,7 +62,7 @@ public class RecommendFragment extends Fragment implements OneClickable{
 
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, this);
+        mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
 
         loadBasketListDatas(1);
 
@@ -89,7 +89,7 @@ public class RecommendFragment extends Fragment implements OneClickable{
         });
 
 
-        recyclerView.setAdapter(basketListAdapter);
+        recyclerView.setAdapter(mainAdapter);
 
 
         return view;
@@ -162,8 +162,9 @@ public class RecommendFragment extends Fragment implements OneClickable{
 
                     Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : "+basketListDatases.toString());
 
+
                     Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-                    basketListAdapter.notifyDataSetChanged();
+                    mainAdapter.notifyDataSetChanged();
                 }else{
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -176,9 +177,10 @@ public class RecommendFragment extends Fragment implements OneClickable{
                 Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, subClickListener);
+                    recyclerView.setAdapter(mainAdapter);
 
-        basketListAdapter = new BasketListAdapter(basketListDatases, recylerClickListener, this);
-        recyclerView.setAdapter(basketListAdapter);
+
     }
 
 
