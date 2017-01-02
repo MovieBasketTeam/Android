@@ -3,100 +3,113 @@
     android:layout_width="match_parent"
     android:layout_height="96dp"
     android:layout_marginTop="6dp"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp"
+    android:background="@drawable/sub_ticket"
     >
 
-    <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/movieLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_width="96dp"
+        android:layout_height="96dp">
 
         <ImageView
-            android:id="@+id/ranking_image"
-            android:layout_width="16dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/sub_rank_one"/>
-        <ImageView
-            android:id="@+id/movie_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@mipmap/ic_launcher"/>
-    </RelativeLayout>
+            android:id="@+id/movieImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/movie_ex"/>
+    </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="18dp"
+        android:paddingTop="7dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="6dp"
+        android:layout_toRightOf="@id/movieLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
-            >
-
-            <TextView
-                android:id="@+id/owner"
-                android:layout_width="26dp"
-                android:layout_height="18dp"
-                android:text="+by" />
-            <TextView
-                android:layout_width="52dp"
-                android:layout_height="match_parent"
-                android:text="서문이"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/basketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="28dp">
+            android:text="로멘틱 남/녀가 되고 싶을때 영화"
+            android:textSize="10sp"/>
 
-            <TextView
-                android:id="@+id/title_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="title(year)"
-                android:textSize="17sp"/>
-            <TextView
-                android:id="@+id/direct_country"
-                android:layout_marginTop="7dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="감독/나라"
-                />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/BasketUserName"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="65dp">
+            android:text="+ by. 윤지멍충이"
+            android:textSize="10sp"/>
 
-            <ImageView
-                android:id="@+id/download"
-                android:layout_width="30dp"
-                android:layout_height="29dp"
-                android:src="@drawable/sub_movie_nodown"/>
-            <ImageView
-                android:id="@+id/heart"
-                android:layout_width="33dp"
-                android:layout_height="29dp"
-                android:src="@drawable/sub_no_heart"/>
-            <TextView
-                android:id="@+id/likecount"
-                android:gravity="center_vertical"
-                android:layout_width="41dp"
-                android:layout_height="29dp"
-                android:text="123"
-                />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/movieName"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/basketName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="렛미인"
+            android:textSize="17sp"
+            />
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/movieName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2008"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/slash"
+            android:layout_marginTop="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movieName"
+            android:layout_toRightOf="@id/year"
+            android:text="/"
+            />
+        <TextView
+            android:id="@+id/director"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/movieName"
+            android:layout_toRightOf="@id/slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="감독"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/downCount"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:text="1,023"/>
+
+        <ImageView
+            android:id="@+id/heartImg"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/downCount"
+            android:layout_width="33dp"
+            android:layout_height="29dp"
+            android:src="@drawable/sub_heart"/>
+
+        <ImageView
+            android:id="@+id/downImg"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/heartImg"
+            android:layout_width="30dp"
+            android:layout_height="29dp"
+            android:src="@drawable/sub_movie_down"
+            />
+
+
     </RelativeLayout>
+
 
 </LinearLayout>
