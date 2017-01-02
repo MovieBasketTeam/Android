@@ -1,10 +1,13 @@
 package com.moviebasket.android.client.search;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by LEECM on 2016-12-29.
  */
 
-public class MovieDetail {
+public class MovieDetail implements Parcelable{
 
     String title;
     String link;
@@ -13,6 +16,54 @@ public class MovieDetail {
     String director;
     String actor;
     String userRating;
+
+    public MovieDetail(String title, String link, String image, String pubDate, String director, String actor, String userRating) {
+        this.title = title;
+        this.link = link;
+        this.image = image;
+        this.pubDate = pubDate;
+        this.director = director;
+        this.actor = actor;
+        this.userRating = userRating;
+    }
+
+    protected MovieDetail(Parcel in) {
+        title = in.readString();
+        link = in.readString();
+        image = in.readString();
+        pubDate = in.readString();
+        director = in.readString();
+        actor = in.readString();
+        userRating = in.readString();
+    }
+
+    public static final Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
+        @Override
+        public MovieDetail createFromParcel(Parcel in) {
+            return new MovieDetail(in);
+        }
+
+        @Override
+        public MovieDetail[] newArray(int size) {
+            return new MovieDetail[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(link);
+        dest.writeString(image);
+        dest.writeString(pubDate);
+        dest.writeString(director);
+        dest.writeString(actor);
+        dest.writeString(userRating);
+    }
 
     /*
             "title": "<b>해리 포터</b>와 죽음의 성물 - 2부",

@@ -41,6 +41,9 @@ public class SpecificBasketActivity extends AppCompatActivity {
     ImageView downBtn;
     TextView downCount;
 
+    int basket_id;
+    int basket_count;
+
     private MovieDetailDialog detailDialog;
 
     RecyclerView recyclerView;
@@ -57,8 +60,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
         Intent basketInfo  = getIntent();
         mbService = ApplicationController.getInstance().getMbService();
 
-        int basket_id;
-        int basket_count;
+
         basket_id = basketInfo.getExtras().getInt("basket_id");
         basket_count = basketInfo.getExtras().getInt("basket_like");
 
@@ -90,6 +92,7 @@ public class SpecificBasketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent movieSearchIntent = new Intent(SpecificBasketActivity.this, MovieSearchActivity.class);
+                movieSearchIntent.putExtra("basket_id", basket_id);
                 startActivityForResult(movieSearchIntent, REQUEST_CODE_FOR_MOVIE_SEARCH);
             }
         });
