@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.MBService;
 
@@ -19,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieRecActivity extends AppCompatActivity implements MovieRecView {
+public class MovieRecActivity extends AppCompatActivity implements OneClickable {
     RecyclerView recyclerView;
     ArrayList<RecDatas> mDatas = new ArrayList<RecDatas>();
 
@@ -116,7 +117,8 @@ public class MovieRecActivity extends AppCompatActivity implements MovieRecView 
         }
     };
 
-    public void setHeartLike(final int position) {
+    @Override
+    public void processOneMethodAtPosition(final int position) {
 
         Toast.makeText(MovieRecActivity.this, "하트를 눌렀당", Toast.LENGTH_SHORT).show();
 //                    position = recyclerView

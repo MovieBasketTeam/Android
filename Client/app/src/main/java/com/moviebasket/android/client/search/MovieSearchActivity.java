@@ -154,6 +154,18 @@ public class MovieSearchActivity extends AppCompatActivity {
             String movie_link = movieDetails.get(position).link;
 
 
+            /* SpecificBasket에 보여줄 것
+            String movie_image;
+            String movie_adder;
+            String movie_title;
+            int movie_pub_date;
+            String movie_director;
+            int movie_like;
+            int is_liked;
+            int is_cart;
+            */
+
+
 
             Call<VerifyMovieAddResult> verifyMovieAddResultCall =
                     mbService.verifyMovieAddResult(
