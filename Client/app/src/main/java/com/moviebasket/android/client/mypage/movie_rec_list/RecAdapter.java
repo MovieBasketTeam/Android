@@ -17,9 +17,10 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
     ArrayList<RecDatas> mDatas;
     View.OnClickListener recyclerclickListener;
-    View.OnClickListener clickListener;
+
     private View itemView;
     private ViewGroup parent;
+    MovieRecView movierecview;
 
 
     public RecAdapter(ArrayList<RecDatas> mDatas) {
@@ -29,10 +30,10 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         this.mDatas = mDatas;
         this.recyclerclickListener = clickListener;
     }
-    public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener recyclerclickListener, View.OnClickListener clickListener) {
+    public RecAdapter(ArrayList<RecDatas> mDatas, View.OnClickListener recyclerclickListener, MovieRecView movierecview) {
         this.mDatas = mDatas;
         this.recyclerclickListener = recyclerclickListener;
-        this.clickListener = clickListener;
+        this.movierecview = movierecview;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecViewHolder holder, int position) {
+    public void onBindViewHolder(RecViewHolder holder, final int position) {
 
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         //holder.movie_image.setImageResource(R.drawable.sub_movie_down);
@@ -73,10 +74,17 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
             holder.is_liked.setImageResource(R.drawable.sub_no_heart);
         }
 
-        if(clickListener != null){
-            holder.book_mark.setOnClickListener(clickListener);
-            holder.is_liked.setOnClickListener(clickListener);
-        }
+        holder.is_liked.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                movierecview.setHeartLike(position);
+            }
+        });
+
+//        if(clickListener != null){
+//            holder.book_mark.setOnClickListener(clickListener);
+//            holder.is_liked.setOnClickListener(clickListener);
+//        }
     }
 
     @Override
