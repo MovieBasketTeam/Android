@@ -5,6 +5,7 @@ import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
+import com.moviebasket.android.client.mypage.movie_pack_list.BasketListDataDeleteResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
@@ -85,6 +86,11 @@ public interface MBService {
                                                     @Field("movie_director") String movie_director,
                                                     @Field("movie_user_rating") String movie_user_rating,
                                                     @Field("movie_link") String movie_link);
+
+    @FormUrlEncoded
+    @POST("/mypage/movie/cart/delete")
+    Call<BasketListDataDeleteResult> getBasketListDataDeleteResult(@Header("member_token") String member_token, @Field("movie_id") int movie_id );
+
 
 
 }
