@@ -14,23 +14,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by LEECM on 2016-12-26.
  */
 
-public class ApplicationController extends Application{
+public class ApplicationController extends Application {
 
     private static final String naverURL = "https://openapi.naver.com/v1/search/";
     private static final String MovieBasketURL = SecurityDataSet.MBServerUrl;
     private static ApplicationController instance;
 
+    private ToggleSwitchFactory toggleSwitchFactory;
     private MBService mbService;
     private NaverService naverService;
 
-
-    public  ApplicationController(){
+    public ApplicationController() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if(instance==null){
+        if (instance == null) {
             instance = new ApplicationController();
         }
         instance = this;
@@ -39,10 +39,12 @@ public class ApplicationController extends Application{
         buildNaverService();
         //MBService Build
         buildMBService();
-        }
+        //ToggleSwitchFactory Build
+        buildToggleSwitchFactory();
+    }
 
     /**
-     *  Getter & Setter
+     * Getter & Setter
      */
     public static ApplicationController getInstance() {
         return instance;
@@ -56,11 +58,14 @@ public class ApplicationController extends Application{
         return naverService;
     }
 
-    /**
-     *  methods
-     */
-    public void buildNaverService(){
+    public ApplicationController(ToggleSwitchFactory toggleSwitchFactory) {
+        this.toggleSwitchFactory = toggleSwitchFactory;
+    }
 
+    /**
+     * methods
+     */
+    private void buildNaverService() {
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder
                 .baseUrl(naverURL)
@@ -69,7 +74,8 @@ public class ApplicationController extends Application{
 
         naverService = retrofit.create(NaverService.class);
     }
-    public void buildMBService(){
+
+    private void buildMBService() {
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder
                 .baseUrl(MovieBasketURL)
@@ -79,15 +85,20 @@ public class ApplicationController extends Application{
         mbService = retrofit.create(MBService.class);
     }
 
+    private void buildToggleSwitchFactory() {
+        ToggleSwitchFactory toggleSwitchFactory = new ToggleSwitchFactory();
+        this.toggleSwitchFactory = toggleSwitchFactory;
+    }
+
     // 토큰값 가져오기
-    public String getPreferences(){
+    public String getPreferences() {
         SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         String Token = pref.getString(SecurityDataSet.TK_KEY, "");
         return Token;
     }
 
     // 토큰값 저장하기
-    public void savePreferences(String Token){
+    public void savePreferences(String Token) {
         SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(SecurityDataSet.TK_KEY, Token);
@@ -95,11 +106,12 @@ public class ApplicationController extends Application{
     }
 
     // 값(Key Data) 삭제하기
-    public void removePreferences(){
+    public void removePreferences() {
         SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(SecurityDataSet.TK_KEY);
         editor.commit();
     }
+
 
 }

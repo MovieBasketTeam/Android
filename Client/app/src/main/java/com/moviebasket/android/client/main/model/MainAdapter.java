@@ -60,23 +60,36 @@ public class MainAdapter extends RecyclerView.Adapter<BasketListViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BasketListViewHolder holder, final int position) {
+    public void onBindViewHolder(final BasketListViewHolder holder, final int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
+        final int lastImageResource;
         Glide.with(parent.getContext()).load(mDatas.get(position).basket_image).into(holder.basketImg);
         holder.basketName.setText(mDatas.get(position).basket_name);
         holder.downCount.setText(String.valueOf(mDatas.get(position).basket_like));
 
         if ( mDatas.get(position).is_liked == 1 ) {
             holder.downBtn.setImageResource(R.drawable.sub_basket_down);
+            lastImageResource = R.drawable.sub_basket_down;
         } else {
             holder.downBtn.setImageResource(R.drawable.sub_basket_nodown);
+            lastImageResource = R.drawable.sub_basket_nodown;
         }
         holder.downBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oneClickable.processOneMethodAtPosition(position);
+                //이미 담은 바스켓인 경우 요청을 안보냄.
+                if (lastImageResource == R.drawable.sub_basket_down) {
+                    return;
+                } else {
+                    //안 담은 바스켓인 경우 요청해서 이미지 바꿔주고 1증가시킴
+                    holder.downCount.setText(String.valueOf(++mDatas.get(position).basket_like));
+                    holder.downBtn.setImageResource(R.drawable.sub_basket_down);
+                    oneClickable.processOneMethodAtPosition(position);
+                }
             }
         });
+
+
 
     }
 

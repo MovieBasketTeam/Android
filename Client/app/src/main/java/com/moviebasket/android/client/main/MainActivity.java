@@ -52,10 +52,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab_item1, fab_item2, fab_item3;
     */
 
-
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         member_token = ApplicationController.getInstance().getPreferences();
         mbService = ApplicationController.getInstance().getMbService();
-
-        //바스켓리스트 사용자 추천순으로 가져와야함. (MBService)에서
-//        loadBasketListDatas(1);
 
         //변수초기화
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
@@ -91,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         fab_item2.setOnClickListener(fabClickListener);
         fab_item3.setOnClickListener(fabClickListener);
         */
-
 
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
@@ -189,10 +183,8 @@ public class MainActivity extends AppCompatActivity {
                     newbtn.setBackgroundResource(R.drawable.main_recent_black);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
-//                    loadBasketListDatas(1);
 
                     viewPager.setCurrentItem(0);
-
                     break;
                 case R.id.popularbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
@@ -201,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 //                    loadBasketListDatas(2);
 
                     viewPager.setCurrentItem(1);
-
                     break;
                 case R.id.recommendbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
