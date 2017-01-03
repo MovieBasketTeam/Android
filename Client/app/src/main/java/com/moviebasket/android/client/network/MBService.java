@@ -107,4 +107,9 @@ public interface MBService {
     @POST("/basket/like")
     Call<BasketResult> getCartPutResult(@Field("basket_id") int basket_id, @Header("member_token") String member_token);
 
+    //바스켓 담기
+    @FormUrlEncoded
+    @POST("/basket/movie/cart")
+    Call<HeartResult> getMovieCartReasult(@Field("movie_id") int movie_id, @Field("is_carted") int is_carted, @Header("member_token") String member_token);
+
 }

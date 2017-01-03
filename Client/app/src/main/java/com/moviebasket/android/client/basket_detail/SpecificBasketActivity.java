@@ -50,6 +50,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
     private MovieDetailDialog detailDialog;
 
     private boolean isHeartSuccess = false;
+    private boolean isCarttSuccess = false;
 
     RecyclerView recyclerView;
     ArrayList<DetailDatas> mDatas = new ArrayList<DetailDatas>();
@@ -192,15 +193,9 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         getHeartReasult.enqueue(new Callback<HeartResult>() {
             @Override
             public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
-                Log.i("NetConfirm", "onResponse: 1번메서드(하트)");
                 HeartResult heartResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("Heart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    Log.i("Heart", "응답 결과 : " + heartResult.result.message);
                     isHeartSuccess = heartResult.result.message != null ? true : false;
-                    Log.i("Heart", "응답 결과 : " + isHeartSuccess);
-                    Log.i("Heart", "포지션 : " + mDatas.get(position));
-                    Log.i("Heart", "무비아이디 : " + mDatas.get(position).movie_id);
                 }
                 if (isHeartSuccess) {
                     adapter.notifyDataSetChanged();
@@ -209,7 +204,6 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
             @Override
             public void onFailure(Call<HeartResult> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
                 Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -217,35 +211,43 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
     }
 
+
+    //TODO : 영화 담기 수정해야함.
     @Override
     public void processTwoMethodAtPosition(final int position) {
-        Call<HeartResult> getHeartReasult = mbService.getHeartResult(mDatas.get(position).movie_id, mDatas.get(position).is_liked, token);
-        getHeartReasult.enqueue(new Callback<HeartResult>() {
-            @Override
-            public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
-                Log.i("NetConfirm", "onResponse: 2번메서드(담기)");
-                HeartResult heartResult = response.body();
-                if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    Log.i("Cart", "응답 결과 : " + heartResult.result.message);
-                    isHeartSuccess = heartResult.result.message != null ? true : false;
-                    Log.i("Cart", "응답 결과 : " + isHeartSuccess);
-                    Log.i("Cart", "포지션 : " + mDatas.get(position));
-                    Log.i("Cart", "무비아이디 : " + mDatas.get(position).movie_id);
+        if(mDatas.get(position).is_cart == 0) {
+            Call<HeartResult> getMovieCartReasult = mbService.getMovieCartReasult(mDatas.get(position).movie_id, mDatas.get(position).is_cart, token);
+            getMovieCartReasult.enqueue(new Callback<HeartResult>() {
+                @Override
+                public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
+                    Log.i("Cart", "onResponse: 2번메서드(담기)");
+                    HeartResult heartResult = response.body();
+                    if (response.isSuccessful()) {// 응답코드 200
+                        Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                        Log.i("Cart", "응답 결과 : " + heartResult.result.message);
+                        isCarttSuccess = heartResult.result.message != null ? true : false;
+                        Log.i("Cart", "응답 결과 : " + isCarttSuccess);
+                        Log.i("Cart", "포지션 : " + mDatas.get(position));
+                        Log.i("Cart", "무비아이디 : " + mDatas.get(position).movie_id);
+                        Log.i("Cart", "Cart : " + mDatas.get(position).is_cart);
+                        if (isCarttSuccess) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "영화담기실패", Toast.LENGTH_SHORT);
+                    }
+
                 }
-                if (isHeartSuccess) {
-                    adapter.notifyDataSetChanged();
+
+                @Override
+                public void onFailure(Call<HeartResult> call, Throwable t) {
+                    Log.i("Cart", "onFailure: 들어옴" + call.toString());
+                    Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<HeartResult> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
-                Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "이미 영화를 담았습니다.", Toast.LENGTH_SHORT);
+        }
     }
 
 }
