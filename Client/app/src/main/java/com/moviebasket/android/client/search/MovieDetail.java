@@ -9,13 +9,13 @@ import android.os.Parcelable;
 
 public class MovieDetail implements Parcelable{
 
-    String title;
-    String link;
-    String image;
-    String pubDate;
-    String director;
-    String actor;
-    String userRating;
+    public String title;
+    public String link;
+    public String image;
+    public String pubDate;
+    public String director;
+    public String actor;
+    public String userRating;
 
     public MovieDetail(String title, String link, String image, String pubDate, String director, String actor, String userRating) {
         this.title = title;
