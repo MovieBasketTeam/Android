@@ -1,6 +1,5 @@
 package com.moviebasket.android.client.network;
 
-
 import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
@@ -98,11 +97,6 @@ public interface MBService {
     //검색 메인 화면 조회
     @GET("/search")
     Call<SearchResult> getSearchResult();
-
-    //바스켓 담기(좋아요 눌러서 1오름)
-    @FormUrlEncoded
-    @POST("/basket/like")
-    Call<CartBasketResult> cartBasket(@Header("member_token") String member_token, @Field("basket_id") int basket_id);
 
     //바스켓 담은거 해제
     @FormUrlEncoded

@@ -101,7 +101,6 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
             //영화 상세보기 다이얼로그를 띄워주기 위함
             detailDialog = new MovieDetailDialog(MoviePackActivity.this);
             detailDialog.show();
-
         }
     };
 
@@ -173,8 +172,6 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
                         packdetail.get(position).is_liked = 1;
                         packdetail.get(position).movie_like++;
                     }
-
-
 
                     adapter.notifyDataSetChanged();
                 }

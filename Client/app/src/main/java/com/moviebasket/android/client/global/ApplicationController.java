@@ -20,7 +20,6 @@ public class ApplicationController extends Application {
     private static final String MovieBasketURL = SecurityDataSet.MBServerUrl;
     private static ApplicationController instance;
 
-    private ToggleSwitchFactory toggleSwitchFactory;
     private MBService mbService;
     private NaverService naverService;
 
@@ -39,8 +38,6 @@ public class ApplicationController extends Application {
         buildNaverService();
         //MBService Build
         buildMBService();
-        //ToggleSwitchFactory Build
-        buildToggleSwitchFactory();
     }
 
     /**
@@ -58,9 +55,6 @@ public class ApplicationController extends Application {
         return naverService;
     }
 
-    public ApplicationController(ToggleSwitchFactory toggleSwitchFactory) {
-        this.toggleSwitchFactory = toggleSwitchFactory;
-    }
 
     /**
      * methods
@@ -85,11 +79,6 @@ public class ApplicationController extends Application {
         mbService = retrofit.create(MBService.class);
     }
 
-    private void buildToggleSwitchFactory() {
-        ToggleSwitchFactory toggleSwitchFactory = new ToggleSwitchFactory();
-        this.toggleSwitchFactory = toggleSwitchFactory;
-    }
-
     // 토큰값 가져오기
     public String getPreferences() {
         SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
@@ -104,14 +93,5 @@ public class ApplicationController extends Application {
         editor.putString(SecurityDataSet.TK_KEY, Token);
         editor.commit();
     }
-
-    // 값(Key Data) 삭제하기
-    public void removePreferences() {
-        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.remove(SecurityDataSet.TK_KEY);
-        editor.commit();
-    }
-
 
 }

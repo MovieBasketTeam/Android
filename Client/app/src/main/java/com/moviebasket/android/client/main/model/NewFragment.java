@@ -135,7 +135,6 @@ public class NewFragment extends Fragment implements OneClickable {
         }
     };
 
-
     private void loadBasketListDatas(int mode) {
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
@@ -173,19 +172,22 @@ public class NewFragment extends Fragment implements OneClickable {
     public void processOneMethodAtPosition(final int position) {
         //바스켓 담으면 바스켓 담고, 이미지 변경.
         Call<BasketResult> cartResult = mbService.getCartPutResult(basketListDatases.get(position).basket_id, member_token);
+
+        //바스켓 담기 요청
         cartResult.enqueue(new Callback<BasketResult>() {
             @Override
             public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     BasketResult result = response.body();
-                    if(result.result==null){
+                    if (result.result == null) {
                         return;
                     }
-                    if(result.result.message.equals("like update success")){
-                        Toast.makeText(getContext(), "바스켓 담았다고~ ㅎ "+position+"번째 항목", Toast.LENGTH_SHORT).show();
+                    if (result.result.message.equals("like update success")) {
+                        //이미지 바꾸고,
+                        Toast.makeText(getContext(), "바스켓 담았다" + position + "번째 항목", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(getContext(), "바스켓 담았다고 실패~ ㅎ "+position+"번째 항목", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "바스켓 담았다고 실패~ ㅎ " + position + "번째 항목", Toast.LENGTH_SHORT).show();
                 }
             }
 
