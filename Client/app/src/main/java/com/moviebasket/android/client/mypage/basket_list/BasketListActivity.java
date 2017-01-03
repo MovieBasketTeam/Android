@@ -252,16 +252,10 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             @Override
             public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
                 BasketResult basketResult = response.body();
-                Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                Log.i("Cart", "응답 결과 : " + basketResult.result.message);
                 if (response.isSuccessful()) {// 응답코드 200
                     isCartSuccess = true;
-                    Log.i("Cart", "응답 결과 : " + isCartSuccess);
-                    Log.i("Cart", "포지션 : " + mDatas.get(position));
-                    Log.i("Cart", "바스켓아이디 : " + mDatas.get(position).basket_id);
                 }
                 if (isCartSuccess) {
-                    mDatas.remove(position);
                     adapter.notifyDataSetChanged();
                 }
             }
