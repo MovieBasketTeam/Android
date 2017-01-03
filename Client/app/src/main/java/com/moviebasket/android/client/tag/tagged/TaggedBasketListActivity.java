@@ -16,6 +16,7 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
+import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -141,7 +142,32 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
         });
     }
     public void processOneMethodAtPosition(final int position){
+        //바스켓 담으면 바스켓 담고, 이미지 변경.
+        Call<BasketResult> cartResult = mbService.getCartPutResult(mDatas1.get(position).basket_id, token);
 
+        //바스켓 담기 요청
+        cartResult.enqueue(new Callback<BasketResult>() {
+            @Override
+            public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                if (response.isSuccessful()) {
+                    BasketResult result = response.body();
+                    if (result.result == null) {
+                        return;
+                    }
+                    if (result.result.message.equals("like update success")) {
+                        //이미지 바꾸고,
+                        Toast.makeText(getApplicationContext(), "바스켓 담았다" + position + "번째 항목", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "바스켓 담았다고 실패~ ㅎ " + position + "번째 항목", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasketResult> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "서버와 통신을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {

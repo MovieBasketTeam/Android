@@ -109,8 +109,20 @@ public class MovieSearchActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             result = response.body();
                             movieDetails.clear();
-                            movieDetails.addAll(result.items);
+                            //태그 제거
+                            for(int i=0; i<result.items.size(); i++){
+                                MovieDetail detail =
+                                        new MovieDetail
+                                                (RemoveHTMLTag(result.items.get(i).title),
+                                                        result.items.get(i).link,
+                                                        result.items.get(i).image,
+                                                        result.items.get(i).pubDate,
+                                                        RemoveHTMLTag(result.items.get(i).director),
+                                                        result.items.get(i).actor,
+                                                        result.items.get(i).userRating);
 
+                                movieDetails.add(detail);
+                            }
 
                             adapter.notifyDataSetChanged();
                             mProgressDialog.dismiss();
@@ -144,17 +156,6 @@ public class MovieSearchActivity extends AppCompatActivity {
             final String movie_user_rating = movieDetails.get(position).userRating;
             final String movie_link = movieDetails.get(position).link;
 
-
-            /* SpecificBasket에 보여줄 것
-            String movie_image;
-            String movie_adder;
-            String movie_title;
-            int movie_pub_date;
-            String movie_director;
-            int movie_like; = 1
-            int is_liked;
-            int is_cart;
-            */
             AlertDialog.Builder addBuilder = new AlertDialog.Builder(MovieSearchActivity.this);
             addBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                 @Override
@@ -251,7 +252,4 @@ public class MovieSearchActivity extends AppCompatActivity {
         return str;
     }
 
-    private void addMovieIntoMBServer(){
-
-    }
 }
