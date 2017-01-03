@@ -103,9 +103,9 @@
             android:id="@+id/removeImg"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/heartImg"
-            android:layout_width="33dp"
+            android:layout_width="30dp"
             android:layout_height="29dp"
-            android:src="@drawable/x_button"/>
+            android:src="@drawable/trash"/>
 
 
     </RelativeLayout>
