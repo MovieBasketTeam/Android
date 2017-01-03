@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="96dp"
-    android:layout_marginTop="6dp"
+    android:layout_height="100dp"
+    android:layout_marginTop="8dp"
     android:background="@drawable/sub_ticket"
     >
 
     <LinearLayout
         android:id="@+id/movieLayout"
         android:layout_alignParentLeft="true"
-        android:layout_width="96dp"
-        android:layout_height="96dp">
+        android:layout_width="100dp"
+        android:layout_height="100dp">
 
         <ImageView
             android:id="@+id/movieImage"
@@ -21,20 +21,20 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:paddingTop="7dp"
-        android:paddingLeft="18dp"
+        android:paddingTop="8dp"
+        android:paddingLeft="19dp"
         android:paddingRight="6dp"
         android:layout_toRightOf="@id/movieLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/basketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="로멘틱 남/녀가 되고 싶을때 영화"
-            android:textSize="10sp"/>
+            android:textSize="10sp"/>-->
 
         <TextView
             android:id="@+id/BasketUserName"
@@ -46,7 +46,7 @@
 
         <TextView
             android:id="@+id/movieName"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_below="@id/basketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
