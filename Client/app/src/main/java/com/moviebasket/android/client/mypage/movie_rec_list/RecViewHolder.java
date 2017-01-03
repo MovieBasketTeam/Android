@@ -18,6 +18,7 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
     TextView title;
     TextView direct;
     TextView movie_pub_date;
+    TextView basket_name;
     ImageView book_mark;
     ImageView is_liked;
 
@@ -32,6 +33,7 @@ public class RecViewHolder extends RecyclerView.ViewHolder {
         movie_pub_date =  (TextView)itemView.findViewById(R.id.movie_pub_date);
         book_mark = (ImageView)itemView.findViewById(R.id.book_mark);
         is_liked = (ImageView)itemView.findViewById(R.id.heart);
+        basket_name = (TextView)itemView.findViewById(R.id.basketName);
 
     }
     public ImageView getMovieImageView(){
