@@ -7,26 +7,42 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
-import com.moviebasket.android.client.main.model.MainAdapter;
-import com.moviebasket.android.client.mypage.basket_list.BasketListAdapter;
+import com.moviebasket.android.client.clickable.OneClickable;
+import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
+import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.moviebasket.android.client.R.id.basketName;
 import static com.moviebasket.android.client.R.id.downCount;
 
-public class TaggedBasketListActivity extends AppCompatActivity {
+public class TaggedBasketListActivity extends AppCompatActivity implements OneClickable {
 
     RecyclerView recyclerView;
     ArrayList<BasketListDatas> mDatas = new ArrayList<BasketListDatas>();
+    ArrayList<Baskets> mDatas1 = new ArrayList<Baskets>();
 
     LinearLayoutManager mLayoutManager;
+    String token;
+    private MBService mbService;
+    SearchDataResult result;
+    int basket_id;
+    String basket_name;
+    String basket_image;
+    int basket_like;
+    boolean isSearchResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +50,17 @@ public class TaggedBasketListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tagged_basket_list);
 
         //search_list에서 누른 버튼의 텍스트를 불러옴
-        TextView title =(TextView)findViewById(R.id.hash_tag_title);
+        TextView title = (TextView) findViewById(R.id.hash_tag_title);
+
+
         Intent intent = getIntent();
         String tag_title = intent.getStringExtra("hash_title");
+        int c_id = intent.getExtras().getInt("c_id");
+
         title.setText(tag_title);
+
+
+//        Toast.makeText(getApplicationContext(),c_id,Toast.LENGTH_SHORT).show();
         /**
          * 1. recyclerview 초기화
          */
@@ -68,10 +91,57 @@ public class TaggedBasketListActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-
-        MainAdapter adapter = new MainAdapter(mDatas, recylerClickListener, subClickListener);
+        final TaggedAdapter adapter = new TaggedAdapter(mDatas1, recylerClickListener, this);
 
         recyclerView.setAdapter(adapter);
+
+
+        mbService = ApplicationController.getInstance().getMbService();
+        token = ApplicationController.getInstance().getPreferences();
+
+        Call<SearchDataResult> getSearchDataResult = mbService.getSearchDataResult(token, c_id);
+        getSearchDataResult.enqueue(new Callback<SearchDataResult>() {
+            @Override
+            public void onResponse(Call<SearchDataResult> call, Response<SearchDataResult> response) {
+                Log.i("tag : ", "성공");
+                if(response.isSuccessful()){
+                    Log.i("tag : ", "성공이당");
+                    result = response.body();
+//                    mDatas1 = result.result.baskets;
+                    isSearchResult = result.result.baskets != null ? true : false;
+                    Log.i("tag : ", "요청결과"+isSearchResult);
+                }
+//                isSearchResult = result.result.message == null ? true : false;
+                if (isSearchResult) {
+                    mDatas1.clear();
+                    mDatas1.addAll(result.result.baskets);
+
+                    Log.i("dataconfirm", "mDatas1 : "+mDatas1.toString());
+
+                    for (int i = 0; i < mDatas1.size(); i++) {
+
+                        Log.i("데이터들 : ", mDatas1.get(i).basket_name);
+                        Log.i("데이터들 : ", "" + mDatas1.get(i).basket_id);
+                        Log.i("데이터들 : ", mDatas1.get(i).basket_image);
+                        Log.i("데이터들 : ", "" + mDatas1.get(i).basket_like);
+                        Log.i("데이터들 : ", "" + mDatas1.get(i).is_liked);
+
+
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.i("tag : ", "실패" + result.result.message);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchDataResult> call, Throwable t) {
+                Log.i("tag : ", "실패" + t.getMessage());
+            }
+        });
+    }
+    public void processOneMethodAtPosition(final int position){
+
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
@@ -95,7 +165,7 @@ public class TaggedBasketListActivity extends AppCompatActivity {
     private View.OnClickListener subClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.downBtn:
                     //바스켓 담기|제거버튼
                     AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
@@ -118,4 +188,3 @@ public class TaggedBasketListActivity extends AppCompatActivity {
         }
     };
 }
-

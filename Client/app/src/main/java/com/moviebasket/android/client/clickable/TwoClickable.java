@@ -7,5 +7,4 @@ package com.moviebasket.android.client.clickable;
 public interface TwoClickable {
     void processOneMethodAtPosition(int position);
     void processTwoMethodAtPosition(int position);
-
 }

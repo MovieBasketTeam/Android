@@ -23,4 +23,16 @@ public class MovieDetailDialog extends Dialog {
         storybord= (TextView)findViewById(R.id.storybord);
         storybord.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
+
+    /*
+    *
+    String title;//
+    String link;//
+    String image;
+    String pubDate;
+    String director;
+    String actor;
+    String userRating;
+    String summary;
+*/
 }

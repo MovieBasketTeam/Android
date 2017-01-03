@@ -14,6 +14,7 @@ import com.moviebasket.android.client.search.VerifyMovieAddResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
 import com.moviebasket.android.client.splash.VerifyVersionResult;
 import com.moviebasket.android.client.tag.hashtag.SearchResult;
+import com.moviebasket.android.client.tag.tagged.SearchDataResult;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -111,5 +112,9 @@ public interface MBService {
     @FormUrlEncoded
     @POST("/basket/movie/cart")
     Call<HeartResult> getMovieCartReasult(@Field("movie_id") int movie_id, @Field("is_carted") int is_carted, @Header("member_token") String member_token);
+
+    //카테고리 선택 후 바스켓 화면 조회
+    @GET("/search/{c_id}")
+    Call<SearchDataResult> getSearchDataResult(@Header("member_token") String member_token, @Path("c_id") int c_id);
 
 }
