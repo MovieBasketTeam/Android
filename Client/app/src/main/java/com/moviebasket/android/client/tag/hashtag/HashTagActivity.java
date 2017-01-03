@@ -38,6 +38,12 @@ public class HashTagActivity extends Activity {
     ArrayList<String> textArr3 = new ArrayList<String>();
     ArrayList<String> textArr4 = new ArrayList<String>();
 
+    //c_id 배열 선언
+    ArrayList<Integer> cidArr = new ArrayList<Integer>();
+    ArrayList<Integer> cidArr2 = new ArrayList<Integer>();
+    ArrayList<Integer> cidArr3 = new ArrayList<Integer>();
+    ArrayList<Integer> cidArr4 = new ArrayList<Integer>();
+
     //통신관련
     private MBService mbService;
     private boolean isSearchSuccess;
@@ -80,9 +86,9 @@ public class HashTagActivity extends Activity {
         getSearchResult.enqueue(new Callback<SearchResult>() {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                Log.i("tag : ","성공");
+                Log.i("tag : ", "성공");
 
-                result =response.body();
+                result = response.body();
                 searchcategoriesDatas = result.result.today_recommand;
                 searchcategoriesDatas1 = result.result.categories.big_category_1;
                 searchcategoriesDatas2 = result.result.categories.big_category_2;
@@ -91,40 +97,43 @@ public class HashTagActivity extends Activity {
                 mDatas.addAll(searchcategoriesDatas);
                 //adapter.notifyDataSetChanged();
 //                    total = mDatas.toArray(new String[mDatas.size()]);
-                for(int i=0 ; i<mDatas.size();i++) {
-                    Log.i("tag",mDatas.get(i).small_category);
+                for (int i = 0; i < mDatas.size(); i++) {
+                    Log.i("tag", mDatas.get(i).small_category);
                     textArr.add(mDatas.get(i).small_category);
+                    cidArr.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
                 }
                 gridView1.setAdapter(adapter);
                 mDatas.clear();
 
                 mDatas.addAll(searchcategoriesDatas1);
-                for(int i=0 ; i<mDatas.size();i++) {
-                    Log.i("tag",mDatas.get(i).small_category);
+                for (int i = 0; i < mDatas.size(); i++) {
+                    Log.i("tag", mDatas.get(i).small_category + mDatas.get(i).c_id);
                     textArr2.add(mDatas.get(i).small_category);
+                    cidArr2.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
                 }
                 gridView2.setAdapter(adapter2);
                 mDatas.clear();
 
                 mDatas.addAll(searchcategoriesDatas2);
-                for(int i=0 ; i<mDatas.size();i++) {
-                    Log.i("tag",mDatas.get(i).small_category);
+                for (int i = 0; i < mDatas.size(); i++) {
+                    Log.i("tag", mDatas.get(i).small_category);
                     textArr3.add(mDatas.get(i).small_category);
+                    cidArr3.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
                 }
                 gridView3.setAdapter(adapter3);
                 mDatas.clear();
 
                 mDatas.addAll(searchcategoriesDatas3);
-                for(int i=0 ; i<mDatas.size();i++) {
-                    Log.i("tag",mDatas.get(i).small_category);
+                for (int i = 0; i < mDatas.size(); i++) {
+                    Log.i("tag", mDatas.get(i).small_category);
                     textArr4.add(mDatas.get(i).small_category);
+                    cidArr4.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
                 }
                 gridView4.setAdapter(adapter4);
-
 
 
             }
@@ -275,7 +284,7 @@ public class HashTagActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
@@ -297,6 +306,7 @@ public class HashTagActivity extends Activity {
 
                     //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
                     taggedBasketIntent.putExtra("hash_title",btn.getText().toString());
+                    taggedBasketIntent.putExtra("c_id",cidArr.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
@@ -333,7 +343,7 @@ public class HashTagActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
@@ -355,6 +365,7 @@ public class HashTagActivity extends Activity {
 
                     //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
                     taggedBasketIntent.putExtra("hash_title",btn2.getText().toString());
+                    taggedBasketIntent.putExtra("c_id",cidArr2.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
@@ -391,7 +402,7 @@ public class HashTagActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
@@ -413,6 +424,7 @@ public class HashTagActivity extends Activity {
 
                     //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
                     taggedBasketIntent.putExtra("hash_title",btn3.getText().toString());
+                    taggedBasketIntent.putExtra("c_id",cidArr3.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
                 }
             });
@@ -449,7 +461,7 @@ public class HashTagActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
@@ -464,7 +476,7 @@ public class HashTagActivity extends Activity {
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
-                    Toast.makeText(getApplicationContext(),btn4.getText().toString(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),btn4.getText().toString() ,Toast.LENGTH_SHORT).show();
 
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
@@ -472,6 +484,7 @@ public class HashTagActivity extends Activity {
 
                     //putExtra 이용하여 누른 버튼의 Text를 다음화면으로 보내줌
                     taggedBasketIntent.putExtra("hash_title",btn4.getText().toString());
+                    taggedBasketIntent.putExtra("c_id",cidArr4.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
 
                 }
