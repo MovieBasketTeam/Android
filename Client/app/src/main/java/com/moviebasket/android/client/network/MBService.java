@@ -3,7 +3,6 @@ package com.moviebasket.android.client.network;
 import com.moviebasket.android.client.basket_detail.DetailResultParent;
 import com.moviebasket.android.client.join.JoinResult;
 import com.moviebasket.android.client.login.LoginResult;
-import com.moviebasket.android.client.main.CartBasketResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDataResult;
 import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.mypage.movie_pack_list.BasketListDataDeleteResult;
@@ -107,5 +106,10 @@ public interface MBService {
     @FormUrlEncoded
     @POST("/basket/like")
     Call<BasketResult> getCartPutResult(@Field("basket_id") int basket_id, @Header("member_token") String member_token);
+
+    //바스켓 담기
+    @FormUrlEncoded
+    @POST("/basket/movie/cart")
+    Call<HeartResult> getMovieCartReasult(@Field("movie_id") int movie_id, @Field("is_carted") int is_carted, @Header("member_token") String member_token);
 
 }

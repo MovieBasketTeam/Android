@@ -65,16 +65,16 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
         }
 
         if (mDatas.get(position).is_cart == 0) {
-            holder.downImg.setImageResource(R.drawable.sub_movie_down);
-        } else {
             holder.downImg.setImageResource(R.drawable.sub_movie_nodown);
+        } else {
+            holder.downImg.setImageResource(R.drawable.sub_movie_down);
         }
 
         holder.heartImg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 twoClickable.processOneMethodAtPosition(position);
-                if(mDatas.get(position).is_liked == 0) {
+                if ( mDatas.get(position).is_liked == 0 ) {
                     holder.downCount.setText(String.valueOf(++mDatas.get(position).movie_like));
                     holder.heartImg.setImageResource(R.drawable.sub_heart);
                     mDatas.get(position).is_liked = 1;
@@ -91,6 +91,12 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
             @Override
             public void onClick(View v) {
                 twoClickable.processTwoMethodAtPosition(position);
+                if ( mDatas.get(position).is_cart == 0 ) {
+                    holder.downImg.setImageResource(R.drawable.sub_movie_down);
+                    mDatas.get(position).is_cart = 1;
+                } else {
+                    return;
+                }
             }
         });
     }
