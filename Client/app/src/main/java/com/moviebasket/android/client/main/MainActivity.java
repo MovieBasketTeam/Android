@@ -3,6 +3,7 @@ package com.moviebasket.android.client.main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.presenter.ImagePagerAdatper;
 import com.moviebasket.android.client.main.presenter.PagerAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
@@ -26,6 +28,9 @@ import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 import com.moviebasket.android.client.testpage.JsoupActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +58,12 @@ public class MainActivity extends AppCompatActivity {
     */
 
     ViewPager viewPager;
+    ViewPager imageViewPager;
     PagerAdapter pagerAdapter;
+    ImagePagerAdatper imagePagerAdapter;
+
+    int pageNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mbService = ApplicationController.getInstance().getMbService();
 
         //변수초기화
+        pageNumber = 0;
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
         listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
@@ -70,11 +81,14 @@ public class MainActivity extends AppCompatActivity {
         btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
         newbtn = (ImageView) findViewById(R.id.newbtn);
         popularbtn = (ImageView) findViewById(R.id.popularbtn);
-        recommendbtn= (ImageView) findViewById(R.id.recommendbtn);
+        recommendbtn = (ImageView) findViewById(R.id.recommendbtn);
 
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        imageViewPager = (ViewPager) findViewById(R.id.imageViewPager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());//tabLayout.getTabCount(),Integer.valueOf(user_id));
+        imagePagerAdapter = new ImagePagerAdatper(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        imageViewPager.setAdapter(imagePagerAdapter);
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
@@ -97,6 +111,24 @@ public class MainActivity extends AppCompatActivity {
         popularbtn.setOnClickListener(clickListener);
         recommendbtn.setOnClickListener(clickListener);
 
+        final Handler handler = new Handler();
+
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(pageNumber==2)
+                    pageNumber = 0;
+                imageViewPager.setCurrentItem(pageNumber++, true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(runnable);
+            }
+        }, 500, 3000);
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -106,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                switch (position){
+                switch (position) {
                     case 0:
                         newbtn.setBackgroundResource(R.drawable.main_recent_black);
                         popularbtn.setBackgroundResource(R.drawable.main_pop);
@@ -119,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                         recommendbtn.setBackgroundResource(R.drawable.main_reco);
 
                         break;
-                    
+
                     case 2:
                         newbtn.setBackgroundResource(R.drawable.main_recent);
                         popularbtn.setBackgroundResource(R.drawable.main_pop);
@@ -135,6 +167,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        imageViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+
+                    case 2:
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
     }
@@ -143,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         //드로워 열려 있으면 닫기만 하기.
-        if(drawerLayout.isDrawerOpen(linearLayout)) {
+        if (drawerLayout.isDrawerOpen(linearLayout)) {
             drawerLayout.closeDrawer(linearLayout);
             return;
         }
@@ -233,11 +293,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 4:
                     Intent intent = new Intent(MainActivity.this, JsoupActivity.class);
-                    startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE );
+                    startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE);
                     break;
                 case 5:
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
-                    startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING );
+                    startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
                     break;
                 case 6:
                     //로그아웃 확인하는 거
