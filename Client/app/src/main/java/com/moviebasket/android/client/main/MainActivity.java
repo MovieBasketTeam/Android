@@ -277,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
                     startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
+                    overridePendingTransition( R.anim.slide_in_right, R.anim.hold );
+
                     break;
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
