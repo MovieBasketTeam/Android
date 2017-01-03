@@ -74,6 +74,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
             @Override
             public void onClick(View v) {
                 oneClickable.processOneMethodAtPosition(position);
+                mDatas.remove(position);
             }
         });
 
