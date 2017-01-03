@@ -2,21 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie_detail"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="324dp"
+    android:layout_height="567dp"
+    android:background="@drawable/popup_back"
     tools:context="com.moviebasket.android.client.movie_detail.MovieDetailDialog">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#d24e1717">
+        >
 
         <ImageView
             android:id="@+id/Xbtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/signup_x" />
+            android:src="@drawable/popup_xbutton" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,32 +31,32 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
                 android:text="라라랜드"
-                android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="23sp" />
 
             <TextView
                 android:id="@+id/year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(2016)"
-                android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="23sp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="324dp"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="17dp"
                 android:layout_marginTop="80dp">
 
                 <ImageView
+                    android:id="@+id/img_movie"
                     android:layout_width="150dp"
                     android:layout_height="200dp"
                     android:src="@drawable/main_bar_logo" />
@@ -82,7 +85,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="감독/"
-                        android:textColor="#fff"
                         android:textSize="15sp" />
 
                     <TextView
@@ -90,7 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="최서문"
-                        android:textColor="#fff"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -105,7 +106,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="출연진/"
-                        android:textColor="#fff"
                         android:textSize="15sp" />
 
                     <TextView
@@ -113,7 +113,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="권잴름잴름"
-                        android:textColor="#fff"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -123,17 +122,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="55dp"
                     android:text="평점"
-                    android:textColor="#fff"
                     android:textSize="15sp" />
 
                 <View
                     android:layout_width="150dp"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="5dp"
-                    android:background="#fff" />
+                    android:layout_marginTop="5dp" />
 
                 <ImageView
+                    android:id="@+id/starPoint"
                     android:layout_width="150dp"
                     android:layout_height="30dp"
                     android:rotation="90"
@@ -145,7 +143,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="324dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="290dp"
             android:orientation="vertical">
@@ -155,29 +153,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="줄거리"
-                android:textColor="#fff"
                 android:textSize="20sp" />
 
 
-                <TextView
-                    android:id="@+id/storybord"
-                    android:layout_width="326dp"
-                    android:layout_height="140dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:background="#d5af9292"
-                    android:scrollbars="vertical"
-                    android:maxLines="7"
-                    android:text="한때 잘나갔던 문 극장의 주인 고알
+            <TextView
+                android:id="@+id/storybord"
+                android:layout_width="298dp"
+                android:layout_height="140dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:background="#d5af9292"
+                android:scrollbars="vertical"
+                android:maxLines="7"
+                android:text="한때 잘나갔던 문 극장의 주인 고알
                 라 버스터 문.........................................................................................................................................................................................................................................................................................................................................................................................................
                 .................................................................................................................................................................................................................................................." />
-                <ImageView
-                    android:id="@+id/morebtn"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/signup_b"/>
+            <ImageView
+                android:id="@+id/morebtn"
+                android:layout_marginTop="15dp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/popup_add"/>
 
         </LinearLayout>
 
