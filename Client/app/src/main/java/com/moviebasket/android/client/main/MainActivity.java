@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
@@ -26,6 +25,7 @@ import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.mypage.setting.SettingActivity;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
+import com.moviebasket.android.client.splash.SplashActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
 import com.moviebasket.android.client.testpage.JsoupActivity;
 
@@ -300,17 +300,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
                     break;
                 case 6:
-                    //로그아웃 확인하는 거
-                    Toast.makeText(MainActivity.this, "로그아웃!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
                     //토큰값 지우기
                     ApplicationController.getInstance().savePreferences("");
                     //스플래시 화면으로 가기.
-                    /*
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    */
+                    Intent logoutIntent = new Intent(MainActivity.this, SplashActivity.class);
+                    //액티비티 스택 clear
+                    logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logoutIntent);
+                    finish();
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);
