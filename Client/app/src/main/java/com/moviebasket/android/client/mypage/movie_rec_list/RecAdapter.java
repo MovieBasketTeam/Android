@@ -81,18 +81,13 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
             @Override
             public void onClick(View v) {
                 oneClickable.processOneMethodAtPosition(position);
+                mDatas.remove(position);
             }
         });
-
-//        if(clickListener != null){
-//            holder.book_mark.setOnClickListener(clickListener);
-//            holder.is_liked.setOnClickListener(clickListener);
-//        }
     }
 
     @Override
     public int getItemCount() {
-
         return (mDatas != null) ? mDatas.size() : 0;
     }
 }

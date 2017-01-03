@@ -119,18 +119,6 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
                     isdeletetSuccess = basketDeleteResult.result.message != null ? true : false;
                 }
                 if (isdeletetSuccess) {
-                    //mDatas.addAll(heartResult.result.Message);
-//                    Log.i("isHeartSuccess", "들어왔다" + isHeartSuccess);
-//                    Log.i("확인", "확인" + mDatas.get(position).movie_id + mDatas.get(position).is_liked);
-//                    if (mDatas.get(position).is_liked == 1) {
-//                        mDatas.get(position).is_liked = 0;
-//                        mDatas.get(position).movie_like--;
-//                    } else {
-//                        mDatas.get(position).is_liked = 1;
-//                        mDatas.get(position).movie_like++;
-//                    }
-
-                    packdetail.remove(position);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -162,17 +150,6 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
                 }
                 if (isHeartSuccess) {
-
-                    Log.i("isHeartSuccess", "들어왔다" + isHeartSuccess);
-
-                    if (packdetail.get(position).is_liked == 1) {
-                        packdetail.get(position).is_liked = 0;
-                        packdetail.get(position).movie_like--;
-                    } else {
-                        packdetail.get(position).is_liked = 1;
-                        packdetail.get(position).movie_like++;
-                    }
-
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -186,51 +163,5 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
 
     }
+}
 
-    }
-
-//
-//    private View.OnClickListener subClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(final View v) {
-//            switch (v.getId()) {
-//                case R.id.removeImg:
-//                    //담은 영화를 제거한 경우
-//                    AlertDialog.Builder packBuilder = new AlertDialog.Builder(v.getContext());
-//                    packBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    packBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                            Toast.makeText(v.getContext(), "담은영화 제거했다고 치자", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    packBuilder.show();
-//                    break;
-//                case R.id.heartImg:
-//                    //추천한 영화를 제거한 경우
-//                    AlertDialog.Builder recBuilder = new AlertDialog.Builder(v.getContext());
-//                    recBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    recBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                            Toast.makeText(v.getContext(), "추천한 영화 제거했다고 치자", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    recBuilder.show();
-//                    break;
-//            }
-//        }
-//    };
-//}

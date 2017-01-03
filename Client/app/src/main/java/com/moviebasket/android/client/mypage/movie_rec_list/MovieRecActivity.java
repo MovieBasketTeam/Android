@@ -125,15 +125,9 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
                 Log.i("NetConfirm", "onResponse: 하트에들어옴");
                 HeartResult heartResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("Heart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    Log.i("Heart", "응답 결과 : " + heartResult.result.message);
                     isHeartSuccess = heartResult.result.message != null ? true : false;
-                    Log.i("Heart", "응답 결과 : " + isHeartSuccess);
-                    Log.i("Heart", "포지션 : " + mDatas.get(position));
-                    Log.i("Heart", "무비아이디 : " + mDatas.get(position).movie_id);
                 }
                 if (isHeartSuccess) {
-                    mDatas.remove(position);
                     adapter.notifyDataSetChanged();
                 }
             }

@@ -50,7 +50,7 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PackViewHolder holder, final int position) {
+    public void onBindViewHolder(final PackViewHolder holder, final int position) {
 
         Glide.with(parent.getContext()).load(packDetails.get(position).movie_image).into(holder.movieImage);
         holder.movieName.setText(packDetails.get(position).movie_title);
@@ -69,11 +69,21 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         holder.removeImg.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 two.processOneMethodAtPosition(position);
+                packDetails.remove(position);
             }
         });
         holder.heartImg.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 two.processTwoMethodAtPosition(position);
+                if ( packDetails.get(position).is_liked == 0 ) {
+                    holder.downCount.setText(String.valueOf(++packDetails.get(position).movie_like));
+                    holder.heartImg.setImageResource(R.drawable.sub_heart);
+                    packDetails.get(position).is_liked = 1;
+                } else {
+                    holder.downCount.setText(String.valueOf(--packDetails.get(position).movie_like));
+                    holder.heartImg.setImageResource(R.drawable.sub_no_heart);
+                    packDetails.get(position).is_liked = 0;
+                }
             }
         });
 
