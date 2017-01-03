@@ -7,13 +7,20 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.search.MovieDetail;
 
 public class MovieDetailDialog extends Dialog {
 
     TextView storybord;
+    MovieDetail detail;
 
     public MovieDetailDialog(Context context) {
         super(context);
+    }
+
+    public MovieDetailDialog(Context context, MovieDetail detail) {
+        super(context);
+        this.detail = detail;
     }
 
     @Override
