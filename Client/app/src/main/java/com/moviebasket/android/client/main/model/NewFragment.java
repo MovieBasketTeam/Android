@@ -92,8 +92,6 @@ public class NewFragment extends Fragment implements OneClickable {
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
-            Toast.makeText(getActivity(), position + "번째 리사이클러뷰 항목 클릭!" + " / " + basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
-
             Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
             //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
 
@@ -104,6 +102,7 @@ public class NewFragment extends Fragment implements OneClickable {
             specificBasketIntent.putExtra("is_liked", basketListDatases.get(position).is_liked);
 
             startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
+            getActivity().overridePendingTransition( R.anim.slide_in_up, R.anim.hold );
         }
     };
 

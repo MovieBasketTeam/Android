@@ -105,6 +105,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
             specificBasketIntent.putExtra("is_liked", basketListDatases.get(position).is_liked);
 
             startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
+            getActivity().overridePendingTransition( R.anim.slide_in_up, R.anim.hold );
         }
     };
 

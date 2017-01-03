@@ -15,19 +15,16 @@ import java.util.ArrayList;
  * Created by pilju on 2016-12-30.
  */
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder>{
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder> {
 
-    ArrayList<MoviesDatas> mDatas;
+    ArrayList<MovieDetail> mDatas;
     View.OnClickListener clickListener;
     private ViewGroup parent;
     private View itemView;
     private static final int FOOTER_VIEW = 1;
 
-    public MoviesAdapter(ArrayList<MoviesDatas> mDatas) {
-        this.mDatas = mDatas;
-    }
 
-    public MoviesAdapter(ArrayList<MoviesDatas> mDatas, View.OnClickListener clickListener) {
+    public MoviesAdapter(ArrayList<MovieDetail> mDatas, View.OnClickListener clickListener) {
         this.mDatas = mDatas;
         this.clickListener = clickListener;
     }
@@ -37,6 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder>{
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         this.parent = parent;
+
         if (viewType == FOOTER_VIEW) {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_moviesearch, parent, false);
 
@@ -47,7 +45,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder>{
 
         // 뷰홀더 패턴을 생성하는 메소드.
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_moviesearch, parent, false);
-        if(this.clickListener!=null)
+        if (this.clickListener != null)
             itemView.setOnClickListener(clickListener);
 
         MoviesViewHolder viewHolder = new MoviesViewHolder(itemView);
@@ -58,10 +56,39 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder>{
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 
-        Glide.with(parent.getContext()).load(mDatas.get(position).movieImg).into(holder.getImageView());
-        holder.title_year.setText(mDatas.get(position).title+"("+mDatas.get(position).year+")");
-        holder.director_country.setText(mDatas.get(position).director+"/"+mDatas.get(position).country);
-        holder.scoreImg.setText(mDatas.get(position).scoreImg);
+        if (mDatas.get(position).image.equals("")) {
+            holder.movieImg.setImageResource(R.drawable.noimage);
+        } else {
+            Glide.with(parent.getContext()).load(mDatas.get(position).image).into(holder.getImageView());
+        }
+        holder.title_year.setText(mDatas.get(position).title);
+        holder.director_movie_search.setText(mDatas.get(position).director);
+        holder.director_country.setText(mDatas.get(position).pubDate);
+
+        float startPoint = Float.parseFloat(mDatas.get(position).userRating);
+        int starNum = (int)(startPoint+0.5)/2;
+
+        //평점에따라 영화별점 이미지 세팅
+        switch(starNum){
+            case 0:
+                holder.starPointImg.setImageResource(R.drawable.search_star_zero);
+                break;
+            case 1:
+                holder.starPointImg.setImageResource(R.drawable.search_star_one);
+                break;
+            case 2:
+                holder.starPointImg.setImageResource(R.drawable.search_star_two);
+                break;
+            case 3:
+                holder.starPointImg.setImageResource(R.drawable.search_star_three);
+                break;
+            case 4:
+                holder.starPointImg.setImageResource(R.drawable.search_star_four);
+                break;
+            case 5:
+                holder.starPointImg.setImageResource(R.drawable.search_star_five);
+                break;
+        }
 
     }
 

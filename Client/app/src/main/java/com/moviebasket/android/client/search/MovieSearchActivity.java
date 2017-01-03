@@ -75,7 +75,8 @@ public class MovieSearchActivity extends AppCompatActivity {
         /**
          * 3. Adapter 생성 후 recyclerview에 지정
          */
-        final MoviesAdapter adapter = new MoviesAdapter(mDatas, recylerClickListener);
+        movieDetails = new ArrayList<>();
+        final MoviesAdapter adapter = new MoviesAdapter(movieDetails, recylerClickListener);
         recyclerView.setAdapter(adapter);
 
         mProgressDialog = new ProgressDialog(MovieSearchActivity.this);
@@ -107,23 +108,12 @@ public class MovieSearchActivity extends AppCompatActivity {
                     public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
                         if (response.isSuccessful()) {
                             result = response.body();
-                            movieDetails = result.items;
-                            mDatas.clear();
-                            for (int i = 0; i < movieDetails.size(); i++) {
-//                                Log.i("태그제거전", movieDetails.get(i).title);
-//                                Log.i("제거이후", RemoveHTMLTag(movieDetails.get(i).title));
-                                mDatas.add(new MoviesDatas(movieDetails.get(i).image,
-                                        RemoveHTMLTag(movieDetails.get(i).title),
-                                        movieDetails.get(i).pubDate,
-                                        movieDetails.get(i).director,
-                                        "국가",
-                                        movieDetails.get(i).userRating));
+                            movieDetails.clear();
+                            movieDetails.addAll(result.items);
 
 
-                            }
-
-                            mProgressDialog.dismiss();
                             adapter.notifyDataSetChanged();
+                            mProgressDialog.dismiss();
 
                         }
                     }

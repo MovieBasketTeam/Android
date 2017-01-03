@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
         imageViewPager.setAdapter(imagePagerAdapter);
 
+
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
         fab_item1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item1);
@@ -235,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btn_tag_main:
                     Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
                     startActivityForResult(tagIntent, REQEUST_CODE_FOR_HASHTAG);
+                    overridePendingTransition( R.anim.slide_in_left, R.anim.hold );
+
                     break;
                 case R.id.btn_toggle_drawer_main:
                     drawerLayout.openDrawer(linearLayout);
@@ -283,10 +286,14 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
                     startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
+                    overridePendingTransition( R.anim.slide_in_up, R.anim.hold );
+
                     break;
                 case 2:
                     Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
                     startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
+                    overridePendingTransition( R.anim.slide_in_right, R.anim.hold );
+
                     break;
                 case 3:
                     //테스트용
