@@ -164,4 +164,3 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
     }
 }
-
