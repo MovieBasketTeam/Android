@@ -9,7 +9,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#d24e1717">
+        android:background="#d24e1717"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/Xbtn"
@@ -54,6 +57,7 @@
                 android:layout_marginTop="80dp">
 
                 <ImageView
+                    android:id="@+id/img_movie"
                     android:layout_width="150dp"
                     android:layout_height="200dp"
                     android:src="@drawable/main_bar_logo" />
@@ -134,6 +138,7 @@
                     android:background="#fff" />
 
                 <ImageView
+                    android:id="@+id/starPoint"
                     android:layout_width="150dp"
                     android:layout_height="30dp"
                     android:rotation="90"
