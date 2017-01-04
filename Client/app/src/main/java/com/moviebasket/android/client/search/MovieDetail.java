@@ -17,6 +17,16 @@ public class MovieDetail implements Parcelable{
     public String actor;
     public String userRating;
 
+    public MovieDetail(String title, String director, String pubDate, String image, String link, String userRating) {
+        this.title = title;
+        this.director = director;
+        this.pubDate = pubDate;
+        this.image = image;
+        this.link = link;
+        this.userRating = userRating;
+        this.actor = "";            //공백문자열로 추가
+    }
+
     public MovieDetail(String title, String link, String image, String pubDate, String director, String actor, String userRating) {
         this.title = title;
         this.link = link;
