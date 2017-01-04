@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/basket_base" />
+            android:background="@color/colorPrimary"/>
 
         <!-- 텍스트이미지 -->
 
