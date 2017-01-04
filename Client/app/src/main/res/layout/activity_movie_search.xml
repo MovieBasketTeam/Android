@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="#ffffff"
-            android:text="한글로 영화 제목을 입력해 주세요."
+            android:text="영화 제목을 입력해 주세요."
             android:textSize="14dp"/>
         <ImageView
             android:id="@+id/search_nosearch"

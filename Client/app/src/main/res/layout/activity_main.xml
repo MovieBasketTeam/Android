@@ -54,6 +54,28 @@
             android:background="#ffff">
             <include
                 layout="@layout/layout_default_main"/>
+            <LinearLayout
+                android:layout_marginTop="120dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:id="@+id/imagefragment_one"
+                    android:layout_width="12dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/main_circle"/>
+                <ImageView
+                    android:id="@+id/imagefragment_two"
+                    android:layout_width="12dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/main_no_circle"/>
+                <ImageView
+                    android:id="@+id/imagefragment_three"
+                    android:layout_width="12dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/main_no_circle"/>
+            </LinearLayout>
+
 
         </RelativeLayout>
 

@@ -27,20 +27,20 @@ import java.util.Iterator;
 public class MovieDetailDialog extends Dialog {
 
     //뷰 데이터
-    TextView storybord;
-    ImageView xbtn;
-    MovieDetail detail;
-    TextView txt_title;
-    TextView txt_year;
-    ImageView image_view_movie;
-    TextView txt_director;
-    TextView txt_actor;
-    ImageView image_star_point;
-    ImageView btn_more;
+    TextView storybord;         //줄거리
+    ImageView xbtn;             //닫기
+    MovieDetail detail;         //영화 정보 객체
+    TextView txt_title;         //제목
+    TextView txt_year;          //출판연도
+    ImageView image_view_movie; //포스터
+    TextView txt_director;      //감독
+    TextView txt_actor;         //출연진
+    ImageView image_star_point; //별점
+    ImageView btn_more;         //더보기(네이버링크)
 
     //영화데이터
-    String movie_title;
-    String movie_link;
+    String movie_title;         //영화 제목
+    String movie_link;          //영화 링크(네이버링크)
     String movie_image;
     String movie_pubDate;
     String movie_director;
@@ -74,7 +74,7 @@ public class MovieDetailDialog extends Dialog {
             return;
         }
 
-        init();
+        initView();
 
         isRunning = true;
 
@@ -187,7 +187,7 @@ public class MovieDetailDialog extends Dialog {
         return changeStr;
     }
 
-    private void init() {
+    private void initView() {
         xbtn = (ImageView) findViewById(R.id.Xbtn);
         txt_title = (TextView) findViewById(R.id.title);
         txt_year = (TextView) findViewById(R.id.year);

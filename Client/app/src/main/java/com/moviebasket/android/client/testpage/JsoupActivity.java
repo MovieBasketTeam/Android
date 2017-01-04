@@ -47,7 +47,7 @@ public class JsoupActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             Document doc = null;
-            String url = "http://movie.naver.com/movie/bi/mi/basic.nhn?code=67901";
+            String url = "http://movie.naver.com/movie/bi/mi/basic.nhn?code=145162";
 
             try {
                 doc = Jsoup.connect(url).get();
@@ -56,7 +56,7 @@ public class JsoupActivity extends AppCompatActivity {
                 Log.i("ParsingTest", "run: IOException 오류남~~~ ");
             }
 
-            Elements summary = doc.select("p.con_tx");
+            Elements summary = doc.select("p.count");
             fullSummary = "";
 
             Iterator it = summary.iterator();

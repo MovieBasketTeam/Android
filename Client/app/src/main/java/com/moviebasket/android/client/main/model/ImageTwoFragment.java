@@ -22,7 +22,7 @@ public class ImageTwoFragment extends Fragment {
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_image_view, container, false);
 
         imageView = (ImageView)view.findViewById(R.id.image_page_main);
-        imageView.setImageResource(R.drawable.main_text2);
+        imageView.setImageResource(R.drawable.main_text_two);
 
         return view;
     }
