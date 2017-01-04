@@ -371,7 +371,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
             }
-
         }
     };
     */
