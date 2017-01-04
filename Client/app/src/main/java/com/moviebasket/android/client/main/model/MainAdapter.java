@@ -62,10 +62,15 @@ public class MainAdapter extends RecyclerView.Adapter<BasketListViewHolder> {
     public void onBindViewHolder(final BasketListViewHolder holder, final int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         Glide.with(parent.getContext()).load(mDatas.get(position).basket_image).into(holder.basketImg);
-        holder.basketName.setText(mDatas.get(position).basket_name);
+        if (mDatas.get(position).basket_name.length() <= 18) {
+            holder.basketName.setText(mDatas.get(position).basket_name);
+        } else {
+            holder.basketName.setTextSize(4);
+            holder.basketName.setText(mDatas.get(position).basket_name);
+        }
         holder.downCount.setText(String.valueOf(mDatas.get(position).basket_like));
 
-        if ( mDatas.get(position).is_liked == 1 ) {
+        if (mDatas.get(position).is_liked == 1) {
             holder.downBtn.setImageResource(R.drawable.sub_basket_down);
         } else {
             holder.downBtn.setImageResource(R.drawable.sub_basket_nodown);

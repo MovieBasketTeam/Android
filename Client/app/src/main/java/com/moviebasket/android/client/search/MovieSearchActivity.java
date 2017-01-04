@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -117,10 +118,9 @@ public class MovieSearchActivity extends AppCompatActivity {
                                                         result.items.get(i).link,
                                                         result.items.get(i).image,
                                                         result.items.get(i).pubDate,
-                                                        RemoveHTMLTag(result.items.get(i).director),
+                                                        RemoveHTMLTag(result.items.get(i).director.replaceAll("[|]", ",")),
                                                         result.items.get(i).actor,
                                                         result.items.get(i).userRating);
-
                                 movieDetails.add(detail);
                             }
 
@@ -175,7 +175,12 @@ public class MovieSearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<VerifyMovieAddResult> call, Response<VerifyMovieAddResult> response) {
                             //추가 성공했을 때
+                            Log.i("NetConfirm", "response : "+response.message());
                             VerifyMovieAddResult result = response.body();
+                            if(result==null){
+                                Toast.makeText(MovieSearchActivity.this, "null값", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             if(result.result.message.equals("movie add success")){
                                 //Intent data = new Intent();
                                 //추가된 영화를 보내준다.
@@ -183,10 +188,11 @@ public class MovieSearchActivity extends AppCompatActivity {
                                 // setResult(RESULT_OK, data);
                                 setResult(RESULT_OK);
                                 finish();
+                            }else if(result.result.message.equals("movie add failed")){
+                                Toast.makeText(MovieSearchActivity.this, "이미 추가된 영화입니다.", Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(MovieSearchActivity.this, "바스켓에 영화를 추가하는데 실패했습니다", Toast.LENGTH_SHORT).show();
                             }
-
                         }
 
                         @Override
