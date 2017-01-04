@@ -10,10 +10,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     LinearLayout linearLayout;
     ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn;
+    LinearLayout mypage_basket_btn, mypage_movie_btn, mypage_reco_movie, mypage_mypage_logout_btn, mypage_setting_btn;
+    TextView mypage_username;
+    TextView eventBlocker1, eventBlocker2, eventBlocker3, eventBlocker4;
 
     /*
     FloatingActionMenu fab_menu;
@@ -80,16 +83,26 @@ public class MainActivity extends AppCompatActivity {
         //변수초기화
         pageNumber = 0;
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
-        listView = (ListView) findViewById(R.id.listview_nav_item_main);
+        //listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
         btn_toggle = (ImageView) findViewById(R.id.btn_toggle_drawer_main);
         btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
         newbtn = (ImageView) findViewById(R.id.newbtn);
         popularbtn = (ImageView) findViewById(R.id.popularbtn);
         recommendbtn = (ImageView) findViewById(R.id.recommendbtn);
-        imagefragImg1 = (ImageView)findViewById(R.id.imagefragment_one);
-        imagefragImg2 = (ImageView)findViewById(R.id.imagefragment_two);
-        imagefragImg3 = (ImageView)findViewById(R.id.imagefragment_three);
+        imagefragImg1 = (ImageView) findViewById(R.id.imagefragment_one);
+        imagefragImg2 = (ImageView) findViewById(R.id.imagefragment_two);
+        imagefragImg3 = (ImageView) findViewById(R.id.imagefragment_three);
+        mypage_username = (TextView) findViewById(R.id.mypage_username);
+        mypage_basket_btn = (LinearLayout) findViewById(R.id.mypage_basket_btn);
+        mypage_movie_btn = (LinearLayout) findViewById(R.id.mypage_movie_btn);
+        mypage_reco_movie = (LinearLayout) findViewById(R.id.mypage_reco_movie);
+        mypage_mypage_logout_btn = (LinearLayout) findViewById(R.id.mypage_mypage_logout_btn);
+        mypage_setting_btn = (LinearLayout) findViewById(R.id.mypage_setting_btn);
+        eventBlocker1 = (TextView)findViewById(R.id.eventBlocker1);
+        eventBlocker2 = (TextView)findViewById(R.id.eventBlocker2);
+        eventBlocker3 = (TextView)findViewById(R.id.eventBlocker3);
+        eventBlocker4 = (TextView)findViewById(R.id.eventBlocker4);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         imageViewPager = (ViewPager) findViewById(R.id.imageViewPager);
@@ -97,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         imagePagerAdapter = new ImagePagerAdatper(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         imageViewPager.setAdapter(imagePagerAdapter);
-
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
@@ -110,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
         fab_item3.setOnClickListener(fabClickListener);
         */
 
-        listView.setAdapter(
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
-        listView.setOnItemClickListener(new DrawerItemClickListener());
+//        listView.setAdapter(
+//                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
+//        listView.setOnItemClickListener(new DrawerItemClickListener());
 
         btn_toggle.setOnClickListener(clickListener);
         btn_tag.setOnClickListener(clickListener);
@@ -120,17 +132,28 @@ public class MainActivity extends AppCompatActivity {
         popularbtn.setOnClickListener(clickListener);
         recommendbtn.setOnClickListener(clickListener);
 
+        mypage_basket_btn.setOnClickListener(drawerClickListener);
+        mypage_movie_btn.setOnClickListener(drawerClickListener);
+        mypage_reco_movie.setOnClickListener(drawerClickListener);
+        mypage_mypage_logout_btn.setOnClickListener(drawerClickListener);
+        mypage_setting_btn.setOnClickListener(drawerClickListener);
+        eventBlocker1.setOnClickListener(drawerClickListener);
+        eventBlocker2.setOnClickListener(drawerClickListener);
+        eventBlocker3.setOnClickListener(drawerClickListener);
+        eventBlocker4.setOnClickListener(drawerClickListener);
+
+
         // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if(pageNumber==3)
+                if (pageNumber == 3)
                     pageNumber = 0;
                 imageViewPager.setCurrentItem(pageNumber, true);
 
                 //동그라미 점
-                switch (pageNumber){
+                switch (pageNumber) {
                     case 0:
                         imagefragImg1.setImageResource(R.drawable.main_circle);
                         imagefragImg2.setImageResource(R.drawable.main_no_circle);
@@ -264,6 +287,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+    //메인 버튼들을 위한 이벤트리스너
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -271,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btn_tag_main:
                     Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
                     startActivityForResult(tagIntent, REQEUST_CODE_FOR_HASHTAG);
-                    overridePendingTransition( R.anim.slide_in_left, R.anim.hold );
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.hold);
 
                     break;
                 case R.id.btn_toggle_drawer_main:
@@ -298,30 +323,69 @@ public class MainActivity extends AppCompatActivity {
 
                     viewPager.setCurrentItem(0);
 
-
-                    break;
-                //마이페이지
-                case R.id.mypage_username:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.mypage_basket_btn:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.mypage_movie_btn:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.mypage_reco_movie:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.mypage_mypage_logout_btn:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.mypage_setting_btn:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
 
             }
 
+        }
+    };
+
+    private View.OnClickListener drawerClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                //마이페이지
+                case R.id.mypage_username:
+                    break;
+                case R.id.mypage_basket_btn:
+                    Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
+                    startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
+                    break;
+                case R.id.mypage_movie_btn:
+                    Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
+                    startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.hold);
+                    Toast.makeText(MainActivity.this, "담은영화", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.mypage_reco_movie:
+                    Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
+                    startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
+                    Toast.makeText(MainActivity.this, "추천한영화", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.mypage_mypage_logout_btn:
+                    Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                    //토큰값 지우기
+                    ApplicationController.getInstance().savePreferences("");
+                    //스플래시 화면으로 가기.
+                    Intent logoutIntent = new Intent(MainActivity.this, SplashActivity.class);
+                    //액티비티 스택 clear
+                    logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logoutIntent);
+                    finish();
+
+                    break;
+                case R.id.mypage_setting_btn:
+
+                    Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
+                    Toast.makeText(MainActivity.this, "환경설정", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.eventBlocker1:
+                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.eventBlocker2:
+                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.eventBlocker3:
+                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.eventBlocker4:
+                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+            drawerLayout.closeDrawer(linearLayout);
         }
     };
 
@@ -336,19 +400,19 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
                     startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
-                    overridePendingTransition( R.anim.slide_in_right, R.anim.hold );
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
 
                     break;
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
                     startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
-                    overridePendingTransition( R.anim.slide_in_up, R.anim.hold );
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
 
                     break;
                 case 2:
                     Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
                     startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
-                    overridePendingTransition( R.anim.slide_in_right, R.anim.hold );
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
 
                     break;
                 case 3:
@@ -363,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
                 case 5:
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
                     break;
                 case 6:
                     //토큰값 지우기
@@ -394,7 +459,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
             }
-
         }
     };
     */

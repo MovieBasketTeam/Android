@@ -95,8 +95,22 @@ public class MovieDetailDialog extends Dialog {
         movie_actor = detail.actor;
         movie_userRating = detail.userRating;
 
-        txt_title.setText(movie_title);
-        txt_year.setText("("+movie_pubDate+")");
+        if( movie_title.length() <= 12 ) {
+            txt_title.setText(movie_title + "(" + movie_pubDate + ")");
+            //txt_year.setText("("+movie_pubDate+")");
+        } else if ( movie_title.length() > 12 && movie_title.length() <= 14 ) {
+            txt_title.setTextSize(21);
+            txt_title.setText(movie_title + "(" + movie_pubDate + ")");
+            //txt_year.setText("("+movie_pubDate+")");
+        } else if ( movie_title.length() > 14 && movie_title.length() <= 18 ) {
+            txt_title.setTextSize(19);
+            txt_title.setText(movie_title + "("+movie_pubDate+")");
+            //txt_year.setText("("+movie_pubDate+")");
+        } else if ( movie_title.length() > 18) {
+            txt_title.setTextSize(17);
+            txt_title.setText(movie_title + "("+movie_pubDate+")");
+        }
+
         txt_director.setText(movie_director);
         txt_view_count.setText(movie_actor);
         if(movie_image.equals("")){
@@ -169,7 +183,7 @@ public class MovieDetailDialog extends Dialog {
             isRunning = false;
 
             movie_summary = RemoveHTMLTag(movie_summary);
-            movie_summary.replaceAll("\r|\n|&nbsp;","");
+            movie_summary = movie_summary.replaceAll("&"+"nbsp;","");
             return movie_summary;
         }
 

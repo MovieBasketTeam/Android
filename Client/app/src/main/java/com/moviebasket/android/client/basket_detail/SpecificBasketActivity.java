@@ -22,6 +22,7 @@ import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
 import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.network.MBService;
+import com.moviebasket.android.client.search.MovieDetail;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 
 import java.util.ArrayList;
@@ -165,7 +166,15 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
             //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             int position = recyclerView.getChildLayoutPosition(v);
 
-            detailDialog = new MovieDetailDialog(SpecificBasketActivity.this);
+            String movie_title = mDatas.get(position).movie_title;
+            String movie_link = mDatas.get(position).movie_link;
+            String movie_image = mDatas.get(position).movie_image;
+            String movie_pubDate = String.valueOf(mDatas.get(position).movie_pub_date);
+            String movie_director = mDatas.get(position).movie_director;
+            String movie_userRating = mDatas.get(position).movie_user_rating;
+
+            MovieDetail detail = new MovieDetail(movie_title, movie_director, movie_pubDate, movie_image, movie_link, movie_userRating);
+            detailDialog = new MovieDetailDialog(SpecificBasketActivity.this, detail);
             detailDialog.show();
         }
     };
