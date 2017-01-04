@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class JoinActivity extends AppCompatActivity {
     private static final String SUCCESS = "create";
-    private static final String FAILURE = "repetition";
+    private static final String OVERLAP = "repetition";  //중복확인
 
     ImageView signupBtn;
     EditText username;
@@ -35,6 +35,7 @@ public class JoinActivity extends AppCompatActivity {
 
     private MBService mbService;
     private boolean isJoinSuccess;
+    private boolean isOverlap;
     private String member_name;
     private String member_email;
     private String member_pwd;
@@ -102,18 +103,22 @@ public class JoinActivity extends AppCompatActivity {
                                 Log.i("JoinTest", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
                                 JoinResult JoinResult = response.body();
                                 isJoinSuccess = JoinResult.result.message.equals(SUCCESS) ? true : false;
+                                isOverlap = JoinResult.result.message.equals(OVERLAP) ? true : false;
                                 Log.i("JoinTest", "회원가입 결과 : " + JoinResult.result.message);
                             }
                             if (isJoinSuccess) {
                                 Intent mainIntent = new Intent(JoinActivity.this, LoginActivity.class);
+                                Toast.makeText(JoinActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
                                 startActivity(mainIntent);
                                 finish();
                             } else {
                                 //edittext가 공백일때 경고하기
                                 if ((member_name.equals("")) || (member_email.equals("")) || (member_pwd.equals("")) || (member_pwd_con.equals(""))) {
                                     Toast.makeText(JoinActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
-                                } else {
+                                } else if(isOverlap) {
                                     Toast.makeText(JoinActivity.this, "이미 가입한 회원입니다.", Toast.LENGTH_SHORT).show();
+                                } else{
+                                    Toast.makeText(JoinActivity.this, "내부통신오류", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
