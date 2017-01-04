@@ -74,7 +74,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
         basketImg = (ImageView)findViewById(R.id.basketImg);
         basketName = (TextView)findViewById(R.id.basketName);
-        downBtn = (ImageView)findViewById(R.id.downBtn);
+        downBtn = (ImageView)findViewById(R.id.specificDownBtn);
         downCount = (TextView)findViewById(R.id.downCount);
 
 
@@ -90,6 +90,34 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 /*        Log.i("Info : ", basketInfo.getExtras().getInt("basket_id")+"/"+basketInfo.getExtras().getString("basket_name")+"/"
                 +basketInfo.getExtras().getString("basket_image")+"/"+basketInfo.getExtras().getInt("basket_like")+"/"+
         +basketInfo.getExtras().getInt("is_liked"));*/
+
+        downBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("clickConfirm", "onClick: sdfsdfsdfsdfsdf");
+                Toast.makeText(SpecificBasketActivity.this, "ㅗㅇㄹㄴㅇㄹㄴㅇㄹ", Toast.LENGTH_SHORT).show();
+
+                }
+                //Toast.makeText(SpecificBasketActivity.this, "담기클릭", Toast.LENGTH_SHORT);
+                /*Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
+                Call<BasketResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
+                getCartResult.enqueue(new Callback<BasketResult>() {
+                    @Override
+                    public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                        BasketResult basketResult = response.body();
+                        if (response.isSuccessful()) {// 응답코드 200
+                            isCartSuccess = true;
+                        }
+                        if (isCartSuccess) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BasketResult> call, Throwable t) {
+                        Toast.makeText(BasketListActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                    }*/
+        });
 
         btn_add_movie = (Button)findViewById(R.id.btn_add_movie_specific);
         btn_add_movie.setOnClickListener(new View.OnClickListener() {
