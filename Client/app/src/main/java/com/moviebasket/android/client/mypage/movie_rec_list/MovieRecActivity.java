@@ -15,6 +15,7 @@ import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
 import com.moviebasket.android.client.network.MBService;
+import com.moviebasket.android.client.search.MovieDetail;
 
 import java.util.ArrayList;
 
@@ -118,11 +119,18 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         public void onClick(View v) {
             //1.리사이클러뷰에 몇번째 항목을 클릭했는지 그 position을 가져오는 것.
             position = recyclerView.getChildLayoutPosition(v);
-            //2.position번째 항목의 Data를 가져오는 방법
-            String MovieTitle = mDatas.get(position).movie_title;
 
+            String movie_title = mDatas.get(position).movie_title;
+            String movie_link = mDatas.get(position).movie_link;
+            String movie_image = mDatas.get(position).movie_image;
+            String movie_pubDate = String.valueOf(mDatas.get(position).movie_pub_date);
+            String movie_director = mDatas.get(position).movie_director;
+            String movie_userRating = String.valueOf(mDatas.get(position).movie_user_rating);
+
+
+            MovieDetail detail = new MovieDetail(movie_title, movie_director, movie_pubDate, movie_image, movie_link, movie_userRating);
             //영화 상세보기 다이얼로그를 띄워주기 위함
-            detailDialog = new MovieDetailDialog(MovieRecActivity.this);
+            detailDialog = new MovieDetailDialog(MovieRecActivity.this, detail);
             detailDialog.show();
         }
     };

@@ -6,7 +6,4 @@ package com.moviebasket.android.client.security;
 
 public final class SecurityDataSet {
     //이거는 절대 푸시하면 안됨!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
 }
