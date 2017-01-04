@@ -1,9 +1,11 @@
 package com.moviebasket.android.client.splash;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
@@ -22,10 +24,11 @@ import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private boolean isConnected;
+    private int isConnected;
     private boolean isLogined;
 
     MBService mbService;
+    String AppVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mbService = ApplicationController.getInstance().getMbService();
-
+        AppVersion = ApplicationController.getInstance().getVersion();
         //커넥션 확인
         verifyConnection();
         //로그인 상태 확인
@@ -48,8 +51,8 @@ public class SplashActivity extends AppCompatActivity {
 
                 Log.i("NetConfirm", "handleMessage: login:"+isLogined+" , connect:"+isConnected);
 
-                if (isConnected) {
-                    if (isLogined) {
+                if ( isConnected == 0 ) {
+                    if ( isLogined ) {
                         Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(mainIntent);
                         finish();
@@ -60,6 +63,25 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
                         //LoginActivity로 이동
                     }
+                } else if ( isConnected == 1 ) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
+                    builder.setMessage("업데이트로이동합니다.");
+                    builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    builder.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    builder.show();
+
                 }
             }
         };
@@ -77,8 +99,12 @@ public class SplashActivity extends AppCompatActivity {
                 String version = result.result.version;
                 Log.i("NetConfirm", "version: "+version);
                 //버전을 가져왔을 때
-                if(!version.equals("")){
-                    isConnected = true;
+                if ( !version.equals("") && version.equals(AppVersion) ){
+                    isConnected = 0;    // 커넥션확인 && 버전이 맞을경우 : 0
+                } else if ( !version.equals("") && !version.equals(AppVersion) ) {
+                    isConnected = 1;    // 커넥션확인 && 버전이 틀릴경우 : 1
+                } else {
+                    isConnected = 2;    // 커넥션확인불가(연결X) : 2
                 }
             }
 
@@ -87,7 +113,7 @@ public class SplashActivity extends AppCompatActivity {
                 //통신연결에 문제가 생겼을 때
                 Log.i("NetConfirm", "verifyConnection isConnectec: "+isConnected);
                 Toast.makeText(SplashActivity.this, "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
-                isConnected = false;
+                isConnected = 2;
             }
         });
     }
