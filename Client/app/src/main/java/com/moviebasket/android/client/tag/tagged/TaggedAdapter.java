@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class TaggedAdapter extends RecyclerView.Adapter<TaggedBasketsViewHolder>{ArrayList<Baskets> mDatas;
     View.OnClickListener clickListener;
     View.OnClickListener subClickListener;
-    OneClickable one;
+    OneClickable oneClickable;
 
     private ViewGroup parent;
     private View itemView;
@@ -25,10 +25,10 @@ public class TaggedAdapter extends RecyclerView.Adapter<TaggedBasketsViewHolder>
         this.mDatas=mDatas;
     }
 
-    public TaggedAdapter(ArrayList<Baskets>mDatas,View.OnClickListener clickListener,OneClickable one){
+    public TaggedAdapter(ArrayList<Baskets>mDatas,View.OnClickListener clickListener,OneClickable oneClickable){
         this.mDatas=mDatas;
         this.clickListener=clickListener;
-        this.one=one;
+        this.oneClickable = oneClickable;
     }
 
     @Override
@@ -47,20 +47,29 @@ public class TaggedAdapter extends RecyclerView.Adapter<TaggedBasketsViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(TaggedBasketsViewHolder holder,final int position){
+    public void onBindViewHolder(final TaggedBasketsViewHolder holder, final int position){
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         Glide.with(parent.getContext()).load(mDatas.get(position).basket_image).into(holder.basketImg);
         holder.basketName.setText(mDatas.get(position).basket_name);
         holder.downCount.setText(String.valueOf(mDatas.get(position).basket_like));
 
-        if(mDatas.get(position).is_liked==0){
+        if ( mDatas.get(position).is_liked == 1 ) {
             holder.downBtn.setImageResource(R.drawable.sub_basket_down);
-        }else{
+        } else {
             holder.downBtn.setImageResource(R.drawable.sub_basket_nodown);
         }
-        holder.downBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                one.processOneMethodAtPosition(position);
+        holder.downBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //이미 담은 바스켓인 경우엔 요청을 하지 않는다.
+                if(mDatas.get(position).is_liked==1){
+                    return;
+                }
+                //이미지를 바꾸고 담기count를 1 증가시킨다.
+                holder.downBtn.setImageResource(R.drawable.sub_basket_down);
+                holder.downCount.setText(String.valueOf(++mDatas.get(position).basket_like));
+                oneClickable.processOneMethodAtPosition(position);
+                mDatas.get(position).is_liked = 1;
             }
         });
     }
