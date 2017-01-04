@@ -74,7 +74,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 // Gallery 호출
-                intent.setType("image/*");
+                intent.setType("image/gallery/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 // 잘라내기 셋팅
                 intent.putExtra("crop", "true");

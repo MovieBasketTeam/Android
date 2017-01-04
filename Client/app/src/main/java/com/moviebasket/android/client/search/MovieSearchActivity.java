@@ -166,6 +166,7 @@ public class MovieSearchActivity extends AppCompatActivity {
             addBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    mProgressDialog.show();
 
                     Call<VerifyMovieAddResult> verifyMovieAddResultCall =
                             mbService.verifyMovieAddResult(
@@ -186,6 +187,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                                 //추가된 영화를 보내준다.
                                 // data.putExtra("addedMovie", );
                                 // setResult(RESULT_OK, data);
+                                mProgressDialog.dismiss();
                                 setResult(RESULT_OK);
                                 finish();
                             }else if(result.result.message.equals("movie add failed")){
@@ -237,7 +239,6 @@ public class MovieSearchActivity extends AppCompatActivity {
                 }
             });
             */
-
         }
     };
 
