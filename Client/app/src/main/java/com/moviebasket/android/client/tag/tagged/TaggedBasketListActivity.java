@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
+import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
@@ -29,6 +30,8 @@ import static com.moviebasket.android.client.R.id.basketName;
 import static com.moviebasket.android.client.R.id.downCount;
 
 public class TaggedBasketListActivity extends AppCompatActivity implements OneClickable {
+
+    private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1001;
 
     RecyclerView recyclerView;
     ArrayList<BasketListDatas> mDatas = new ArrayList<BasketListDatas>();
@@ -180,10 +183,18 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
             // String basketName = mDatas.get(position).basketName;
             // String downCount = mDatas.get(position).downCount;
 
+            Intent specificBasketIntent = new Intent(getApplicationContext(), SpecificBasketActivity.class);
+            //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
 
-            //3.여기서부터는 각자 알아서 처리해야할 것을 코딩해야함.
-            //ex) 충민: 바스켓 리스트를 누르면 그 항목의 바스켓 상세페이지로 이동시켜야함.
-            //Intent BasketDetailIntent = new Intent(MainActivity.this, )
+            specificBasketIntent.putExtra("basket_id", mDatas1.get(position).basket_id);
+            specificBasketIntent.putExtra("basket_name", mDatas1.get(position).basket_name);
+            specificBasketIntent.putExtra("basket_image", mDatas1.get(position).basket_image);
+            specificBasketIntent.putExtra("basket_like", mDatas1.get(position).basket_like);
+            specificBasketIntent.putExtra("is_liked", mDatas1.get(position).is_liked);
+
+            startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
+            TaggedBasketListActivity.this.overridePendingTransition( R.anim.slide_in_up, R.anim.hold );
+
             Toast.makeText(TaggedBasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
         }
     };
