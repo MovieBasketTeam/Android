@@ -67,7 +67,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder> {
             holder.title_year.setText(mDatas.get(position).title);
         } else {
             holder.title_year.setText(mDatas.get(position).title);
-            holder.title_year.setText(mDatas.get(position).title.substring(0,15)+"...");
+            holder.title_year.setText(mDatas.get(position).title.substring(0,13)+"...");
         }
 
         holder.director_movie_search.setText(mDatas.get(position).director);
