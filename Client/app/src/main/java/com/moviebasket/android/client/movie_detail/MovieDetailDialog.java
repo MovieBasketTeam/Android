@@ -99,7 +99,10 @@ public class MovieDetailDialog extends Dialog {
         txt_year.setText("("+movie_pubDate+")");
         txt_director.setText(movie_director);
         txt_view_count.setText(movie_actor);
-        Glide.with(getContext()).load(movie_image).into(image_view_movie);
+        if(movie_image.equals("")){
+            image_view_movie.setImageResource(R.drawable.noimage);
+        }else {
+        Glide.with(getContext()).load(movie_image).into(image_view_movie);}
 
 
         //평점에따라 영화별점 이미지 세팅
