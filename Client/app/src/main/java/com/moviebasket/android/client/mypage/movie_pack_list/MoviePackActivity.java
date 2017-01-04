@@ -22,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class MoviePackActivity extends AppCompatActivity implements TwoClickable {
     RecyclerView recyclerView;
     ArrayList<PackDetail> packdetail;
@@ -98,8 +99,18 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
+            String movie_title = packdetail.get(position).movie_title;
+            String movie_link = packdetail.get(position).movie_link;
+            String movie_image = packdetail.get(position).movie_image;
+            String movie_pubDate = String.valueOf(packdetail.get(position).movie_pub_date);
+            String movie_director = packdetail.get(position).movie_director;
+           // String movie_actor = packdetail.get(position).;
+            String movie_userRating;
+            String movie_summary;
+
             //영화 상세보기 다이얼로그를 띄워주기 위함
-            detailDialog = new MovieDetailDialog(MoviePackActivity.this);
+
+            //detailDialog = new MovieDetailDialog(MoviePackActivity.this, );
             detailDialog.show();
         }
     };
@@ -132,7 +143,7 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
     }
 
-    ;
+
 
     //하트눌렀을때
     public void processTwoMethodAtPosition(final int position) {

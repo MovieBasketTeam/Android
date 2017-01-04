@@ -95,7 +95,9 @@ public class MovieDetailDialog extends Dialog {
         txt_title.setText(movie_title);
         txt_year.setText(movie_pubDate);
         txt_director.setText(movie_director);
-        txt_actor.setText(movie_actor);
+        if (movie_actor != null) {
+            txt_actor.setText(movie_actor);
+        }
         Glide.with(getContext()).load(movie_image).into(image_view_movie);
 
         float startPoint = Float.parseFloat(movie_userRating);
