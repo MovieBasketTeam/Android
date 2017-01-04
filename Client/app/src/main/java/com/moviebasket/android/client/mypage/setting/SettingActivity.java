@@ -1,5 +1,6 @@
 package com.moviebasket.android.client.mypage.setting;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.ActivityNotFoundException;
+
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.MBService;
@@ -72,10 +73,11 @@ public class SettingActivity extends AppCompatActivity {
         userimage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent();
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 // Gallery 호출
-                intent.setType("image/gallery/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                //intent.setType("Camera/*");
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
                 // 잘라내기 셋팅
                 intent.putExtra("crop", "true");
                 intent.putExtra("aspectX", 0);
@@ -96,6 +98,8 @@ public class SettingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode,int resultCode, Intent data) {
 
         if (requestCode == PICK_FROM_GALLERY) {
+            if(data==null)
+                return;
             Bundle extras2 = data.getExtras();
             if (extras2 != null) {
                 Bitmap photo = extras2.getParcelable("data");

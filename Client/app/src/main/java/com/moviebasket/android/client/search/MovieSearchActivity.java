@@ -180,6 +180,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                             VerifyMovieAddResult result = response.body();
                             if(result==null){
                                 Toast.makeText(MovieSearchActivity.this, "null값", Toast.LENGTH_SHORT).show();
+                                mProgressDialog.dismiss();
                                 return;
                             }
                             if(result.result.message.equals("movie add success")){
@@ -192,8 +193,10 @@ public class MovieSearchActivity extends AppCompatActivity {
                                 finish();
                             }else if(result.result.message.equals("movie add failed")){
                                 Toast.makeText(MovieSearchActivity.this, "이미 추가된 영화입니다.", Toast.LENGTH_SHORT).show();
+                                mProgressDialog.dismiss();
                             }else{
                                 Toast.makeText(MovieSearchActivity.this, "바스켓에 영화를 추가하는데 실패했습니다", Toast.LENGTH_SHORT).show();
+                                mProgressDialog.dismiss();
                             }
                         }
 
@@ -201,6 +204,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                         public void onFailure(Call<VerifyMovieAddResult> call, Throwable t) {
                             //통신 실패했을 때
                             Toast.makeText(MovieSearchActivity.this, "서버와 연결을 실패하였습니다", Toast.LENGTH_SHORT).show();
+                            mProgressDialog.dismiss();
                             setResult(RESULT_CANCELED);
                         }
                     });
