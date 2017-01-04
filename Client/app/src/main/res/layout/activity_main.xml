@@ -81,15 +81,16 @@
 
     </RelativeLayout>
 
+    <!--
     <LinearLayout
         android:id="@+id/lilayout_nav_drawer_main"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/colorAccent"
+        android:background="@drawable/mypage_back"
         android:layout_gravity="end">
         <ImageView
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/mypage_myimage"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -104,6 +105,9 @@
         </ListView>
 
     </LinearLayout>
-
+    -->
+    <include
+        android:id="@+id/mypage_sub_image"
+        layout="@layout/mypage_sub_layout"/>
 
 </android.support.v4.widget.DrawerLayout>
