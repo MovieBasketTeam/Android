@@ -74,7 +74,7 @@
 
                 <!-- 다운로드이미지 -->
                 <ImageView
-                    android:id="@+id/downBtn"
+                    android:id="@+id/specificDownBtn"
                     android:layout_width="30dp"
                     android:layout_height="35dp"
                     android:layout_alignParentBottom="true"
