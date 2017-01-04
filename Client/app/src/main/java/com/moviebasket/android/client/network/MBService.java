@@ -9,6 +9,7 @@ import com.moviebasket.android.client.mypage.movie_pack_list.BasketListDataDelet
 import com.moviebasket.android.client.mypage.movie_pack_list.PackResultResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
+import com.moviebasket.android.client.mypage.setting.MemberWithdrawResult;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.search.VerifyMovieAddResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
@@ -116,5 +117,9 @@ public interface MBService {
     //카테고리 선택 후 바스켓 화면 조회
     @GET("/search/{c_id}")
     Call<SearchDataResult> getSearchDataResult(@Header("member_token") String member_token, @Path("c_id") int c_id);
+
+    //회원탈퇴
+    @GET("/member/withdraw")
+    Call<MemberWithdrawResult> verifyMemberWithdraw(@Header("member_token") String member_token);
 
 }
