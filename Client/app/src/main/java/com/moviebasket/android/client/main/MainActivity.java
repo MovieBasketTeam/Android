@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
                     startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
-                    overridePendingTransition(R.anim.slide_in_up, R.anim.hold);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
 
                     break;
                 case 2:
@@ -427,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
                 case 5:
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
                     break;
                 case 6:
                     //토큰값 지우기

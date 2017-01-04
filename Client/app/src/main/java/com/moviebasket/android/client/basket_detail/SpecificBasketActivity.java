@@ -1,9 +1,7 @@
 package com.moviebasket.android.client.basket_detail;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +28,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static java.security.AccessController.getContext;
 
 
 public class SpecificBasketActivity extends AppCompatActivity implements TwoClickable {
@@ -88,6 +84,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         basketName.setText(basketInfo.getExtras().getString("basket_name"));
         if ( basketInfo.getExtras().getInt("is_liked") == 0 ) {
             downBtn.setImageResource(R.drawable.sub_basket_nodown);
+
         } else {
             downBtn.setImageResource(R.drawable.sub_basket_down);
         }
@@ -98,6 +95,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
                 @Override
                 public void onClick(View v) {
                     downBtn.setImageResource(R.drawable.sub_basket_down);
+                    downCount.setText(String.valueOf(++basket_count));
                     Call<BasketResult> cartResult = mbService.getCartPutResult(basket_id, token);
                     //바스켓 담기 요청
                     cartResult.enqueue(new Callback<BasketResult>() {
