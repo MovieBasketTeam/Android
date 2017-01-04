@@ -46,8 +46,7 @@
                 android:layout_height="34dp"
                 android:layout_alignParentBottom="true"
                 android:layout_toLeftOf="@+id/downImg"
-                android:layout_marginBottom="6dp"
-                android:src="@drawable/trash_white" />
+                android:layout_marginBottom="6dp"/>
 
             <ImageView
                 android:id="@+id/downImg"

@@ -96,8 +96,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/downCount"
             android:layout_width="33dp"
-            android:layout_height="29dp"
-            android:src="@drawable/sub_heart"/>
+            android:layout_height="29dp"/>
 
         <ImageView
             android:id="@+id/downImg"
@@ -105,7 +104,6 @@
             android:layout_toLeftOf="@id/heartImg"
             android:layout_width="30dp"
             android:layout_height="29dp"
-            android:src="@drawable/sub_movie_down"
             />
 
 

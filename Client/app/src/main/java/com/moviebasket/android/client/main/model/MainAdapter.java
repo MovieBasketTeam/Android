@@ -64,8 +64,8 @@ public class MainAdapter extends RecyclerView.Adapter<BasketListViewHolder> {
         Glide.with(parent.getContext()).load(mDatas.get(position).basket_image).into(holder.basketImg);
         if (mDatas.get(position).basket_name.length() <= 18) {
             holder.basketName.setText(mDatas.get(position).basket_name);
-        } else {
-            holder.basketName.setTextSize(4);
+        } else if (mDatas.get(position).basket_name.length() > 18 && mDatas.get(position).basket_name.length() <= 20){
+            holder.basketName.setTextSize(14);
             holder.basketName.setText(mDatas.get(position).basket_name);
         }
         holder.downCount.setText(String.valueOf(mDatas.get(position).basket_like));

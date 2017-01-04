@@ -57,7 +57,14 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         } else {
             Glide.with(parent.getContext()).load(packDetails.get(position).movie_image).into(holder.movieImage);
         }
-        holder.movieName.setText(packDetails.get(position).movie_title);
+
+        if (packDetails.get(position).movie_title.length() <= 15) {
+            holder.movieName.setText(packDetails.get(position).movie_title);
+        } else {
+            holder.movieName.setText(packDetails.get(position).movie_title);
+            holder.movieName.setText(packDetails.get(position).movie_title.substring(0,15)+"...");
+        }
+
         holder.basketName.setText(packDetails.get(position).basket_name);
         holder.BasketUserName.setText(packDetails.get(position).movie_movie_adder);
         holder.year.setText(String .valueOf(packDetails.get(position).movie_pub_date));
