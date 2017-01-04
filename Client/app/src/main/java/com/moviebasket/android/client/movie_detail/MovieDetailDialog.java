@@ -34,26 +34,29 @@ public class MovieDetailDialog extends Dialog {
     TextView txt_year;          //출판연도
     ImageView image_view_movie; //포스터
     TextView txt_director;      //감독
-    TextView txt_actor;         //출연진
+    TextView txt_view_count;         //출연진
     ImageView image_star_point; //별점
     ImageView btn_more;         //더보기(네이버링크)
 
     //영화데이터
     String movie_title;         //영화 제목
     String movie_link;          //영화 링크(네이버링크)
-    String movie_image;
-    String movie_pubDate;
-    String movie_director;
-    String movie_actor;
-    String movie_userRating;
-    String movie_summary;
+    String movie_image;         //영화 포스터 url
+    String movie_pubDate;       //영화 출판연도
+    String movie_director;      //영화 감독
+    String movie_actor;         //영화 출연진 (?)
+    String movie_userRating;    //영화 평점
+    String movie_summary;       //영화 줄거리
+    String movie_view_count;    //영화 누적관객수
 
-    boolean isRunning;
+    boolean isRunning;      //AsyncTask를 위한 boolean변수
 
     public MovieDetailDialog(Context context) {
         super(context);
     }
 
+
+    //MovieDetail은
     public MovieDetailDialog(Context context, MovieDetail detail) {
         super(context);
         this.detail = detail;
@@ -65,25 +68,24 @@ public class MovieDetailDialog extends Dialog {
         setContentView(R.layout.dialog_movie_detail);
         storybord = (TextView) findViewById(R.id.storybord);
         storybord.setMovementMethod(ScrollingMovementMethod.getInstance());
-
         //바깥영역 눌렀을 때 다이얼로그 종료
         this.setCanceledOnTouchOutside(true);
-
+        //뷰참조(이벤트리스너 세팅 및 참조하기)
+        initView();
+        //영화 정보를 안가져왔을 때.
         if (detail == null) {
             Toast.makeText(getContext(), "영화 정보가 없습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        initView();
-
         isRunning = true;
 
-        initDataExceptSummary();
+        initDataExceptSummaryAndViewCount();
         loadSummary();
 
     }
 
-    private void initDataExceptSummary() {
+    private void initDataExceptSummaryAndViewCount() {
         movie_title = detail.title;
         movie_link = detail.link;
         movie_image = detail.image;
@@ -95,16 +97,14 @@ public class MovieDetailDialog extends Dialog {
         txt_title.setText(movie_title);
         txt_year.setText(movie_pubDate);
         txt_director.setText(movie_director);
-        if (movie_actor != null) {
-            txt_actor.setText(movie_actor);
-        }
+        txt_view_count.setText(movie_actor);
         Glide.with(getContext()).load(movie_image).into(image_view_movie);
 
         float startPoint = Float.parseFloat(movie_userRating);
-        int starNum = (int)(startPoint+0.5)/2;
+        int starNum = (int) (startPoint + 0.5) / 2;
 
         //평점에따라 영화별점 이미지 세팅
-        switch(starNum){
+        switch (starNum) {
             case 0:
                 break;
             case 1:
@@ -128,12 +128,12 @@ public class MovieDetailDialog extends Dialog {
         });
     }
 
-    private void loadSummary(){
+    private void loadSummary() {
         getSummaryAsyncTask asyncTask = new getSummaryAsyncTask();
         asyncTask.execute();
     }
 
-    public class getSummaryAsyncTask extends AsyncTask<String,Void,String> {
+    public class getSummaryAsyncTask extends AsyncTask<String, Void, String> {
 
         public String result;
 
@@ -178,8 +178,8 @@ public class MovieDetailDialog extends Dialog {
         }
     }
 
-    public String RemoveHTMLTag(String changeStr){
-        if( changeStr != null && !changeStr.equals("") ) {
+    public String RemoveHTMLTag(String changeStr) {
+        if (changeStr != null && !changeStr.equals("")) {
             changeStr = changeStr.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
         } else {
             changeStr = "";
@@ -193,9 +193,9 @@ public class MovieDetailDialog extends Dialog {
         txt_year = (TextView) findViewById(R.id.year);
         image_view_movie = (ImageView) findViewById(R.id.img_movie);
         txt_director = (TextView) findViewById(R.id.direct);
-        txt_actor = (TextView) findViewById(R.id.actor);
+        txt_view_count = (TextView) findViewById(R.id.viewCount);
         image_star_point = (ImageView) findViewById(R.id.starPoint);
-        btn_more = (ImageView)findViewById(R.id.morebtn);
+        btn_more = (ImageView) findViewById(R.id.morebtn);
 
         xbtn.setOnClickListener(new View.OnClickListener() {
             @Override
