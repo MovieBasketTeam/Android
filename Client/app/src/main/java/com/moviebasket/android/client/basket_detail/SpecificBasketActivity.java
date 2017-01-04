@@ -19,6 +19,7 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.clickable.TwoClickable;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
+import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static java.security.AccessController.getContext;
 
 
 public class SpecificBasketActivity extends AppCompatActivity implements TwoClickable {
@@ -45,6 +48,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
     int basket_id;
     int basket_count;
+    int is_liked;
     String token;
 
     private MovieDetailDialog detailDialog;
@@ -69,6 +73,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
         basket_id = basketInfo.getExtras().getInt("basket_id");
         basket_count = basketInfo.getExtras().getInt("basket_like");
+        is_liked = basketInfo.getExtras().getInt("is_liked");
 
         Log.i("Info_BasketId : ", String.valueOf(basket_id));
 
@@ -87,37 +92,37 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         }
         downCount.setText(String.valueOf(basket_count));
 
-/*        Log.i("Info : ", basketInfo.getExtras().getInt("basket_id")+"/"+basketInfo.getExtras().getString("basket_name")+"/"
-                +basketInfo.getExtras().getString("basket_image")+"/"+basketInfo.getExtras().getInt("basket_like")+"/"+
-        +basketInfo.getExtras().getInt("is_liked"));*/
+        if(is_liked == 0) {
+            downBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    downBtn.setImageResource(R.drawable.sub_basket_down);
+                    Call<BasketResult> cartResult = mbService.getCartPutResult(basket_id, token);
+                    //바스켓 담기 요청
+                    cartResult.enqueue(new Callback<BasketResult>() {
+                        @Override
+                        public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                            if (response.isSuccessful()) {
+                                BasketResult result = response.body();
+                                if (result.result.message.equals("like update success")) {
+                                    Toast.makeText(SpecificBasketActivity.this, "바스켓을 담았습니다.", Toast.LENGTH_SHORT).show();
 
-        downBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("clickConfirm", "onClick: sdfsdfsdfsdfsdf");
-                Toast.makeText(SpecificBasketActivity.this, "ㅗㅇㄹㄴㅇㄹㄴㅇㄹ", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                downBtn.setImageResource(R.drawable.sub_basket_nodown);
+                                Toast.makeText(SpecificBasketActivity.this, "실패.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<BasketResult> call, Throwable t) {
+                            Toast.makeText(SpecificBasketActivity.this, "서버와 통신을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
-                //Toast.makeText(SpecificBasketActivity.this, "담기클릭", Toast.LENGTH_SHORT);
-                /*Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
-                Call<BasketResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
-                getCartResult.enqueue(new Callback<BasketResult>() {
-                    @Override
-                    public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
-                        BasketResult basketResult = response.body();
-                        if (response.isSuccessful()) {// 응답코드 200
-                            isCartSuccess = true;
-                        }
-                        if (isCartSuccess) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<BasketResult> call, Throwable t) {
-                        Toast.makeText(BasketListActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                    }*/
-        });
+            });
+        }
 
         btn_add_movie = (Button)findViewById(R.id.btn_add_movie_specific);
         btn_add_movie.setOnClickListener(new View.OnClickListener() {
