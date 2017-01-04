@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         imageViewPager = (ViewPager) findViewById(R.id.imageViewPager);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());//tabLayout.getTabCount(),Integer.valueOf(user_id));
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         imagePagerAdapter = new ImagePagerAdatper(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         imageViewPager.setAdapter(imagePagerAdapter);
@@ -392,4 +392,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+
+    }
 }
