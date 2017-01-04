@@ -183,7 +183,7 @@ public class MovieDetailDialog extends Dialog {
             isRunning = false;
 
             movie_summary = RemoveHTMLTag(movie_summary);
-            movie_summary.replaceAll("\r|\n|&nbsp;","");
+            movie_summary = movie_summary.replaceAll("&"+"nbsp;","");
             return movie_summary;
         }
 
