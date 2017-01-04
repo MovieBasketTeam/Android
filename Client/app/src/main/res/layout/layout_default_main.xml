@@ -25,24 +25,25 @@
         android:layout_height="32dp"
         >
         <ImageView
-            android:id="@+id/newbtn"
+            android:id="@+id/recommendbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/main_recent_black"
-            />
+            android:background="@drawable/main_reco"/>
         <ImageView
             android:id="@+id/popularbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/main_pop"/>
+
         <ImageView
-            android:id="@+id/recommendbtn"
+            android:id="@+id/newbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/main_reco"/>
+            android:background="@drawable/main_recent_black"
+            />
     </LinearLayout>
 
     <android.support.v4.view.ViewPager

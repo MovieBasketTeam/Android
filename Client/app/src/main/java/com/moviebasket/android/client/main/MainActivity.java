@@ -62,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     PagerAdapter pagerAdapter;
     ImagePagerAdatper imagePagerAdapter;
 
+    ImageView imagefragImg1;
+    ImageView imagefragImg2;
+    ImageView imagefragImg3;
+
     int pageNumber;
 
 
@@ -82,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         newbtn = (ImageView) findViewById(R.id.newbtn);
         popularbtn = (ImageView) findViewById(R.id.popularbtn);
         recommendbtn = (ImageView) findViewById(R.id.recommendbtn);
+        imagefragImg1 = (ImageView)findViewById(R.id.imagefragment_one);
+        imagefragImg2 = (ImageView)findViewById(R.id.imagefragment_two);
+        imagefragImg3 = (ImageView)findViewById(R.id.imagefragment_three);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         imageViewPager = (ViewPager) findViewById(R.id.imageViewPager);
@@ -112,14 +119,34 @@ public class MainActivity extends AppCompatActivity {
         popularbtn.setOnClickListener(clickListener);
         recommendbtn.setOnClickListener(clickListener);
 
+        // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
         final Handler handler = new Handler();
-
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if(pageNumber==2)
+                if(pageNumber==3)
                     pageNumber = 0;
-                imageViewPager.setCurrentItem(pageNumber++, true);
+                imageViewPager.setCurrentItem(pageNumber, true);
+
+                //동그라미 점
+                switch (pageNumber){
+                    case 0:
+                        imagefragImg1.setImageResource(R.drawable.main_circle);
+                        imagefragImg2.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg3.setImageResource(R.drawable.main_no_circle);
+                        break;
+                    case 1:
+                        imagefragImg1.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg2.setImageResource(R.drawable.main_circle);
+                        imagefragImg3.setImageResource(R.drawable.main_no_circle);
+                        break;
+                    case 2:
+                        imagefragImg1.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg2.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg3.setImageResource(R.drawable.main_circle);
+                        break;
+                }
+                pageNumber++;
             }
         };
         Timer swipeTimer = new Timer();
@@ -141,22 +168,22 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        newbtn.setBackgroundResource(R.drawable.main_recent_black);
+                        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
                         popularbtn.setBackgroundResource(R.drawable.main_pop);
-                        recommendbtn.setBackgroundResource(R.drawable.main_reco);
+                        newbtn.setBackgroundResource(R.drawable.main_recent);
 
                         break;
                     case 1:
-                        newbtn.setBackgroundResource(R.drawable.main_recent);
-                        popularbtn.setBackgroundResource(R.drawable.main_pop_black);
                         recommendbtn.setBackgroundResource(R.drawable.main_reco);
+                        popularbtn.setBackgroundResource(R.drawable.main_pop_black);
+                        newbtn.setBackgroundResource(R.drawable.main_recent);
 
                         break;
 
                     case 2:
-                        newbtn.setBackgroundResource(R.drawable.main_recent);
+                        recommendbtn.setBackgroundResource(R.drawable.main_reco);
                         popularbtn.setBackgroundResource(R.drawable.main_pop);
-                        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
+                        newbtn.setBackgroundResource(R.drawable.main_recent_black);
 
                         break;
                 }
@@ -168,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         imageViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -179,14 +207,20 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-
+                        imagefragImg1.setImageResource(R.drawable.main_circle);
+                        imagefragImg2.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg3.setImageResource(R.drawable.main_no_circle);
                         break;
                     case 1:
-
+                        imagefragImg1.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg2.setImageResource(R.drawable.main_circle);
+                        imagefragImg3.setImageResource(R.drawable.main_no_circle);
                         break;
 
                     case 2:
-
+                        imagefragImg1.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg2.setImageResource(R.drawable.main_no_circle);
+                        imagefragImg3.setImageResource(R.drawable.main_circle);
                         break;
                 }
             }
@@ -247,13 +281,12 @@ public class MainActivity extends AppCompatActivity {
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
 
-                    viewPager.setCurrentItem(0);
+                    viewPager.setCurrentItem(2);
                     break;
                 case R.id.popularbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop_black);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
-//                    loadBasketListDatas(2);
 
                     viewPager.setCurrentItem(1);
                     break;
@@ -261,8 +294,8 @@ public class MainActivity extends AppCompatActivity {
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
-//                    loadBasketListDatas(3)
-                    viewPager.setCurrentItem(2);
+
+                    viewPager.setCurrentItem(0);
 
                     break;
 
@@ -395,9 +428,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        //바스켓 리스트 리로드
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
+        //Resume했을 때, 최신순으로 정렬시켜줘야됨.
+        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
+        popularbtn.setBackgroundResource(R.drawable.main_pop);
+        newbtn.setBackgroundResource(R.drawable.main_recent);
+
+        viewPager.setCurrentItem(0);
     }
 }

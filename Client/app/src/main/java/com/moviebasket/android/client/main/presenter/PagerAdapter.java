@@ -17,9 +17,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
-        fragments[0] = new NewFragment();
+        fragments[0] = new RecommendFragment();
         fragments[1] = new PopluarFragment();
-        fragments[2] = new RecommendFragment();
+        fragments[2] = new NewFragment();
     }
     public Fragment getItem(int arg0) {
         return fragments[arg0];
