@@ -58,7 +58,13 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
 
         //리싸이클뷰에 항목을 뿌려주는 메소드.
         //holder.movie_image.setImageResource(R.drawable.sub_movie_down);
-        Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
+        if (mDatas.get(position).movie_image.equals("")) {
+            holder.movie_image.setImageResource(R.drawable.noimage);
+        } else {
+            Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
+        }
+
+        //Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
         holder.owner.setText(mDatas.get(position).owner);
         holder.likecount.setText(String.valueOf(mDatas.get(position).movie_like));
         holder.movie_pub_date.setText(String.valueOf(mDatas.get(position).movie_pub_date));

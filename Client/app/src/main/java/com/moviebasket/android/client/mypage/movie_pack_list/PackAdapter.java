@@ -52,7 +52,11 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
     @Override
     public void onBindViewHolder(final PackViewHolder holder, final int position) {
 
-        Glide.with(parent.getContext()).load(packDetails.get(position).movie_image).into(holder.movieImage);
+        if (packDetails.get(position).movie_image.equals("")) {
+            holder.movieImage.setImageResource(R.drawable.noimage);
+        } else {
+            Glide.with(parent.getContext()).load(packDetails.get(position).movie_image).into(holder.movieImage);
+        }
         holder.movieName.setText(packDetails.get(position).movie_title);
         holder.basketName.setText(packDetails.get(position).basket_name);
         holder.BasketUserName.setText(packDetails.get(position).movie_movie_adder);
