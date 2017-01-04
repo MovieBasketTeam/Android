@@ -1,6 +1,7 @@
 
 package com.moviebasket.android.client.mypage.movie_pack_list;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
     private boolean isdeletetSuccess;
     private boolean isHeartSuccess;
 
+    ProgressDialog mProgressDialog;
     PackResultResult result;
     PackAdapter adapter;
 
@@ -60,6 +62,13 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
 
+        mProgressDialog = new ProgressDialog(MoviePackActivity.this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("검색중..");
+        mProgressDialog.setIndeterminate(true);
+
+        mProgressDialog.show();
+
         /**
          * 2. recyclerview에 보여줄 data
          */
@@ -80,11 +89,13 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
                          */
 
                         adapter.notifyDataSetChanged();
+                        mProgressDialog.dismiss();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<PackResultResult> call, Throwable t) {
+                    mProgressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
                 }
             });

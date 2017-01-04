@@ -1,5 +1,6 @@
 package com.moviebasket.android.client.mypage.movie_rec_list;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
 
     LinearLayoutManager mLayoutManager;
     RecAdapter adapter;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,13 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
 
+        mProgressDialog = new ProgressDialog(MovieRecActivity.this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("검색중..");
+        mProgressDialog.setIndeterminate(true);
+
+        mProgressDialog.show();
+
         /**
          * 2. recyclerview에 보여줄 data
          */
@@ -81,6 +90,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
                 if (isResponseSuccess) {
                     mDatas.addAll(recResult.result.result);
                     adapter.notifyDataSetChanged();
+                    mProgressDialog.dismiss();;
                 }
             }
 
@@ -90,6 +100,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
 
                 Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
                 Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+                mProgressDialog.dismiss();
             }
         });
 

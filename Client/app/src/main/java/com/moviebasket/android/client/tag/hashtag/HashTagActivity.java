@@ -1,6 +1,7 @@
 package com.moviebasket.android.client.tag.hashtag;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 public class HashTagActivity extends Activity {
 
     private static final int REQUEST_CODE_FOR_TAGGED = 1005;
+    private ProgressDialog mProgressDialog;
     Activity act = this;
     GridView gridView1, gridView2, gridView3, gridView4;
 
@@ -71,6 +73,14 @@ public class HashTagActivity extends Activity {
         final gridAdapter2 adapter2 = new gridAdapter2();
         final gridAdapter3 adapter3 = new gridAdapter3();
         final gridAdapter4 adapter4 = new gridAdapter4();
+
+        mProgressDialog = new ProgressDialog(HashTagActivity.this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("검색중..");
+        mProgressDialog.setIndeterminate(true);
+
+        mProgressDialog.show();
+
 
 
 
@@ -134,6 +144,7 @@ public class HashTagActivity extends Activity {
                     adapter.notifyDataSetChanged();
                 }
                 gridView4.setAdapter(adapter4);
+                mProgressDialog.dismiss();
 
 
             }
@@ -141,6 +152,7 @@ public class HashTagActivity extends Activity {
             @Override
             public void onFailure(Call<SearchResult> call, Throwable t) {
                 Log.i("tag : ", "실패" + t.getMessage());
+                mProgressDialog.dismiss();
             }
         });
 
