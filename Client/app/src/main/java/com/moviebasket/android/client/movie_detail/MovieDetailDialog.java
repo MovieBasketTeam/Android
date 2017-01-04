@@ -34,7 +34,7 @@ public class MovieDetailDialog extends Dialog {
     TextView txt_year;          //출판연도
     ImageView image_view_movie; //포스터
     TextView txt_director;      //감독
-    TextView txt_view_count;         //출연진
+    TextView txt_view_count;    //누적관객수
     ImageView image_star_point; //별점
     ImageView btn_more;         //더보기(네이버링크)
 
@@ -82,6 +82,7 @@ public class MovieDetailDialog extends Dialog {
 
         initDataExceptSummaryAndViewCount();
         loadSummary();
+        loadViewCount();
 
     }
 
@@ -95,7 +96,7 @@ public class MovieDetailDialog extends Dialog {
         movie_userRating = detail.userRating;
 
         txt_title.setText(movie_title);
-        txt_year.setText(movie_pubDate);
+        txt_year.setText("("+movie_pubDate+")");
         txt_director.setText(movie_director);
         txt_view_count.setText(movie_actor);
         Glide.with(getContext()).load(movie_image).into(image_view_movie);
@@ -106,30 +107,34 @@ public class MovieDetailDialog extends Dialog {
         //평점에따라 영화별점 이미지 세팅
         switch (starNum) {
             case 0:
+                image_star_point.setImageResource(R.drawable.popup_0);
                 break;
             case 1:
+                image_star_point.setImageResource(R.drawable.popup_1);
                 break;
             case 2:
+                image_star_point.setImageResource(R.drawable.popup_2);
                 break;
             case 3:
+                image_star_point.setImageResource(R.drawable.popup_3);
                 break;
             case 4:
+                image_star_point.setImageResource(R.drawable.popup_4);
                 break;
             case 5:
+                image_star_point.setImageResource(R.drawable.popup_5);
                 break;
         }
 
-        btn_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent moreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(movie_link));
-                getContext().startActivity(moreIntent);
-            }
-        });
     }
 
     private void loadSummary() {
         getSummaryAsyncTask asyncTask = new getSummaryAsyncTask();
+        asyncTask.execute();
+    }
+
+    private void loadViewCount(){
+        getViewCountAsyncTask asyncTask = new getViewCountAsyncTask();
         asyncTask.execute();
     }
 
@@ -178,6 +183,56 @@ public class MovieDetailDialog extends Dialog {
         }
     }
 
+    public class getViewCountAsyncTask extends AsyncTask<String, Void, String> {
+
+        public String result;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Document doc = null;
+
+            try {
+                doc = Jsoup.connect(movie_link).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i("ParsingTest", "run: IOException 오류남~~~ ");
+            }
+
+            Elements summary = doc.select("p.count");
+            movie_view_count = "";
+
+            Iterator it = summary.iterator();
+            while (it.hasNext()) {
+                movie_view_count += it.next().toString();
+            }
+            isRunning = false;
+
+            movie_view_count = movie_view_count.trim();
+            if(movie_view_count.equals("")){
+                return "집계중입니다";
+            }else {
+                return movie_view_count;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            txt_view_count.setText(s);
+            super.onPostExecute(s);
+        }
+    }
+
+
     public String RemoveHTMLTag(String changeStr) {
         if (changeStr != null && !changeStr.equals("")) {
             changeStr = changeStr.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
@@ -201,6 +256,14 @@ public class MovieDetailDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 MovieDetailDialog.this.dismiss();
+            }
+        });
+
+        btn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(movie_link));
+                getContext().startActivity(moreIntent);
             }
         });
     }

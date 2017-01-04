@@ -16,6 +16,7 @@ import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.movie_detail.MovieDetailDialog;
 import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.network.MBService;
+import com.moviebasket.android.client.search.MovieDetail;
 
 import java.util.ArrayList;
 
@@ -115,13 +116,11 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
             String movie_image = packdetail.get(position).movie_image;
             String movie_pubDate = String.valueOf(packdetail.get(position).movie_pub_date);
             String movie_director = packdetail.get(position).movie_director;
-           // String movie_actor = packdetail.get(position).;
-            String movie_userRating;
-            String movie_summary;
+            String movie_userRating = packdetail.get(position).movie_user_rating;
 
+            MovieDetail detail = new MovieDetail(movie_title, movie_director, movie_pubDate, movie_image, movie_link, movie_userRating);
             //영화 상세보기 다이얼로그를 띄워주기 위함
-
-            //detailDialog = new MovieDetailDialog(MoviePackActivity.this, );
+            detailDialog = new MovieDetailDialog(MoviePackActivity.this, detail);
             detailDialog.show();
         }
     };
