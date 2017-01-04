@@ -10,10 +10,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout linearLayout;
     ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn;
 
-    ImageView mypage_basket_btn, mypage_movie_btn, mypage_reco_movie, mypage_mypage_logout_btn, mypage_setting_btn;
-    TextView mypage_username;
     /*
     FloatingActionMenu fab_menu;
     FloatingActionButton fab_item1, fab_item2, fab_item3;
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         //변수초기화
         pageNumber = 0;
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
-        //listView = (ListView) findViewById(R.id.listview_nav_item_main);
+        listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
         btn_toggle = (ImageView) findViewById(R.id.btn_toggle_drawer_main);
         btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
@@ -92,14 +90,6 @@ public class MainActivity extends AppCompatActivity {
         imagefragImg1 = (ImageView)findViewById(R.id.imagefragment_one);
         imagefragImg2 = (ImageView)findViewById(R.id.imagefragment_two);
         imagefragImg3 = (ImageView)findViewById(R.id.imagefragment_three);
-        mypage_username = (TextView)findViewById(R.id.mypage_username);
-        mypage_basket_btn  = (ImageView)findViewById(R.id.mypage_basket_btn);
-        mypage_movie_btn = (ImageView)findViewById(R.id.mypage_movie_btn);
-        mypage_reco_movie = (ImageView)findViewById(R.id.mypage_reco_movie);
-        mypage_mypage_logout_btn = (ImageView)findViewById(R.id.mypage_mypage_logout_btn);
-        mypage_setting_btn = (ImageView)findViewById(R.id.mypage_setting_btn);
-
-
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         imageViewPager = (ViewPager) findViewById(R.id.imageViewPager);
@@ -120,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         fab_item3.setOnClickListener(fabClickListener);
         */
 
-//        listView.setAdapter(
-//                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
-//        listView.setOnItemClickListener(new DrawerItemClickListener());
+        listView.setAdapter(
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
+        listView.setOnItemClickListener(new DrawerItemClickListener());
 
         btn_toggle.setOnClickListener(clickListener);
         btn_tag.setOnClickListener(clickListener);
@@ -308,25 +298,26 @@ public class MainActivity extends AppCompatActivity {
 
                     viewPager.setCurrentItem(0);
 
+
                     break;
                 //마이페이지
                 case R.id.mypage_username:
-                    Toast.makeText(MainActivity.this, "이미지 변경 준비중", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_basket_btn:
-                    Toast.makeText(MainActivity.this, "담은바스켓", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_movie_btn:
-                    Toast.makeText(MainActivity.this, "담은영화", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_reco_movie:
-                    Toast.makeText(MainActivity.this, "추천한영화", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_mypage_logout_btn:
-                    Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_setting_btn:
-                    Toast.makeText(MainActivity.this, "환경설정", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
 
             }
@@ -403,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
                     break;
             }
+
         }
     };
     */
