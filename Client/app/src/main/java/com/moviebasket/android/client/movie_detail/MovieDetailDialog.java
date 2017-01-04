@@ -101,28 +101,26 @@ public class MovieDetailDialog extends Dialog {
         txt_view_count.setText(movie_actor);
         Glide.with(getContext()).load(movie_image).into(image_view_movie);
 
-        float startPoint = Float.parseFloat(movie_userRating);
-        int starNum = (int) (startPoint + 0.5) / 2;
 
         //평점에따라 영화별점 이미지 세팅
-        switch (starNum) {
+        switch (Integer.parseInt(detail.userRating)) {
             case 0:
-                image_star_point.setImageResource(R.drawable.popup_0);
+                image_star_point.setImageResource(R.drawable.popup_star_zero);
                 break;
             case 1:
-                image_star_point.setImageResource(R.drawable.popup_1);
+                image_star_point.setImageResource(R.drawable.popup_star_one);
                 break;
             case 2:
-                image_star_point.setImageResource(R.drawable.popup_2);
+                image_star_point.setImageResource(R.drawable.popup_star_two);
                 break;
             case 3:
-                image_star_point.setImageResource(R.drawable.popup_3);
+                image_star_point.setImageResource(R.drawable.popup_star_three);
                 break;
             case 4:
-                image_star_point.setImageResource(R.drawable.popup_4);
+                image_star_point.setImageResource(R.drawable.popup_star_four);
                 break;
             case 5:
-                image_star_point.setImageResource(R.drawable.popup_5);
+                image_star_point.setImageResource(R.drawable.popup_star_five);
                 break;
         }
 
@@ -168,6 +166,7 @@ public class MovieDetailDialog extends Dialog {
             isRunning = false;
 
             movie_summary = RemoveHTMLTag(movie_summary);
+            movie_summary.replaceAll("\r|\n|&nbsp;","");
             return movie_summary;
         }
 
@@ -213,6 +212,7 @@ public class MovieDetailDialog extends Dialog {
             isRunning = false;
 
             movie_view_count = movie_view_count.trim();
+            movie_view_count = RemoveHTMLTag(movie_view_count);
             if(movie_view_count.equals("")){
                 return "집계중입니다";
             }else {

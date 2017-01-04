@@ -54,13 +54,15 @@
             android:layout_height="200dp"
             android:layout_marginTop="30dp"
             >
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/userimage1"
                 android:layout_width="120dp"
                 android:layout_height="113dp"
                 android:src="@drawable/mypage_myimage"
                 android:layout_centerHorizontal="true"
-                />
+                app:civ_border_width="2dp"
+                app:civ_border_color="#00000000"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
