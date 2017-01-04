@@ -61,7 +61,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder> {
         } else {
             Glide.with(parent.getContext()).load(mDatas.get(position).image).into(holder.getImageView());
         }
-        holder.title_year.setText(mDatas.get(position).title);
+        //holder.title_year.setText(mDatas.get(position).title);
+
+        if (mDatas.get(position).title.length() <= 13) {
+            holder.title_year.setText(mDatas.get(position).title);
+        } else {
+            holder.title_year.setText(mDatas.get(position).title);
+            holder.title_year.setText(mDatas.get(position).title.substring(0,15)+"...");
+        }
+
         holder.director_movie_search.setText(mDatas.get(position).director);
         holder.director_country.setText(mDatas.get(position).pubDate);
 

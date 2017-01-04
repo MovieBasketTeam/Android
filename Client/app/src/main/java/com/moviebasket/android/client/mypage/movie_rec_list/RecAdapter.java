@@ -68,7 +68,14 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         holder.owner.setText(mDatas.get(position).owner);
         holder.likecount.setText(String.valueOf(mDatas.get(position).movie_like));
         holder.movie_pub_date.setText(String.valueOf(mDatas.get(position).movie_pub_date));
-        holder.title.setText(mDatas.get(position).movie_title);
+
+        if (mDatas.get(position).movie_title.length() <= 15) {
+            holder.title.setText(mDatas.get(position).movie_title);
+        } else {
+            holder.title.setText(mDatas.get(position).movie_title);
+            holder.title.setText(mDatas.get(position).movie_title.substring(0,15)+"...");
+        }
+
         holder.direct.setText(mDatas.get(position).movie_director);
         holder.basket_name.setText(mDatas.get(position).basket_name);
 

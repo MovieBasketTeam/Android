@@ -55,9 +55,15 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
             Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
         }
 
+        if (mDatas.get(position).movie_title.length() <= 15) {
+            holder.movieName.setText(mDatas.get(position).movie_title);
+        } else {
+            holder.movieName.setText(mDatas.get(position).movie_title);
+            holder.movieName.setText(mDatas.get(position).movie_title.substring(0,15)+"...");
+        }
+
 
         holder.BasketUserName.setText(mDatas.get(position).movie_adder);
-        holder.movieName.setText(mDatas.get(position).movie_title);
         holder.year.setText(String.valueOf(mDatas.get(position).movie_pub_date));
         holder.director.setText(mDatas.get(position).movie_director);
         holder.downCount.setText(String.valueOf(mDatas.get(position).movie_like));
