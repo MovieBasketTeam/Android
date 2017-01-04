@@ -1,7 +1,6 @@
 package com.moviebasket.android.client.basket_detail;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,13 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     @Override
     public void onBindViewHolder(final DetailViewHolder holder, final int position) {
         //리싸이클뷰에 항목을 뿌려주는 메소드.
-        Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
+        if (mDatas.get(position).movie_image.equals("")) {
+            holder.movieImage.setImageResource(R.drawable.noimage);
+        } else {
+            Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
+        }
+
+
         holder.BasketUserName.setText(mDatas.get(position).movie_adder);
         holder.movieName.setText(mDatas.get(position).movie_title);
         holder.year.setText(String.valueOf(mDatas.get(position).movie_pub_date));
