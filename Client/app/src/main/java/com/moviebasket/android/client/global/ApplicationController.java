@@ -19,6 +19,7 @@ public class ApplicationController extends Application {
     private static final String naverURL = "https://openapi.naver.com/v1/search/";
     private static final String MovieBasketURL = SecurityDataSet.MBServerUrl;
     private static ApplicationController instance;
+    private static final String AppVersion = "0.1";
 
     private MBService mbService;
     private NaverService naverService;
@@ -47,6 +48,8 @@ public class ApplicationController extends Application {
         return instance;
     }
 
+    public String getVersion() { return AppVersion;}
+
     public MBService getMbService() {
         return mbService;
     }
@@ -54,6 +57,7 @@ public class ApplicationController extends Application {
     public NaverService getNaverService() {
         return naverService;
     }
+
 
 
     /**
