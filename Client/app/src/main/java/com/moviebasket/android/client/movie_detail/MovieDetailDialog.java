@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +66,9 @@ public class MovieDetailDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_movie_detail);
+
         storybord = (TextView) findViewById(R.id.storybord);
         storybord.setMovementMethod(ScrollingMovementMethod.getInstance());
         //바깥영역 눌렀을 때 다이얼로그 종료
@@ -87,7 +90,7 @@ public class MovieDetailDialog extends Dialog {
     }
 
     private void initDataExceptSummaryAndViewCount() {
-        movie_title = detail.title;
+        movie_title = detail.title.replaceAll("&"+"nbsp;","").replaceAll("&"+"amp;","");
         movie_link = detail.link;
         movie_image = detail.image;
         movie_pubDate = detail.pubDate;

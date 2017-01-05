@@ -193,7 +193,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                                     for (int i = 0; i < result.items.size(); i++) {
                                         MovieDetail detail =
                                                 new MovieDetail
-                                                        (RemoveHTMLTag(result.items.get(i).title),
+                                                        (RemoveHTMLTag(result.items.get(i).title).replaceAll("&"+"nbsp;",""),
                                                                 result.items.get(i).link,
                                                                 result.items.get(i).image,
                                                                 result.items.get(i).pubDate,
@@ -234,7 +234,7 @@ public class MovieSearchActivity extends AppCompatActivity {
             //서버에 요청해야할 매개변수들
             final String token = ApplicationController.getInstance().getPreferences();
             final int basket_id = getIntent().getExtras().getInt("basket_id");
-            final String movie_title = RemoveHTMLTag(movieDetails.get(position).title);
+            final String movie_title = RemoveHTMLTag(movieDetails.get(position).title).replaceAll("&"+"nbsp;","").replaceAll("&"+"amp;","");
             final String movie_image = movieDetails.get(position).image;
             final int movie_pub_date = Integer.parseInt(movieDetails.get(position).pubDate);
             final String movie_director = RemoveSpecitialCharacter(movieDetails.get(position).director);
