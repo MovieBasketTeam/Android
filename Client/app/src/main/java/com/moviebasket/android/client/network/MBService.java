@@ -131,4 +131,6 @@ public interface MBService {
     @POST("/member/uploadprofile")
     Call<UpdateProfileImageResult> updateProfileImage(@Header("member_token") String member_token, @Part("profile_file") MultipartBody.Part file);
 
+
+
 }

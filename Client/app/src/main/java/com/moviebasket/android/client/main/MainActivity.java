@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.main.presenter.ImagePagerAdatper;
@@ -24,6 +26,7 @@ import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
 import com.moviebasket.android.client.mypage.movie_pack_list.MoviePackActivity;
 import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.mypage.setting.SettingActivity;
+import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.splash.SplashActivity;
@@ -32,6 +35,11 @@ import com.moviebasket.android.client.testpage.JsoupActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,16 +53,18 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
     private static final int REQEUST_CODE_FOR_HASHTAG = 1006;
     private static final int REQEUST_CODE_FOR_SETTING = 1007;
+    private boolean isResponseSuccess;
 
     MBService mbService;
 
     DrawerLayout drawerLayout;
     ListView listView;
     LinearLayout linearLayout;
-    ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn;
+    ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn, mypage_myimage;
     LinearLayout mypage_basket_btn, mypage_movie_btn, mypage_reco_movie, mypage_mypage_logout_btn, mypage_setting_btn;
     TextView mypage_username;
     TextView eventBlocker1, eventBlocker2, eventBlocker3, eventBlocker4;
+    CircleImageView userimage;
 
     /*
     FloatingActionMenu fab_menu;
@@ -94,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         imagefragImg2 = (ImageView) findViewById(R.id.imagefragment_two);
         imagefragImg3 = (ImageView) findViewById(R.id.imagefragment_three);
         mypage_username = (TextView) findViewById(R.id.mypage_username);
+        userimage = (CircleImageView) findViewById(R.id.my_image);
         mypage_basket_btn = (LinearLayout) findViewById(R.id.mypage_basket_btn);
         mypage_movie_btn = (LinearLayout) findViewById(R.id.mypage_movie_btn);
         mypage_reco_movie = (LinearLayout) findViewById(R.id.mypage_reco_movie);
@@ -142,8 +153,39 @@ public class MainActivity extends AppCompatActivity {
         eventBlocker3.setOnClickListener(drawerClickListener);
         eventBlocker4.setOnClickListener(drawerClickListener);
 
+        //유저의 개인정보 가져오기.
+        String token = ApplicationController.getInstance().getPreferences();
+        Call<SettingResult> getSettingResult = mbService.getSettingResult(token);
+        getSettingResult.enqueue(new Callback<SettingResult>() {
+            @Override
+            public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
+                SettingResult settingResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    isResponseSuccess = settingResult.result.message == null ? true : false;
+                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
+                }
+                if (isResponseSuccess) {
+                    mypage_username.setText(String.valueOf(settingResult.result.member_name));
+                    if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
+                        Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
+                    }
+                }
+            }
 
-        // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
+            @Override
+            public void onFailure(Call<SettingResult> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+            }
+
+        });
+
+
+
+
+
+    // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
