@@ -2,7 +2,6 @@ package com.moviebasket.android.client.search;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -319,6 +318,12 @@ public class MovieSearchActivity extends AppCompatActivity {
             */
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_down);
+    }
 
     //태그제거 메서드
     public String RemoveHTMLTag(String changeStr) {

@@ -130,6 +130,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
                 Intent movieSearchIntent = new Intent(SpecificBasketActivity.this, MovieSearchActivity.class);
                 movieSearchIntent.putExtra("basket_id", basket_id);
                 startActivityForResult(movieSearchIntent, REQUEST_CODE_FOR_MOVIE_SEARCH);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.hold);
             }
         });
 
@@ -290,4 +291,9 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_down);
+    }
 }

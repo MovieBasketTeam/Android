@@ -1,9 +1,7 @@
 package com.moviebasket.android.client.mypage.basket_list;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +13,6 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
-import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -38,6 +35,7 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     private static final int REQEUST_CODE_FOR_BASKET_REC = 1000;;
     BasketListAdapter adapter;
     String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +104,6 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             Toast.makeText(BasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
             Log.i("바스켓 클릭!! ", "햇다");
 
-//            Intent SpecificBasketActivity = new Intent(BasketListActivity.this, SpecificBasketActivity.class);
-//            startActivity(SpecificBasketActivity);
 
             Intent specificBasketIntent = new Intent(BasketListActivity.this, SpecificBasketActivity.class);
             //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
@@ -119,10 +115,16 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             specificBasketIntent.putExtra("is_liked", mDatas.get(position).is_liked);
 
             startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_BASKET_REC);
-
+            overridePendingTransition(R.anim.slide_in_up, R.anim.hold);
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_right);
+    }
 
     @Override
     public void processOneMethodAtPosition(final int position) {
