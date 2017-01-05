@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -99,7 +100,8 @@ public class SettingActivity extends AppCompatActivity {
                                     if (message.equals("withdraw success")) {
                                         ApplicationController.getInstance().savePreferences("");
                                         Intent withdrawIntent = new Intent(SettingActivity.this, SplashActivity.class);
-                                        withdrawIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        //withdrawIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        withdrawIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(withdrawIntent);
                                         finish();
                                     } else {
