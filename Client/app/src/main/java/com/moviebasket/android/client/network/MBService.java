@@ -131,7 +131,7 @@ public interface MBService {
     @POST("/member/uploadprofile")
     Call<UpdateProfileImageResult> updateProfileImage(@Header("member_token") String member_token, @Part MultipartBody.Part file);
 
-
-
+    //프로필 사진 삭제
+    //@DELETE("/member/deleteprofile")
 
 }

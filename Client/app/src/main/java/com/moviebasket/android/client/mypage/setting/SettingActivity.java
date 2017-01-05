@@ -11,6 +11,8 @@ import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -49,6 +51,7 @@ public class SettingActivity extends AppCompatActivity {
     RelativeLayout btn_withdraw;
     private ProgressDialog mProgressDialog;
 
+    //컨텍스트메뉴 테스트용
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
         btn_withdraw = (RelativeLayout) findViewById(R.id.btn_withdraw);
+
         token = ApplicationController.getInstance().getPreferences();
 
         mProgressDialog = new ProgressDialog(SettingActivity.this);
@@ -125,88 +129,70 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         //유저의 개인정보 가져오기.
-        Call<SettingResult> getSettingResult = mbService.getSettingResult(token);
-        getSettingResult.enqueue(new Callback<SettingResult>() {
-            @Override
-            public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
-                SettingResult settingResult = response.body();
-                if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    isResponseSuccess = settingResult.result.message == null ? true : false;
-                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
-                }
-                if (isResponseSuccess) {
-                    username.setText(String.valueOf(settingResult.result.member_name));
-                    useremail.setText(String.valueOf(settingResult.result.member_email));
-                    Log.i("NetConfirm", " 유저 사진 url : " + settingResult.result.member_image);
-                    if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
-                        Glide.with(SettingActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
-                    } else {
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SettingResult> call, Throwable t) {
-                Toast.makeText(SettingActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
-            }
-
-        });
-
+        requestProfileImage();
 
         //유저의 프로필 사진 만들기. (요청하기는 OnActivityResult에서 처리함.)
-        userimage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Gallery 호출
-                //intent.setType("Camera/*");
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                // 잘라내기 셋팅
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "갤러리 어플리케이션을 선택하세요"), REQUEST_CODE_FOR_IMAGE);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-            }
-        });
+        userimage.setOnClickListener(clickListener);
+        camera.setOnClickListener(clickListener);
 
-        camera.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Gallery 호출
-                //intent.setType("Camera/*");
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                // 잘라내기 셋팅
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "갤러리 어플리케이션을 선택하세요"), REQUEST_CODE_FOR_IMAGE);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-            }
-        });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.hold, R.anim.slide_out_right);
+    }
+
+    //컨텍스트 메뉴 생성
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderIcon(R.drawable.bar_logo);
+        menu.setHeaderTitle("프로필");
+        menu.add(0,1,100,"앨범에서 사진 선택");
+        menu.add(0,2,100,"기본 이미지로 변경");
+    }
+
+    //컨텍스트 메뉴 아이템 판별
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            //앨범에서 사진 선택한 경우
+            case 1 :
+                Toast.makeText(this, "앨범에서 사진 선택", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                // Gallery 호출
+                //intent.setType("Camera/*");
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
+                // 잘라내기 셋팅
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", 0);
+                intent.putExtra("aspectY", 0);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 150);
+                try {
+                    intent.putExtra("return-data", true);
+                    startActivityForResult(Intent.createChooser(intent,
+                            "갤러리 어플리케이션을 선택하세요"), REQUEST_CODE_FOR_IMAGE);
+                } catch (ActivityNotFoundException e) {
+                    // Do nothing for now
+                }
+
+                return true;
+
+            //기본이미지로 바꾸면서 딜리트 요청 해야함.
+            case 2 :
+                Toast.makeText(this, "기본 이미지로 변경", Toast.LENGTH_SHORT).show();
+                userimage.setImageResource(R.drawable.mypage_myimage);
+                /**
+                 *  TODO: 딜리트 요청하는 부분
+                 */
+
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -244,45 +230,44 @@ public class SettingActivity extends AppCompatActivity {
 
                 requestImageUpload(body);
 
-                /*
-                Call<UpdateProfileImageResult> updateProfileImageResult = mbService.updateProfileImage(token, body);
-                Log.i("NetConfirm", " 서버에 이미지 요청...");
-                updateProfileImageResult.enqueue(new Callback<UpdateProfileImageResult>() {
-                    @Override
-                    public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
-                        Log.i("NetConfirm", " 서버에 이미지 요청...1");
-                        Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌기전 token : " + token);
-                        if (response.isSuccessful()) {
-                            UpdateProfileImageResult result = response.body();
-
-                            Log.i("NetConfirm", "onResponse: result" + result);
-                            Log.i("NetConfirm", "onResponse: result.result" + result.result);
-                            Log.i("NetConfirm", " 서버에 이미지 요청.../ message : " + result.result.message);
-
-                            if (!(result.result.message == null || result.result.message.equals(""))) {
-                                Toast.makeText(SettingActivity.this, "사진 업로드 성공", Toast.LENGTH_SHORT).show();
-                                ApplicationController.getInstance().savePreferences(result.result.member_token);
-                                Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌고 나서 token : " + result.result.member_token);
-
-                            } else {
-                                Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
-                            }
-                        }else{
-                            Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UpdateProfileImageResult> call, Throwable t) {
-                        Log.i("NetConfirm", " 서버에 이미지 요청.../fail");
-
-                        Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                */
+                //혹시 모르니까 한번더 이미지 바꿔주는 곳
+                userimage.setImageBitmap(selectedBitmapImage);
 
             }
         }
+    }
+
+    private void requestProfileImage(){
+        String changedToken = ApplicationController.getInstance().getPreferences();
+        Call<SettingResult> getSettingResult = mbService.getSettingResult(changedToken);
+        getSettingResult.enqueue(new Callback<SettingResult>() {
+            @Override
+            public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
+                SettingResult settingResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    isResponseSuccess = settingResult.result.message == null ? true : false;
+                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
+                }
+                if (isResponseSuccess) {
+                    username.setText(String.valueOf(settingResult.result.member_name));
+                    useremail.setText(String.valueOf(settingResult.result.member_email));
+                    Log.i("NetConfirm", " 유저 사진 url ㅎㅎㅎㅎ: " + settingResult.result.member_image);
+                    if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
+                        Glide.with(SettingActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
+                    } else {
+                        userimage.setImageResource(R.drawable.mypage_myimage);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SettingResult> call, Throwable t) {
+                Toast.makeText(SettingActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+            }
+        });
+
     }
 
     private void requestImageUpload(MultipartBody.Part body){
@@ -319,10 +304,19 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<UpdateProfileImageResult> call, Throwable t) {
                 Log.i("NetConfirm", " 서버에 이미지 요청.../fail");
-
                 Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //컨텍스트 메뉴 숏클릭.
+            registerForContextMenu(v);
+            openContextMenu(v);
+            unregisterForContextMenu(v);
+        }
+    };
 
 }
