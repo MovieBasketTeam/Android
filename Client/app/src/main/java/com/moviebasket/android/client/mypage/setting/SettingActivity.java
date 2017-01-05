@@ -1,5 +1,7 @@
 package com.moviebasket.android.client.mypage.setting;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,32 +11,35 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.splash.SplashActivity;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SettingActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_FOR_IMAGE = 1001;
+
     private MBService mbService;
     private boolean isResponseSuccess;
     private static final String FAILURE = "session error";
     private String token;
-    ImageView userimage;
+    CircleImageView userimage;
     TextView username;
     TextView useremail;
     RelativeLayout btn_withdraw;
+    private ProgressDialog mProgressDialog;
 
-    private static final int PICK_FROM_GALLERY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,16 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         mbService = ApplicationController.getInstance().getMbService();
 
-        userimage = (ImageView) findViewById(R.id.userimage1);
+        userimage = (CircleImageView) findViewById(R.id.userimage1);
         username = (TextView) findViewById(R.id.username);
         useremail = (TextView) findViewById(R.id.useremail);
         btn_withdraw = (RelativeLayout) findViewById(R.id.btn_withdraw);
         token = ApplicationController.getInstance().getPreferences();
+
+        mProgressDialog = new ProgressDialog(SettingActivity.this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("처리중..");
+        mProgressDialog.setIndeterminate(true);
 
         //탈퇴하기 버튼 클릭시 탈퇴하겠냐고 확인
         btn_withdraw.setOnClickListener(new View.OnClickListener() {
@@ -68,15 +78,15 @@ public class SettingActivity extends AppCompatActivity {
                         verifyMemberWithdraw.enqueue(new Callback<MemberWithdrawResult>() {
                             @Override
                             public void onResponse(Call<MemberWithdrawResult> call, Response<MemberWithdrawResult> response) {
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     String message = response.body().result.message;
-                                    if(message.equals("withdraw success")){
+                                    if (message.equals("withdraw success")) {
                                         ApplicationController.getInstance().savePreferences("");
                                         Intent withdrawIntent = new Intent(SettingActivity.this, SplashActivity.class);
                                         withdrawIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(withdrawIntent);
                                         finish();
-                                    }else{
+                                    } else {
                                         Toast.makeText(SettingActivity.this, "회원탈퇴 실패", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -95,10 +105,8 @@ public class SettingActivity extends AppCompatActivity {
 
             }
         });
-        ////통신보안
-        String token = ApplicationController.getInstance().getPreferences();
-        Log.i("NetConfirm", "token: " + token);
 
+        //유저의 개인정보 가져오기.
         Call<SettingResult> getSettingResult = mbService.getSettingResult(token);
         getSettingResult.enqueue(new Callback<SettingResult>() {
             @Override
@@ -106,14 +114,18 @@ public class SettingActivity extends AppCompatActivity {
                 SettingResult settingResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
                     Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    isResponseSuccess = settingResult.result.message==null ? true : false;
+                    isResponseSuccess = settingResult.result.message == null ? true : false;
                     Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
                 }
                 if (isResponseSuccess) {
                     username.setText(String.valueOf(settingResult.result.member_name));
                     useremail.setText(String.valueOf(settingResult.result.member_email));
+                    if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
+                        Glide.with(SettingActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
+                    }
                 }
             }
+
             @Override
             public void onFailure(Call<SettingResult> call, Throwable t) {
                 Toast.makeText(SettingActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
@@ -121,11 +133,11 @@ public class SettingActivity extends AppCompatActivity {
             }
 
         });
-        ////
 
+
+        //유저의 프로필 사진 만들기. (요청하기도 포함)
         userimage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 // Gallery 호출
@@ -140,7 +152,7 @@ public class SettingActivity extends AppCompatActivity {
                 try {
                     intent.putExtra("return-data", true);
                     startActivityForResult(Intent.createChooser(intent,
-                            "Complete action using"), PICK_FROM_GALLERY);
+                            "갤러리 어플리케이션을 선택하세요"), REQUEST_CODE_FOR_IMAGE);
                 } catch (ActivityNotFoundException e) {
                     // Do nothing for now
                 }
@@ -148,20 +160,70 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_FROM_GALLERY) {
-            if(data==null)
-                return;
-            Bundle extras2 = data.getExtras();
-            if (extras2 != null) {
-                Bitmap photo = extras2.getParcelable("data");
-                userimage.setImageBitmap(photo);
+        if (requestCode == REQUEST_CODE_FOR_IMAGE) {
+            //이미지를 성공적으로 가져왔을 경우
+            if (resultCode == Activity.RESULT_OK) {
+                if(data==null)
+                    return;
+                Bundle extras2 = data.getExtras();
+                Bitmap selectedBitmapImage;
+                if (extras2 != null) {
+                    selectedBitmapImage = extras2.getParcelable("data");
+                    userimage.setImageBitmap(selectedBitmapImage);
+                }
+
+                //아 근데.. 사진 비율찌그러짐.. ㅡㅡ
+
+
+
+//
+//                //이미지 리사이징 후 서버에 upload 요청
+//                MultipartBody.Part body;
+//
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                selectedBitmapImage.compress(Bitmap.CompressFormat.JPEG, 20, baos); // 압축 옵션( JPEG, PNG ) , 품질 설정 ( 0 - 100까지의 int형 ),
+//
+//
+//                RequestBody photoBody = RequestBody.create(MediaType.parse("image/jpg"), baos.toByteArray());
+//
+//                body = MultipartBody.Part.createFormData("image", "target_upload_img_file", photoBody);
+//
+//                Call<UpdateProfileImageResult> updateProfileImageResult = mbService.updateProfileImage(token, body);
+//                Log.i("NetConfirm", " 서버에 이미지 요청...");
+//                updateProfileImageResult.enqueue(new Callback<UpdateProfileImageResult>() {
+//                    @Override
+//                    public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
+//                        Log.i("NetConfirm", " 서버에 이미지 요청...1");
+//                        Log.i("NetConfirm", " 서버에 이미지 요청...1 token : " + token);
+//
+//                        UpdateProfileImageResult result = response.body();
+//                        Log.i("NetConfirm", "onResponse: result" + result);
+//                        Log.i("NetConfirm", " 서버에 이미지 요청.../ message" + result.result.message);
+//
+//                        if (!(result.result.message == null || result.result.message.equals(""))) {
+//                            Toast.makeText(SettingActivity.this, "사진 업로드 성공", Toast.LENGTH_SHORT).show();
+//                            ApplicationController.getInstance().savePreferences(result.result.member_token);
+//                        } else {
+//                            Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<UpdateProfileImageResult> call, Throwable t) {
+//                        Log.i("NetConfirm", " 서버에 이미지 요청.../fail");
+//
+//                        Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+
             }
         }
-
     }
-
 
 
 }

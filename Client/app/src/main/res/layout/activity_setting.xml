@@ -61,6 +61,7 @@
                 android:layout_height="113dp"
                 android:src="@drawable/mypage_myimage"
                 android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#00000000"/>
             <TextView
