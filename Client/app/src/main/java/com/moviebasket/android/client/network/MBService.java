@@ -129,7 +129,7 @@ public interface MBService {
     //프로필 사진 업데이트
     @Multipart
     @POST("/member/uploadprofile")
-    Call<UpdateProfileImageResult> updateProfileImage(@Header("member_token") String member_token, @Part("profile_file") MultipartBody.Part file);
+    Call<UpdateProfileImageResult> updateProfileImage(@Header("member_token") String member_token, @Part MultipartBody.Part file);
 
 
 
