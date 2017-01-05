@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.mypage_movie_btn:
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
                     startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
-                    overridePendingTransition(R.anim.slide_in_up, R.anim.hold);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
                     Toast.makeText(MainActivity.this, "담은영화", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_reco_movie:
@@ -370,19 +370,16 @@ public class MainActivity extends AppCompatActivity {
 
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
                     Toast.makeText(MainActivity.this, "환경설정", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.eventBlocker1:
-                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.eventBlocker2:
-                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.eventBlocker3:
-                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.eventBlocker4:
-                    Toast.makeText(MainActivity.this, "ㅎㅎ", Toast.LENGTH_SHORT).show();
                     break;
             }
             drawerLayout.closeDrawer(linearLayout);
@@ -515,6 +512,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         //바스켓 리스트 리로드
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -525,5 +523,6 @@ public class MainActivity extends AppCompatActivity {
         newbtn.setBackgroundResource(R.drawable.main_recent);
 
         viewPager.setCurrentItem(0);
+
     }
 }

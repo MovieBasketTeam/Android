@@ -58,6 +58,12 @@ public class HashTagActivity extends Activity {
     SearchResult result;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_left);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_list);
@@ -320,6 +326,7 @@ public class HashTagActivity extends Activity {
                     taggedBasketIntent.putExtra("hash_title",btn.getText().toString());
                     taggedBasketIntent.putExtra("c_id",cidArr.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.hold);
                 }
             });
 
@@ -379,6 +386,8 @@ public class HashTagActivity extends Activity {
                     taggedBasketIntent.putExtra("hash_title",btn2.getText().toString());
                     taggedBasketIntent.putExtra("c_id",cidArr2.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.hold);
+
                 }
             });
 
@@ -438,6 +447,8 @@ public class HashTagActivity extends Activity {
                     taggedBasketIntent.putExtra("hash_title",btn3.getText().toString());
                     taggedBasketIntent.putExtra("c_id",cidArr3.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.hold);
+
                 }
             });
 
@@ -498,6 +509,8 @@ public class HashTagActivity extends Activity {
                     taggedBasketIntent.putExtra("hash_title",btn4.getText().toString());
                     taggedBasketIntent.putExtra("c_id",cidArr4.get(position));
                     startActivityForResult(taggedBasketIntent, REQUEST_CODE_FOR_TAGGED);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.hold);
+
 
                 }
             });
