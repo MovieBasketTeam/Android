@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -89,6 +91,16 @@ public class MovieSearchActivity extends AppCompatActivity {
         movieDetails = new ArrayList<>();
         final MoviesAdapter adapter = new MoviesAdapter(movieDetails, recylerClickListener);
         recyclerView.setAdapter(adapter);
+
+        searchMovieName.setImeOptions(EditorInfo.IME_ACTION_DONE); // 키보드 확인 버튼 클릭시
+        searchMovieName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                    searchMovieBtn.performClick(); // searchMovieBtn 이란 Button 누르는 동작 실행
+                return false;
+            }
+        });
 
         mProgressDialog = new ProgressDialog(MovieSearchActivity.this);
         mProgressDialog.setCancelable(false);
