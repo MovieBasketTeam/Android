@@ -153,7 +153,11 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_right);
+    }
 
     //하트눌렀을때
     public void processTwoMethodAtPosition(final int position) {
