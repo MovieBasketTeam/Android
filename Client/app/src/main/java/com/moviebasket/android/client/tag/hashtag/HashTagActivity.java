@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.MainActivity;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.tag.tagged.TaggedBasketListActivity;
 
@@ -86,6 +88,10 @@ public class HashTagActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+                Intent homeIntent = new Intent(HashTagActivity.this, MainActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeIntent);
+                finish();
             }
         });
 

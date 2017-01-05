@@ -3,6 +3,7 @@ package com.moviebasket.android.client.tag.tagged;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.MainActivity;
 import com.moviebasket.android.client.mypage.basket_list.BasketListDatas;
 import com.moviebasket.android.client.mypage.basket_list.BasketResult;
 import com.moviebasket.android.client.network.MBService;
@@ -81,6 +83,10 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+                Intent homeIntent = new Intent(TaggedBasketListActivity.this, MainActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeIntent);
+                finish();
             }
         });
 

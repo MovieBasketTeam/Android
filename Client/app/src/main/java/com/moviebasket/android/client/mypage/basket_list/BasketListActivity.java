@@ -3,6 +3,7 @@ package com.moviebasket.android.client.mypage.basket_list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.MainActivity;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -74,6 +76,11 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+                //홈화면으로 가는거
+                Intent homeIntent = new Intent(BasketListActivity.this, MainActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeIntent);
+                finish();
             }
         });
 
