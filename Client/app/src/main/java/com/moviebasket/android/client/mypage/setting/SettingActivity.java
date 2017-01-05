@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class SettingActivity extends AppCompatActivity {
     CircleImageView userimage;
     TextView username;
     TextView useremail;
+    ImageView backBtnIcon;
     RelativeLayout btn_withdraw;
     private ProgressDialog mProgressDialog;
 
@@ -55,6 +57,13 @@ public class SettingActivity extends AppCompatActivity {
         userimage = (CircleImageView) findViewById(R.id.userimage1);
         username = (TextView) findViewById(R.id.username);
         useremail = (TextView) findViewById(R.id.useremail);
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         btn_withdraw = (RelativeLayout) findViewById(R.id.btn_withdraw);
         token = ApplicationController.getInstance().getPreferences();
 

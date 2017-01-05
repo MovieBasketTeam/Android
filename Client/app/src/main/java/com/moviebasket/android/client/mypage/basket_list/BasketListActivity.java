@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -35,6 +36,7 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     private static final int REQEUST_CODE_FOR_BASKET_REC = 1000;;
     BasketListAdapter adapter;
     String token;
+    ImageView backBtnIcon;
 
 
     @Override
@@ -56,6 +58,14 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
+
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         mDatas = new ArrayList<>();
         /**
