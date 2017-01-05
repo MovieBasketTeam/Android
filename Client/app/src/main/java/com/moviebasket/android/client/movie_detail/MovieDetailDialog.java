@@ -194,6 +194,9 @@ public class MovieDetailDialog extends Dialog {
 
         @Override
         protected void onPostExecute(String s) {
+            if(s.equals("")||s==null){
+                storybord.setText("줄거리 정보를 제공하지 않습니다.");
+            }
             storybord.setText(s);
             super.onPostExecute(s);
         }
