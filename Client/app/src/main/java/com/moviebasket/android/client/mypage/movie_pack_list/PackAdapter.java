@@ -66,7 +66,7 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         }
 
         holder.basketName.setText(packDetails.get(position).basket_name);
-        holder.BasketUserName.setText(packDetails.get(position).movie_movie_adder);
+        holder.BasketUserName.setText(packDetails.get(position).movie_adder);
         holder.year.setText(String .valueOf(packDetails.get(position).movie_pub_date));
         holder.director.setText(packDetails.get(position).movie_director);
         holder.downCount.setText(String .valueOf(packDetails.get(position).movie_like));

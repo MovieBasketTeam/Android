@@ -35,12 +35,20 @@
             android:text="로멘틱 남/녀가 되고 싶을때 영화"
             android:textSize="10sp"/>
 
+
         <TextView
             android:id="@+id/owner"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+ by. 윤지멍충이"
+            android:text="윤지멍충이"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+by. "
+            android:layout_toLeftOf="@id/owner"
             android:textSize="10sp"/>
 
         <TextView

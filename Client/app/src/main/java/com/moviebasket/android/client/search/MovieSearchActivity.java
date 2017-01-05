@@ -251,8 +251,7 @@ public class MovieSearchActivity extends AppCompatActivity {
             addBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    mProgressDialog.show();
-
+                    //mProgressDialog.show();
                     Call<VerifyMovieAddResult> verifyMovieAddResultCall =
                             mbService.verifyMovieAddResult(
                                     token, basket_id, movie_title, movie_image, movie_pub_date, movie_director, movie_user_rating, movie_link

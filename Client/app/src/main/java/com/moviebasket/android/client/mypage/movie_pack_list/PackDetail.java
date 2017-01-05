@@ -14,7 +14,7 @@ public class PackDetail implements Parcelable{
     String movie_image; //영화이미지 URL
     String movie_director; //감독
     int movie_pub_date; //연도
-    String movie_movie_adder ; // 바스캇에담은사람이름
+    String movie_adder ; // 바스캇에담은사람이름
     String movie_user_rating; //평점
     String movie_link; //영화링크
     int movie_like; // 좋아요 갯수
@@ -28,7 +28,7 @@ public class PackDetail implements Parcelable{
         movie_image = in.readString();
         movie_director = in.readString();
         movie_pub_date = in.readInt();
-        movie_movie_adder = in.readString();
+        movie_adder = in.readString();
         movie_user_rating = in.readString();
         movie_link = in.readString();
         movie_like = in.readInt();
@@ -61,7 +61,7 @@ public class PackDetail implements Parcelable{
         dest.writeString(movie_image);
         dest.writeString(movie_director);
         dest.writeInt(movie_pub_date);
-        dest.writeString(movie_movie_adder);
+        dest.writeString(movie_adder);
         dest.writeString(movie_user_rating);
         dest.writeString(movie_link);
         dest.writeInt(movie_like);

@@ -110,7 +110,6 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
                 public void onResponse(Call<PackResultResult> call, Response<PackResultResult> response) {
                     if (response.isSuccessful()) {
                         result = response.body();
-
                         packdetail.addAll(result.result.result);
                         Log.i("NetConfirm", "PackDetails 들어온 데이터들 : " + packdetail.toString());
 
