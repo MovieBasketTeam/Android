@@ -201,12 +201,11 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         }
     };
 
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        loadBasketList();
+    protected void onRestart() {
+        super.onRestart();
         //데이터 다시 불러오기
+        loadBasketList();
     }
 
     @Override

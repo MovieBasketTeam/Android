@@ -35,6 +35,10 @@ import retrofit2.Response;
 
 public class PopularFragment extends Fragment implements OneClickable {
 
+    public PopularFragment(){
+        Log.i("SortNumber", "pop: "+"popfrag 생성자");
+    }
+
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
     RecyclerView recyclerView;
@@ -65,7 +69,7 @@ public class PopularFragment extends Fragment implements OneClickable {
         basketListDatases = new ArrayList<>();
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
 
-
+        Log.i("SortNumber", "pop: "+3);
         loadBasketListDatas(3);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -146,7 +150,12 @@ public class PopularFragment extends Fragment implements OneClickable {
 
 
     public void loadBasketListDatas(int mode) {
-        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
+        if(mbService==null){
+            Log.i("NetConfirm"  , "loadBasketListDatas: pop : mbServer is null  :" );
+            mbService = ApplicationController.getInstance().getMbService();
+        }
+        String changedToken = ApplicationController.getInstance().getPreferences();
+        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(changedToken, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
             @Override
             public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {

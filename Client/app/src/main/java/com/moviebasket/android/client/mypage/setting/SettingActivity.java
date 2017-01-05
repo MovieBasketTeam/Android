@@ -171,10 +171,11 @@ public class SettingActivity extends AppCompatActivity {
                 //intent.setAction(Intent.ACTION_GET_CONTENT);
                 // 잘라내기 셋팅
                 intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
+                intent.putExtra("aspectX", 10);
+                intent.putExtra("aspectY", 10);
                 intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
+                intent.putExtra("outputY", 200);
+                Log.i("NetConfirm", "NewFragment 바스켓리스트 가져옴.");
                 try {
                     intent.putExtra("return-data", true);
                     startActivityForResult(Intent.createChooser(intent,
@@ -307,28 +308,19 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void requestImageUpload(MultipartBody.Part body){
-
         String changedToken = ApplicationController.getInstance().getPreferences();
-
         Call<UpdateProfileImageResult> updateProfileImageResult = mbService.updateProfileImage(changedToken, body);
         Log.i("NetConfirm", " 서버에 이미지 요청...");
         updateProfileImageResult.enqueue(new Callback<UpdateProfileImageResult>() {
             @Override
             public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
-                Log.i("NetConfirm", " 서버에 이미지 요청...1");
-                Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌기전 token : " + token);
                 if (response.isSuccessful()) {
                     UpdateProfileImageResult result = response.body();
-
-                    Log.i("NetConfirm", "onResponse: result" + result);
-                    Log.i("NetConfirm", "onResponse: result.result" + result.result);
-                    Log.i("NetConfirm", " 서버에 이미지 요청.../ message : " + result.result.message);
-
                     if (!(result.result.message == null || result.result.message.equals(""))) {
                         Toast.makeText(SettingActivity.this, "사진 업로드 성공", Toast.LENGTH_SHORT).show();
                         ApplicationController.getInstance().savePreferences(result.result.member_token);
-                        Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌고 나서 token : " + result.result.member_token);
-
+                        Log.i("NetConfirm", "사진 업로드 후 token : " + result.result.member_token);
+                        Log.i("NetConfirm", "토큰받아오고 개인정보 가져옴.");
                     } else {
                         Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
                     }

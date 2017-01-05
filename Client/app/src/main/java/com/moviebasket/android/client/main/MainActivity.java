@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
         popularFragment = pagerAdapter.getItem(1);
         newFragment = pagerAdapter.getItem(2);
 
+        //페이저
+        viewPager.setOffscreenPageLimit(2);
 
         btn_toggle.setOnClickListener(clickListener);
         btn_tag.setOnClickListener(clickListener);
@@ -464,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
     private void requestProfile(){
         //유저의 개인정보 가져오기.
         String changedToken = ApplicationController.getInstance().getPreferences();
+        Log.i("NetConfirm", "메인에서 개인정보 리로딩 할 때 토큰값 : "+changedToken);
         Call<SettingResult> getSettingResult = mbService.getSettingResult(changedToken);
         getSettingResult.enqueue(new Callback<SettingResult>() {
             @Override
