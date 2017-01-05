@@ -11,18 +11,20 @@
         android:id="@+id/rl_toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="#ffffff">
 
         <ImageView
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/main_bar_logo"/>
+            android:src="@drawable/bar_logo"/>
 
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
 
         <TextView
             android:gravity="center"

@@ -21,6 +21,7 @@ import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.network.NaverService;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +51,9 @@ public class MovieSearchActivity extends AppCompatActivity {
     String query;
     int startQuery;
     int total;
+
+    GregorianCalendar today = new GregorianCalendar( );
+    int MaxDate = today.get ( today.YEAR );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +108,12 @@ public class MovieSearchActivity extends AppCompatActivity {
                     /**
                      * 2. recyclerview에 보여줄 data
                      */
-                    Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, 1, 10);
+                    Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, 1, 10, MaxDate);
                     getMovieData.enqueue(new Callback<MovieDataResult>() {
                         @Override
                         public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
+                            startQuery = 0;
+                            Log.i("MaxDate", String.valueOf(MaxDate));
                             if (response.isSuccessful()) {
                                 result = response.body();
                                 movieDetails.clear();
@@ -117,7 +123,9 @@ public class MovieSearchActivity extends AppCompatActivity {
                                     searchKorean.setText("검색결과가 없습니다.");
                                     search_nosearch.setImageResource(R.drawable.search_nosearchimage);
                                 } else {
-                                    startQuery = 0;
+                                    searchKorean.setText("");
+                                    search_nosearch.setImageResource(R.drawable.search_nosearchimage);
+                                    search_nosearch.setVisibility(View.INVISIBLE);
                                     total = result.total;
                                     for (int i = 0; i < result.items.size(); i++) {
                                         MovieDetail detail =
@@ -164,11 +172,11 @@ public class MovieSearchActivity extends AppCompatActivity {
 
                 if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
                     if ( startQuery < total ) {
-                        Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, startQuery, 10);
+                        Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, startQuery, 10, MaxDate);
                         getMovieData.enqueue(new Callback<MovieDataResult>() {
                             @Override
                             public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
-                                if (response.isSuccessful()) {
+                                if ( response.isSuccessful() ) {
                                     result = response.body();
                                     for (int i = 0; i < result.items.size(); i++) {
                                         MovieDetail detail =
@@ -184,7 +192,6 @@ public class MovieSearchActivity extends AppCompatActivity {
                                     }
                                     adapter.notifyDataSetChanged();
                                     startQuery = startQuery + 10;
-                                    //mProgressDialog.dismiss();
                                 }
                             }
 

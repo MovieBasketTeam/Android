@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
     <RelativeLayout
         android:id="@+id/rl_toolbar_basket_pack"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true">
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorAccent">
         <ImageView
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/main_bar_logo"/>
+            android:src="@drawable/bar_logo"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -19,14 +21,15 @@
         android:layout_below="@+id/rl_toolbar_basket_pack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffff">
+        android:background="@color/colorAccent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:text="담은 바스켓"
             android:textSize="18sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:background="@color/colorAccent"/>
 
     </LinearLayout>
 
