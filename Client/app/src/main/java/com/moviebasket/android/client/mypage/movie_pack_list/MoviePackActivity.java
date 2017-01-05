@@ -2,9 +2,11 @@
 package com.moviebasket.android.client.mypage.movie_pack_list;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,7 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
     private boolean isHeartSuccess;
 
     ProgressDialog mProgressDialog;
+    ProgressDialog removeProgressDialog;
     PackResultResult result;
     PackAdapter adapter;
 
@@ -94,8 +97,13 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
         mProgressDialog = new ProgressDialog(MoviePackActivity.this);
         mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage("검색중..");
+        mProgressDialog.setMessage("로딩중..");
         mProgressDialog.setIndeterminate(true);
+
+        removeProgressDialog = new ProgressDialog(MoviePackActivity.this);
+        removeProgressDialog.setCancelable(false);
+        removeProgressDialog.setMessage("삭제중..");
+        removeProgressDialog.setIndeterminate(true);
 
         mProgressDialog.show();
 
@@ -155,29 +163,49 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
 
     //휴지통  //휴지통으로 이미지 바꾸어야한다.....
     public void processOneMethodAtPosition(final int position) {
-        String token = ApplicationController.getInstance().getPreferences();
-        Call<BasketListDataDeleteResult> getBasketListDataDeleteResult = mbService.getBasketListDataDeleteResult(token, packdetail.get(position).movie_id);
-        getBasketListDataDeleteResult.enqueue(new Callback<BasketListDataDeleteResult>() {
-            @Override
-            public void onResponse(Call<BasketListDataDeleteResult> call, Response<BasketListDataDeleteResult> response) {
-                Log.i("NetConfirm", "onResponse: 하트에들어옴");
-                BasketListDataDeleteResult basketDeleteResult = response.body();
-                if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("Delete", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
 
-                    isdeletetSuccess = basketDeleteResult.result.message != null ? true : false;
-                }
-                if (isdeletetSuccess) {
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
+        AlertDialog.Builder CBBuilder = new AlertDialog.Builder(MoviePackActivity.this);
+        CBBuilder.setMessage("담은 바스켓을 삭제하시겠습니까?");
+        CBBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
-            public void onFailure(Call<BasketListDataDeleteResult> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
-                Toast.makeText(MoviePackActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
+        CBBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String token = ApplicationController.getInstance().getPreferences();
+                removeProgressDialog.show();
+                Call<BasketListDataDeleteResult> getBasketListDataDeleteResult = mbService.getBasketListDataDeleteResult(token, packdetail.get(position).movie_id);
+                getBasketListDataDeleteResult.enqueue(new Callback<BasketListDataDeleteResult>() {
+                    @Override
+                    public void onResponse(Call<BasketListDataDeleteResult> call, Response<BasketListDataDeleteResult> response) {
+                        Log.i("NetConfirm", "onResponse: 하트에들어옴");
+                        BasketListDataDeleteResult basketDeleteResult = response.body();
+                        if (response.isSuccessful()) {// 응답코드 200
+                            Log.i("Delete", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+
+                            isdeletetSuccess = basketDeleteResult.result.message != null ? true : false;
+                        }
+                        if (isdeletetSuccess) {
+                            adapter.notifyDataSetChanged();
+                            removeProgressDialog.dismiss();
+                        }
+                        removeProgressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BasketListDataDeleteResult> call, Throwable t) {
+                        Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
+                        Toast.makeText(MoviePackActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                        removeProgressDialog.dismiss();
+                    }
+                });
+            }
+        });
+        CBBuilder.show();
+
 
     }
 

@@ -73,7 +73,6 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
 
         mDatas = new ArrayList<>();
 
-
         mProgressDialog = new ProgressDialog(BasketListActivity.this);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage("삭제중..");
