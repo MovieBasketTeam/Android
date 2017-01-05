@@ -1,9 +1,10 @@
 package com.moviebasket.android.client.mypage.basket_list;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.v4.content.IntentCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,6 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
-import com.moviebasket.android.client.main.MainActivity;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     BasketListAdapter adapter;
     String token;
     ImageView backBtnIcon;
-    ImageView Homeicon;
 
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +71,13 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             }
         });
 
-        Homeicon = (ImageView)findViewById(R.id.Homeicon);
-        Homeicon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
-                //홈화면으로 가는거
-                Intent homeIntent = new Intent(BasketListActivity.this, MainActivity.class);
-                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(homeIntent);
-                finish();
-            }
-        });
-
         mDatas = new ArrayList<>();
+
+
+        mProgressDialog = new ProgressDialog(BasketListActivity.this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("삭제중..");
+        mProgressDialog.setIndeterminate(true);
         /**
          * 2. recyclerview에 보여줄 data
          */
@@ -156,27 +149,47 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     @Override
     public void processOneMethodAtPosition(final int position) {
 
-        Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
-        Call<BasketResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
-        getCartResult.enqueue(new Callback<BasketResult>() {
+        AlertDialog.Builder CBBuilder = new AlertDialog.Builder(BasketListActivity.this);
+        CBBuilder.setMessage("담은 바스켓을 삭제하시겠습니까?");
+        CBBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
-                BasketResult basketResult = response.body();
-                if (response.isSuccessful()) {// 응답코드 200
-                    isCartSuccess = true;
-                }
-                if (isCartSuccess) {
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BasketResult> call, Throwable t) {
-                Toast.makeText(BasketListActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
+        CBBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
+                mProgressDialog.show();
+                Call<BasketResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
+                getCartResult.enqueue(new Callback<BasketResult>() {
+                    @Override
+                    public void onResponse(Call<BasketResult> call, Response<BasketResult> response) {
+                        BasketResult basketResult = response.body();
+                        if (response.isSuccessful()) {// 응답코드 200
+                            isCartSuccess = true;
+                        }
+                        if (isCartSuccess) {
+                            mDatas.remove(position);
+                            adapter.notifyDataSetChanged();
+                            mProgressDialog.dismiss();
+                        }
+                        mProgressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BasketResult> call, Throwable t) {
+                        Toast.makeText(BasketListActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                        mProgressDialog.dismiss();
+                    }
+                });
+
+            }
+        });
+        CBBuilder.show();
 
     }
 }
-
