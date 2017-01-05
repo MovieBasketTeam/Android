@@ -516,9 +516,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        Log.i("ActivityConfirm", "onResume: 시작 ");
-
         //바스켓 리스트 리로드
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -529,28 +526,35 @@ public class MainActivity extends AppCompatActivity {
         popularbtn.setBackgroundResource(R.drawable.main_pop);
         newbtn.setBackgroundResource(R.drawable.main_recent);
         viewPager.setCurrentItem(0);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
 
         //Resume했을 때, 개인정보 다시 가져와야함.(프사 바꾸고 난 경우)
         requestProfile();
-        Log.i("ActivityConfirm", "onResume: 종료 ");
 
     }
 
     private void requestProfile(){
         //유저의 개인정보 가져오기.
-        Call<SettingResult> getSettingResult = mbService.getSettingResult(member_token);
+        String changedToken = ApplicationController.getInstance().getPreferences();
+        Call<SettingResult> getSettingResult = mbService.getSettingResult(changedToken);
         getSettingResult.enqueue(new Callback<SettingResult>() {
             @Override
             public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
                 SettingResult settingResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    Log.i("ActivityConfirm", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
                     isResponseSuccess = settingResult.result.message == null ? true : false;
-                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
+                    Log.i("ActivityConfirm", "응답 결과 : " + isResponseSuccess);
                 }
                 if (isResponseSuccess) {
                     mypage_username.setText(String.valueOf(settingResult.result.member_name));
                     if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
+                        Log.i("ActivityConfirm", "if문 들어오나요 : ");
+                        Log.i("ActivityConfirm", "member_image : "+settingResult.result.member_image);
                         Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
                     }
                 }
@@ -559,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SettingResult> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+                Log.i("ActivityConfirm", "요청메시지:" + call.toString());
             }
 
         });

@@ -59,7 +59,7 @@ public class SettingActivity extends AppCompatActivity {
         camera = (ImageView)findViewById(R.id.camera);
         username = (TextView) findViewById(R.id.username);
         useremail = (TextView) findViewById(R.id.useremail);
-        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon = (ImageView) findViewById(R.id.backBtnIcon);
         backBtnIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,10 +136,10 @@ public class SettingActivity extends AppCompatActivity {
                 if (isResponseSuccess) {
                     username.setText(String.valueOf(settingResult.result.member_name));
                     useremail.setText(String.valueOf(settingResult.result.member_email));
-                    Log.i("NetConfirm", " 유저 사진 url : "+settingResult.result.member_image);
+                    Log.i("NetConfirm", " 유저 사진 url : " + settingResult.result.member_image);
                     if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
                         Glide.with(SettingActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
-                    }else{
+                    } else {
                     }
                 }
             }
@@ -214,10 +214,10 @@ public class SettingActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_FOR_IMAGE) {
             //이미지를 성공적으로 가져왔을 경우
             if (resultCode == Activity.RESULT_OK) {
-                if(data==null)
+                if (data == null)
                     return;
                 Bundle extras2 = data.getExtras();
-                Bitmap selectedBitmapImage=null;
+                Bitmap selectedBitmapImage = null;
                 if (extras2 != null) {
                     selectedBitmapImage = extras2.getParcelable("data");
                     userimage.setImageBitmap(selectedBitmapImage);
@@ -230,7 +230,7 @@ public class SettingActivity extends AppCompatActivity {
                 MultipartBody.Part body;
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                if(selectedBitmapImage==null){
+                if (selectedBitmapImage == null) {
                     Toast.makeText(this, "비트맵 파일을 생성할 수 없습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -240,6 +240,9 @@ public class SettingActivity extends AppCompatActivity {
 
                 body = MultipartBody.Part.createFormData("profile_file", ".png", photoBody);
 
+                requestImageUpload(body);
+
+                /*
                 Call<UpdateProfileImageResult> updateProfileImageResult = mbService.updateProfileImage(token, body);
                 Log.i("NetConfirm", " 서버에 이미지 요청...");
                 updateProfileImageResult.enqueue(new Callback<UpdateProfileImageResult>() {
@@ -247,18 +250,22 @@ public class SettingActivity extends AppCompatActivity {
                     public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
                         Log.i("NetConfirm", " 서버에 이미지 요청...1");
                         Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌기전 token : " + token);
+                        if (response.isSuccessful()) {
+                            UpdateProfileImageResult result = response.body();
 
-                        UpdateProfileImageResult result = response.body();
-                        Log.i("NetConfirm", "onResponse: result" + result);
-                        Log.i("NetConfirm", "onResponse: result.result" + result.result);
-                        Log.i("NetConfirm", " 서버에 이미지 요청.../ message : " + result.result.message);
+                            Log.i("NetConfirm", "onResponse: result" + result);
+                            Log.i("NetConfirm", "onResponse: result.result" + result.result);
+                            Log.i("NetConfirm", " 서버에 이미지 요청.../ message : " + result.result.message);
 
-                        if (!(result.result.message == null || result.result.message.equals(""))) {
-                            Toast.makeText(SettingActivity.this, "사진 업로드 성공", Toast.LENGTH_SHORT).show();
-                            ApplicationController.getInstance().savePreferences(result.result.member_token);
-                            Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌고 나서 token : " + result.result.member_token);
+                            if (!(result.result.message == null || result.result.message.equals(""))) {
+                                Toast.makeText(SettingActivity.this, "사진 업로드 성공", Toast.LENGTH_SHORT).show();
+                                ApplicationController.getInstance().savePreferences(result.result.member_token);
+                                Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌고 나서 token : " + result.result.member_token);
 
-                        } else {
+                            } else {
+                                Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
                             Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -270,10 +277,50 @@ public class SettingActivity extends AppCompatActivity {
                         Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
                     }
                 });
+                */
 
             }
         }
     }
 
+    private void requestImageUpload(MultipartBody.Part body){
+
+        String changedToken = ApplicationController.getInstance().getPreferences();
+
+        Call<UpdateProfileImageResult> updateProfileImageResult = mbService.updateProfileImage(changedToken, body);
+        Log.i("NetConfirm", " 서버에 이미지 요청...");
+        updateProfileImageResult.enqueue(new Callback<UpdateProfileImageResult>() {
+            @Override
+            public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
+                Log.i("NetConfirm", " 서버에 이미지 요청...1");
+                Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌기전 token : " + token);
+                if (response.isSuccessful()) {
+                    UpdateProfileImageResult result = response.body();
+
+                    Log.i("NetConfirm", "onResponse: result" + result);
+                    Log.i("NetConfirm", "onResponse: result.result" + result.result);
+                    Log.i("NetConfirm", " 서버에 이미지 요청.../ message : " + result.result.message);
+
+                    if (!(result.result.message == null || result.result.message.equals(""))) {
+                        Toast.makeText(SettingActivity.this, "사진 업로드 성공", Toast.LENGTH_SHORT).show();
+                        ApplicationController.getInstance().savePreferences(result.result.member_token);
+                        Log.i("NetConfirm", " 서버에 이미지 요청...1 바뀌고 나서 token : " + result.result.member_token);
+
+                    } else {
+                        Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(SettingActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateProfileImageResult> call, Throwable t) {
+                Log.i("NetConfirm", " 서버에 이미지 요청.../fail");
+
+                Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

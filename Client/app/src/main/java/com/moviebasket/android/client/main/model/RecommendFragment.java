@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,6 +138,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
 
 
     private void loadBasketListDatas(int mode) {
+        Log.i("ReloadConfirm", "loadBasketListDatas: 요청 직전");
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
             @Override
@@ -151,6 +153,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, RecommendFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
+                    Log.i("ReloadConfirm", "loadBasketListDatas: 요청하고나서 list데이터 갱신");
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
