@@ -170,7 +170,7 @@ public class SettingActivity extends AppCompatActivity {
                 if(data==null)
                     return;
                 Bundle extras2 = data.getExtras();
-                Bitmap selectedBitmapImage;
+                Bitmap selectedBitmapImage=null;
                 if (extras2 != null) {
                     selectedBitmapImage = extras2.getParcelable("data");
                     userimage.setImageBitmap(selectedBitmapImage);
@@ -185,6 +185,10 @@ public class SettingActivity extends AppCompatActivity {
 //                MultipartBody.Part body;
 //
 //                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                if(selectedBitmapImage==null){
+//                    Toast.makeText(this, "비트맵 파일을 생성할 수 없습니다", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 //                selectedBitmapImage.compress(Bitmap.CompressFormat.JPEG, 20, baos); // 압축 옵션( JPEG, PNG ) , 품질 설정 ( 0 - 100까지의 int형 ),
 //
 //
@@ -219,7 +223,7 @@ public class SettingActivity extends AppCompatActivity {
 //                        Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
 //                    }
 //                });
-//
+
 
             }
         }
