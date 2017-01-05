@@ -1,7 +1,6 @@
 package com.moviebasket.android.client.mypage.basket_list;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +78,9 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListViewHolder
         holder.downBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 oneClickable.processOneMethodAtPosition(position);
-                mDatas.remove(position);
+
             }
         });
 
