@@ -44,6 +44,7 @@ public class SettingActivity extends AppCompatActivity {
     TextView username;
     TextView useremail;
     ImageView backBtnIcon;
+    ImageView camera;
     RelativeLayout btn_withdraw;
     private ProgressDialog mProgressDialog;
 
@@ -55,6 +56,7 @@ public class SettingActivity extends AppCompatActivity {
         mbService = ApplicationController.getInstance().getMbService();
 
         userimage = (CircleImageView) findViewById(R.id.userimage1);
+        camera = (ImageView)findViewById(R.id.camera);
         username = (TextView) findViewById(R.id.username);
         useremail = (TextView) findViewById(R.id.useremail);
         backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
@@ -152,6 +154,29 @@ public class SettingActivity extends AppCompatActivity {
 
         //유저의 프로필 사진 만들기. (요청하기는 OnActivityResult에서 처리함.)
         userimage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                // Gallery 호출
+                //intent.setType("Camera/*");
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
+                // 잘라내기 셋팅
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", 0);
+                intent.putExtra("aspectY", 0);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 150);
+                try {
+                    intent.putExtra("return-data", true);
+                    startActivityForResult(Intent.createChooser(intent,
+                            "갤러리 어플리케이션을 선택하세요"), REQUEST_CODE_FOR_IMAGE);
+                } catch (ActivityNotFoundException e) {
+                    // Do nothing for now
+                }
+            }
+        });
+
+        camera.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
