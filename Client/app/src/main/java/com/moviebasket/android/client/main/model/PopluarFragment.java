@@ -80,7 +80,6 @@ public class PopluarFragment extends Fragment implements OneClickable {
                 if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
                     Toast.makeText(getActivity(), "맨아래", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
@@ -91,8 +90,13 @@ public class PopluarFragment extends Fragment implements OneClickable {
 
         recyclerView.setAdapter(mainAdapter);
 
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBasketListDatas(3);
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {

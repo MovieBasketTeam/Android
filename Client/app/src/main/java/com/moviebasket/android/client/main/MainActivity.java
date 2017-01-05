@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab_item1, fab_item2, fab_item3;
     */
 
+    Fragment recommendFragment, popularFragment, newFragment;
+
     ViewPager viewPager;
     ViewPager imageViewPager;
     PagerAdapter pagerAdapter;
@@ -121,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
         imagePagerAdapter = new ImagePagerAdatper(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         imageViewPager.setAdapter(imagePagerAdapter);
+
+        recommendFragment = pagerAdapter.getItem(0);
+        popularFragment = pagerAdapter.getItem(1);
+        newFragment = pagerAdapter.getItem(2);
 
         /*
         fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
@@ -370,6 +377,8 @@ public class MainActivity extends AppCompatActivity {
                     logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(logoutIntent);
                     finish();
+                    //모든 액티비티 삭제
+                   // ApplicationController.getInstance().clearAndFinishAllActivities();
                     break;
                 case R.id.mypage_setting_btn:
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
@@ -517,15 +526,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //바스켓 리스트 리로드
+        /*
+        Log.i("ReloadConfirm", "Main onResume: 추천순 detach 하고 attach ");
+        //recommendFragment.onDetach();
+        //recommendFragment.onAttach(this);
+        recommendFragment.onResume();
+        Log.i("ReloadConfirm", "Main onResume: 인기순 detach 하고 attach ");
+        //popularFragment.onDetach();
+        //popularFragment.onAttach(this);
+        popularFragment.onResume();
+        Log.i("ReloadConfirm", "Main onResume: 최신순 detach 하고 attach ");
+        //newFragment.onDetach();
+        //newFragment.onAttach(this);
+        newFragment.onResume();
+        ////////////////
+        */
+
+        /*
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().detach(recommendFragment).attach(recommendFragment).commit();
+        fm.beginTransaction().detach(popularFragment).attach(popularFragment).commit();
+        fm.beginTransaction().detach(newFragment).attach(newFragment).commit();
+
+        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
+        popularbtn.setBackgroundResource(R.drawable.main_pop);
+        newbtn.setBackgroundResource(R.drawable.main_recent);
+        viewPager.setCurrentItem(0);
+        */
+
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
 
         //Resume했을 때, 최신순으로 정렬시켜줘야됨.
         recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
         popularbtn.setBackgroundResource(R.drawable.main_pop);
         newbtn.setBackgroundResource(R.drawable.main_recent);
         viewPager.setCurrentItem(0);
+
     }
 
     @Override

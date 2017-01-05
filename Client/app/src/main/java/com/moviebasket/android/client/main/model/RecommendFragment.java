@@ -47,6 +47,8 @@ public class RecommendFragment extends Fragment implements OneClickable {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("ReloadConfirm", "RecommendFrag onCreateView:");
+
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_view, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myRecyclerview);
@@ -87,6 +89,12 @@ public class RecommendFragment extends Fragment implements OneClickable {
         recyclerView.setAdapter(mainAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBasketListDatas(1);
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
