@@ -65,7 +65,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
         }
 
         //Glide.with(parent.getContext()).load(mDatas.get(position).movie_image).into(holder.getMovieImageView());
-        holder.owner.setText(mDatas.get(position).owner);
+        holder.owner.setText(mDatas.get(position).movie_adder);
         holder.likecount.setText(String.valueOf(mDatas.get(position).movie_like));
         holder.movie_pub_date.setText(String.valueOf(mDatas.get(position).movie_pub_date));
 

@@ -8,7 +8,7 @@ public class RecDatas {
 
     String movie_image;
     int movie_id;
-    String owner;
+    String movie_adder;
     String movie_title;
     String movie_director;
     int movie_pub_date;
@@ -21,11 +21,11 @@ public class RecDatas {
     String message;
     String basket_name;
 
-    public RecDatas(String movie_image, int movie_id, String owner, String movie_title, String movie_director, int movie_pub_date,
+    public RecDatas(String movie_image, int movie_id, String movie_adder, String movie_title, String movie_director, int movie_pub_date,
                     int movie_user_rating, String movie_link, int movie_like, int book_mark, int is_liked, int is_cart, String message, String basket_name) {
         this.movie_image = movie_image;
         this.movie_id = movie_id;
-        this.owner = owner;
+        this.movie_adder = movie_adder;
         this.movie_title = movie_title;
         this.movie_director = movie_director;
         this.movie_pub_date = movie_pub_date;
