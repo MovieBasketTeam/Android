@@ -2,7 +2,6 @@ package com.moviebasket.android.client.mypage.movie_rec_list;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +46,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
     LinearLayoutManager mLayoutManager;
     RecAdapter adapter;
     ProgressDialog mProgressDialog;
+    ProgressDialog removeProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +94,11 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         mProgressDialog.setMessage("검색중..");
         mProgressDialog.setIndeterminate(true);
 
+        removeProgressDialog = new ProgressDialog(MovieRecActivity.this);
+        removeProgressDialog.setCancelable(false);
+        removeProgressDialog.setMessage("삭제중..");
+        removeProgressDialog.setIndeterminate(true);
+
         mProgressDialog.show();
 
         /**
@@ -116,7 +121,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
                 if (isResponseSuccess) {
                     mDatas.addAll(recResult.result.result);
                     adapter.notifyDataSetChanged();
-                    mProgressDialog.dismiss();;
+                    mProgressDialog.dismiss();
                 }
             }
 
@@ -162,6 +167,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
 
     @Override
     public void processOneMethodAtPosition(final int position) {
+        removeProgressDialog.show();
         Call<HeartResult> getHeartReasult = mbService.getHeartResult(mDatas.get(position).movie_id, mDatas.get(position).is_liked, token);
         getHeartReasult.enqueue(new Callback<HeartResult>() {
             @Override
@@ -173,13 +179,16 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
                 }
                 if (isHeartSuccess) {
                     adapter.notifyDataSetChanged();
+                    removeProgressDialog.dismiss();
                 }
+                removeProgressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<HeartResult> call, Throwable t) {
                 Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
                 Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                removeProgressDialog.dismiss();
             }
         });
     }
