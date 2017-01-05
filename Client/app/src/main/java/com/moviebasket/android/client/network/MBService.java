@@ -11,18 +11,22 @@ import com.moviebasket.android.client.mypage.movie_rec_list.HeartResult;
 import com.moviebasket.android.client.mypage.movie_rec_list.RecResultParent;
 import com.moviebasket.android.client.mypage.setting.MemberWithdrawResult;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
+import com.moviebasket.android.client.mypage.setting.UpdateProfileImageResult;
 import com.moviebasket.android.client.search.VerifyMovieAddResult;
 import com.moviebasket.android.client.splash.VerifyLoginResult;
 import com.moviebasket.android.client.splash.VerifyVersionResult;
 import com.moviebasket.android.client.tag.hashtag.SearchResult;
 import com.moviebasket.android.client.tag.tagged.SearchDataResult;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -121,5 +125,10 @@ public interface MBService {
     //회원탈퇴
     @GET("/member/withdraw")
     Call<MemberWithdrawResult> verifyMemberWithdraw(@Header("member_token") String member_token);
+
+    //프로필 사진 업데이트
+    @Multipart
+    @POST("/posts")
+    Call<UpdateProfileImageResult> updateProfileImage(@Header("member_token") String member_token, @Part MultipartBody.Part file);
 
 }
