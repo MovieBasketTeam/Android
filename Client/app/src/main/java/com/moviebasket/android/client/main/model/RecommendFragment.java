@@ -94,7 +94,6 @@ public class RecommendFragment extends Fragment implements OneClickable {
     @Override
     public void onResume() {
         super.onResume();
-        loadBasketListDatas(1);
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
@@ -145,7 +144,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
     };
 
 
-    private void loadBasketListDatas(int mode) {
+    public void loadBasketListDatas(int mode) {
         Log.i("ReloadConfirm", "loadBasketListDatas: 요청 직전");
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
@@ -161,7 +160,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, RecommendFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
-                    Log.i("ReloadConfirm", "loadBasketListDatas: 요청하고나서 list데이터 갱신");
+                    Log.i("NetConfirm", "RecommendFragment 바스켓리스트 가져옴.");
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
