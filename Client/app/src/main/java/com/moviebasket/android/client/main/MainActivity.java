@@ -483,6 +483,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("ActivityConfirm", "if문 들어오나요 : ");
                         Log.i("ActivityConfirm", "member_image : "+settingResult.result.member_image);
                         Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
+                    }else {
+                        userimage.setImageResource(R.drawable.mypage_myimage);
                     }
                 }
             }

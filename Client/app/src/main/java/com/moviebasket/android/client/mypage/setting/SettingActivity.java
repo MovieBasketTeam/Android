@@ -1,7 +1,6 @@
 package com.moviebasket.android.client.mypage.setting;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -25,7 +24,6 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.splash.SplashActivity;
-import com.moviebasket.android.client.splash.VerifyLoginResult;
 
 import java.io.ByteArrayOutputStream;
 
@@ -40,7 +38,7 @@ import retrofit2.Response;
 public class SettingActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_FOR_IMAGE = 1001;
-    private boolean isLogined;
+    private boolean isDefaulUserImage;
 
     private MBService mbService;
     private boolean isResponseSuccess;
@@ -173,8 +171,8 @@ public class SettingActivity extends AppCompatActivity {
                 intent.putExtra("crop", "true");
                 intent.putExtra("aspectX", 10);
                 intent.putExtra("aspectY", 10);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 200);
+                intent.putExtra("outputX", 300);
+                intent.putExtra("outputY", 300);
                 Log.i("NetConfirm", "NewFragment 바스켓리스트 가져옴.");
                 try {
                     intent.putExtra("return-data", true);
@@ -188,11 +186,15 @@ public class SettingActivity extends AppCompatActivity {
 
             //기본이미지로 바꾸면서 딜리트 요청 해야함.
             case 2 :
-                String tokenP = ApplicationController.getInstance().getPreferences();
+                if(isDefaulUserImage){
+                    return true;
+                }
+
+                String changedToken = ApplicationController.getInstance().getPreferences();
                 //SharedPreferences pref = ApplicationController.getInstance().getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
                 //final String token = pref.getString(SecurityDataSet.TK_KEY, "");
-                Log.i("profileImg", "프로필삭제전 Token: "+tokenP);
-                Call<UpdateProfileImageResult> deleteProfile = mbService.deleteProfileImage(tokenP);
+                Log.i("profileImg", "프로필삭제전 Token: "+changedToken);
+                Call<UpdateProfileImageResult> deleteProfile = mbService.deleteProfileImage(changedToken);
                 deleteProfile.enqueue(new Callback<UpdateProfileImageResult>() {
                     @Override
                     public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
@@ -294,6 +296,7 @@ public class SettingActivity extends AppCompatActivity {
                         Glide.with(SettingActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
                     } else {
                         userimage.setImageResource(R.drawable.mypage_myimage);
+                        isDefaulUserImage=true;
                     }
                 }
             }
