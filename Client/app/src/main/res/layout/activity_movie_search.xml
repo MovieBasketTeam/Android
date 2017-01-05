@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie_search"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
     >
 
     <RelativeLayout
+        android:id="@+id/rayout01"
         android:layout_width="wrap_content"
         android:layout_height="58dp"
         android:background="#ffffff">
@@ -38,14 +39,24 @@
             android:scaleType="fitXY"
             android:src="@drawable/search_icon"
             android:background="#ffffff"/>
-
-
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginBottom="3dp"
+        android:textSize="12sp"
+        android:textColor="#463328"
+        android:text="영화티켓을 누르면 바스켓에 영화가 추가 됩니다."/>
+
     <RelativeLayout
+        android:layout_below="@id/text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/search_backimage"
+        android:background="@drawable/login_back"
         >
         <TextView
             android:id="@+id/search_korean"
@@ -74,4 +85,4 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
