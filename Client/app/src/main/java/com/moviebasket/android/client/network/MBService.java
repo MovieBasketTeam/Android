@@ -20,6 +20,7 @@ import com.moviebasket.android.client.tag.tagged.SearchDataResult;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -132,6 +133,7 @@ public interface MBService {
     Call<UpdateProfileImageResult> updateProfileImage(@Header("member_token") String member_token, @Part MultipartBody.Part file);
 
     //프로필 사진 삭제
-    //@DELETE("/member/deleteprofile")
+    @DELETE("/member/deleteprofile")
+    Call<UpdateProfileImageResult> deleteProfileImage(@Header("member_token") String member_token);
 
 }

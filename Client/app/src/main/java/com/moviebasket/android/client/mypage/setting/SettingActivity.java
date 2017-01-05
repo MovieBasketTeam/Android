@@ -1,6 +1,7 @@
 package com.moviebasket.android.client.mypage.setting;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.splash.SplashActivity;
+import com.moviebasket.android.client.splash.VerifyLoginResult;
 
 import java.io.ByteArrayOutputStream;
 
@@ -38,6 +40,7 @@ import retrofit2.Response;
 public class SettingActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_FOR_IMAGE = 1001;
+    private boolean isLogined;
 
     private MBService mbService;
     private boolean isResponseSuccess;
@@ -184,8 +187,41 @@ public class SettingActivity extends AppCompatActivity {
 
             //기본이미지로 바꾸면서 딜리트 요청 해야함.
             case 2 :
-                Toast.makeText(this, "기본 이미지로 변경", Toast.LENGTH_SHORT).show();
-                userimage.setImageResource(R.drawable.mypage_myimage);
+                String tokenP = ApplicationController.getInstance().getPreferences();
+                //SharedPreferences pref = ApplicationController.getInstance().getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
+                //final String token = pref.getString(SecurityDataSet.TK_KEY, "");
+                Log.i("profileImg", "프로필삭제전 Token: "+tokenP);
+                Call<UpdateProfileImageResult> deleteProfile = mbService.deleteProfileImage(tokenP);
+                deleteProfile.enqueue(new Callback<UpdateProfileImageResult>() {
+                    @Override
+                    public void onResponse(Call<UpdateProfileImageResult> call, Response<UpdateProfileImageResult> response) {
+                        UpdateProfileImageResult result = response.body();
+                        //Log.i("profileImg", "내용 : "+ result.result.message);
+                        //String message = result.result.message;
+                        if ( result != null ) {
+                            String member_token  = result.result.member_token;
+                            String message = result.result.message;
+                            if ( message.equals("delete profile success") ) {
+                                ApplicationController.getInstance().savePreferences(member_token);
+                                Log.i("profileImg", "프로필삭제후 Token: "+ApplicationController.getInstance().getPreferences());
+                                Toast.makeText(SettingActivity.this, "기본 이미지로 변경", Toast.LENGTH_SHORT).show();
+                                userimage.setImageResource(R.drawable.mypage_myimage);
+                            } else {
+                                Toast.makeText(SettingActivity.this, "프로필변경 실패1번", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdateProfileImageResult> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "네트워크를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+/*
+                Toast.makeText(SettingActivity.this, "기본 이미지로 변경", Toast.LENGTH_SHORT).show();
+                userimage.setImageResource(R.drawable.mypage_myimage);*/
+
+
                 /**
                  *  TODO: 딜리트 요청하는 부분
                  */
