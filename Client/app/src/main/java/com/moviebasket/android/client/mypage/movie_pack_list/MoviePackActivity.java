@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -37,6 +38,8 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
     PackResultResult result;
     PackAdapter adapter;
 
+    ImageView backBtnIcon;
+
     private MovieDetailDialog detailDialog;
 
     @Override
@@ -45,6 +48,15 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
         setContentView(R.layout.activity_movie_pack);
 
         mbService = ApplicationController.getInstance().getMbService();
+
+
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         /**
          * 1. recyclerview 초기화

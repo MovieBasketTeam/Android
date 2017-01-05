@@ -42,6 +42,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
     TextView basketName;
     ImageView downBtn;
     TextView downCount;
+    ImageView backBtnIcon;
 
     int basket_id;
     int basket_count;
@@ -67,6 +68,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         Intent basketInfo  = getIntent();
         mbService = ApplicationController.getInstance().getMbService();
 
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
 
         basket_id = basketInfo.getExtras().getInt("basket_id");
         basket_count = basketInfo.getExtras().getInt("basket_like");
@@ -79,6 +81,12 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         downBtn = (ImageView)findViewById(R.id.specificDownBtn);
         downCount = (TextView)findViewById(R.id.downCount);
 
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         Glide.with(getApplicationContext()).load(basketInfo.getExtras().getString("basket_image")).into(basketImg);
         basketName.setText(basketInfo.getExtras().getString("basket_name"));

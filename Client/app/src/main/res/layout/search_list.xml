@@ -19,14 +19,23 @@
             android:layout_height="38dp"
             android:layout_centerInParent="true"
             android:src="@drawable/bar_logo"/>
-        <ImageView
+        <!--<ImageView
             android:id="@+id/btn_tag_main"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/main_bar_hash"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:layout_alignTop="@+id/centerImg"/>
+            android:layout_alignTop="@+id/centerImg"/>-->
+        <ImageView
+            android:id="@+id/backBtnIcon"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/search_backicon" />
+<!--
         <ImageView
             android:id="@+id/btn_toggle_drawer_main"
             android:layout_width="38dp"
@@ -34,7 +43,7 @@
             android:src="@drawable/main_bar_my"
             android:layout_alignParentRight="true"
             android:layout_alignBottom="@+id/centerImg"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"/>-->
     </RelativeLayout>
 
     <ScrollView

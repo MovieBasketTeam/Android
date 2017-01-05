@@ -29,6 +29,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
 
     ImageView heart;
     ImageView book_mark;
+    ImageView backBtnIcon;
     String token;
 
     private MBService mbService;
@@ -55,6 +56,14 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         heart = (ImageView) findViewById(R.id.heart);
         book_mark = (ImageView) findViewById(R.id.heart);
         token = ApplicationController.getInstance().getPreferences();
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 

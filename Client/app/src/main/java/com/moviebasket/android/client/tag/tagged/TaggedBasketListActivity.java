@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
     int basket_like;
     boolean isSearchResult;
 
+    ImageView backBtnIcon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,15 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
         int c_id = intent.getExtras().getInt("c_id");
 
         title.setText(tag_title);
+
+
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
 //        Toast.makeText(getApplicationContext(),c_id,Toast.LENGTH_SHORT).show();

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -27,6 +28,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HashTagActivity extends Activity {
+
+    ImageView backBtnIcon;
 
     private static final int REQUEST_CODE_FOR_TAGGED = 1005;
     private ProgressDialog mProgressDialog;
@@ -67,6 +70,15 @@ public class HashTagActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_list);
+
+
+        backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        backBtnIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         //String totalRecomendation[]={"1","2","3","4"};// = {"#썸탈 때","#연인","#가족","#혼자"};
 //
