@@ -46,7 +46,6 @@ public class MainAdapter extends RecyclerView.Adapter<BasketListViewHolder> {
     @Override
     public BasketListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 뷰홀더 패턴을 생성하는 메소드.
-
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_bl, parent, false);
         if(this.clickListener!=null)
             itemView.setOnClickListener(clickListener);

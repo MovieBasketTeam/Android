@@ -1,10 +1,8 @@
 package com.moviebasket.android.client.main.model;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,7 +48,6 @@ public class RecommendFragment extends Fragment implements OneClickable {
         Log.i("ReloadConfirm", "RecommendFrag onCreateView:");
 
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_view, container, false);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.myRecyclerview);
         mbService = ApplicationController.getInstance().getMbService();
         member_token = ApplicationController.getInstance().getPreferences();
@@ -63,6 +60,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
         basketListDatases = new ArrayList<>();
 
+        Log.i("SortNumber", "rec: "+1);
         loadBasketListDatas(1);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -117,36 +115,16 @@ public class RecommendFragment extends Fragment implements OneClickable {
         }
     };
 
-    private View.OnClickListener subClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(final View v) {
-            switch (v.getId()) {
-                case R.id.downBtn:
-                    //바스켓 담기|제거버튼
-                    AlertDialog.Builder BasketBuilder = new AlertDialog.Builder(v.getContext());
-                    BasketBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    BasketBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    BasketBuilder.show();
-                    break;
-            }
-        }
-    };
-
 
     public void loadBasketListDatas(int mode) {
         Log.i("ReloadConfirm", "loadBasketListDatas: 요청 직전");
-        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
+        String changedToken = ApplicationController.getInstance().getPreferences();
+        if(mbService==null){
+            Log.i("NetConfirm"  , "loadBasketListDatas: rec : mbServer is null  :" );
+            mbService = ApplicationController.getInstance().getMbService();
+        }
+
+        Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(changedToken, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
             @Override
             public void onResponse(Call<BasketListDataResult> call, Response<BasketListDataResult> response) {
@@ -154,7 +132,7 @@ public class RecommendFragment extends Fragment implements OneClickable {
                 BasketListDataResult result = response.body();
                 String message = result.result.message;
                 if (message == null) {
-                    basketListDatases.clear();
+                    basketListDatases = result.result.baskets;
                     basketListDatases.addAll(result.result.baskets);
 
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, RecommendFragment.this);
