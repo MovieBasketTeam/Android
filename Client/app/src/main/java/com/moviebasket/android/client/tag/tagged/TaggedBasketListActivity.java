@@ -156,6 +156,7 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
             }
         });
     }
+
     public void processOneMethodAtPosition(final int position){
         //바스켓 담으면 바스켓 담고, 이미지 변경.
         Call<BasketResult> cartResult = mbService.getCartPutResult(mDatas1.get(position).basket_id, token);
@@ -183,6 +184,12 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
                 Toast.makeText(getApplicationContext(), "서버와 통신을 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_left);
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
