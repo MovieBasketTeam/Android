@@ -49,7 +49,7 @@ public class MovieSearchActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
     String query;
-    int startQuery = 0;
+    int startQuery;
     int total;
 
     @Override
@@ -118,6 +118,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                                     searchKorean.setText("검색결과가 없습니다.");
                                     search_nosearch.setImageResource(R.drawable.search_nosearchimage);
                                 } else {
+                                    startQuery = 0;
                                     total = result.total;
                                     for (int i = 0; i < result.items.size(); i++) {
                                         MovieDetail detail =
@@ -153,6 +154,7 @@ public class MovieSearchActivity extends AppCompatActivity {
         });
 
 
+        //스크롤링
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -169,7 +171,6 @@ public class MovieSearchActivity extends AppCompatActivity {
                             public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
                                 if (response.isSuccessful()) {
                                     result = response.body();
-                                    Log.i("들어옴 : ", "진짜시밤 startQuery : " + startQuery);
                                     for (int i = 0; i < result.items.size(); i++) {
                                         MovieDetail detail =
                                                 new MovieDetail
