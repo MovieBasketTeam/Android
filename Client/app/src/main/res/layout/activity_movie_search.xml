@@ -18,6 +18,7 @@
             android:layout_toLeftOf="@+id/searchMovieBtn"
             android:background="@drawable/search_box">
             <EditText
+                android:inputType="text"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/searchMovieName"
                 android:layout_width="match_parent"

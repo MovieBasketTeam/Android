@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -55,6 +58,16 @@ public class LoginActivity extends AppCompatActivity {
         pass_x_btn.setOnClickListener(clickListener);
         btn_login.setOnClickListener(clickListener);
         btn_signup.setOnClickListener(clickListener);
+
+        etxt_pw.setImeOptions(EditorInfo.IME_ACTION_DONE); // 키보드 확인 버튼 클릭시
+        etxt_pw.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                    btn_login.performClick(); // btn_login 이란 Button 누르는 동작 실행
+                return false;
+            }
+        });
 
     }
 

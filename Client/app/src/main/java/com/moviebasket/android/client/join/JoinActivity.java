@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
@@ -66,7 +69,18 @@ public class JoinActivity extends AppCompatActivity {
         pwX.setOnClickListener(clickListener);
         CPX.setOnClickListener(clickListener);
 
+        confirm.setImeOptions(EditorInfo.IME_ACTION_DONE); // 키보드 확인 버튼 클릭시
+        confirm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                    signupBtn.performClick(); // signupBtn 이란 Button 누르는 동작 실행
+                return false;
+            }
+        });
+
     }
+
 
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override

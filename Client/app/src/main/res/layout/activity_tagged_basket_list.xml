@@ -26,13 +26,13 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:layout_alignTop="@+id/centerImg"/>-->
+
         <ImageView
             android:id="@+id/backBtnIcon"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="32dp"
+            android:layout_height="58dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/search_backicon" />
 
         <!--<ImageView
