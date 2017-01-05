@@ -106,8 +106,11 @@ public class MovieDetailDialog extends Dialog {
             txt_title.setTextSize(19);
             txt_title.setText(movie_title + "("+movie_pubDate+")");
             //txt_year.setText("("+movie_pubDate+")");
-        } else if ( movie_title.length() > 18) {
+        } else if ( movie_title.length() > 18 && movie_title.length() <= 21) {
             txt_title.setTextSize(17);
+            txt_title.setText(movie_title + "("+movie_pubDate+")");
+        } else {
+            txt_title.setTextSize(15);
             txt_title.setText(movie_title + "("+movie_pubDate+")");
         }
 
