@@ -19,7 +19,7 @@ public class ApplicationController extends Application {
     private static final String naverURL = "https://openapi.naver.com/v1/search/";
     private static final String MovieBasketURL = SecurityDataSet.MBServerUrl;
     private static ApplicationController instance;
-    private static final String AppVersion = "0.1";
+    private static final String AppVersion = "0.1"; //버전정보
 
     private MBService mbService;
     private NaverService naverService;
