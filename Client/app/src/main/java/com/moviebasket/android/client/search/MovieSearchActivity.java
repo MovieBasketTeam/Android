@@ -2,6 +2,7 @@ package com.moviebasket.android.client.search;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,6 @@ import retrofit2.Response;
 public class MovieSearchActivity extends AppCompatActivity {
 
 
-
     EditText searchMovieName;
     TextView searchKorean;
     ImageButton searchMovieBtn;
@@ -47,26 +47,29 @@ public class MovieSearchActivity extends AppCompatActivity {
     MovieDataResult result;
     ArrayList<MovieDetail> movieDetails;
     private ProgressDialog mProgressDialog;
-    String query;
 
+    String query;
+    int startQuery = 0;
+    int total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_search);
 
+
         naverService = ApplicationController.getInstance().getNaverService();
         mbService = ApplicationController.getInstance().getMbService();
 
-        searchMovieName = (EditText)findViewById(R.id.searchMovieName);
-        searchKorean = (TextView)findViewById(R.id.search_korean);
-        searchMovieBtn = (ImageButton)findViewById(R.id.searchMovieBtn);
-        search_nosearch = (ImageView)findViewById(R.id.search_nosearch);
+        searchMovieName = (EditText) findViewById(R.id.searchMovieName);
+        searchKorean = (TextView) findViewById(R.id.search_korean);
+        searchMovieBtn = (ImageButton) findViewById(R.id.searchMovieBtn);
+        search_nosearch = (ImageView) findViewById(R.id.search_nosearch);
 
         /**
          * 1. recyclerview 초기화
          */
-        recyclerView = (RecyclerView)findViewById(R.id.myRecyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.myRecyclerview);
         //각 item의 크기가 일정할 경우 고정
         recyclerView.setHasFixedSize(true);
 
@@ -94,7 +97,7 @@ public class MovieSearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //네이버 네트워킹 테스트
                 Boolean Check = CheckString(searchMovieName.getText().toString());
-                if ( Check ) {
+                if (Check) {
 
                     mProgressDialog.show();
                     query = searchMovieName.getText().toString();
@@ -102,20 +105,21 @@ public class MovieSearchActivity extends AppCompatActivity {
                     /**
                      * 2. recyclerview에 보여줄 data
                      */
-                    Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query);
+                    Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, 1, 10);
                     getMovieData.enqueue(new Callback<MovieDataResult>() {
                         @Override
                         public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
                             if (response.isSuccessful()) {
                                 result = response.body();
                                 movieDetails.clear();
-                                if( result.items.size() == 0) {
+                                if (result.items.size() == 0) {
                                     searchMovieName.setText("");
                                     searchMovieName.requestFocus();
                                     searchKorean.setText("검색결과가 없습니다.");
                                     search_nosearch.setImageResource(R.drawable.search_nosearchimage);
                                 } else {
-                                    for(int i=0; i<result.items.size(); i++) {
+                                    total = result.total;
+                                    for (int i = 0; i < result.items.size(); i++) {
                                         MovieDetail detail =
                                                 new MovieDetail
                                                         (RemoveHTMLTag(result.items.get(i).title),
@@ -127,6 +131,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                                                                 result.items.get(i).userRating);
                                         movieDetails.add(detail);
                                     }
+                                    startQuery = startQuery + 10;
                                 }
                                 adapter.notifyDataSetChanged();
                                 mProgressDialog.dismiss();
@@ -142,10 +147,64 @@ public class MovieSearchActivity extends AppCompatActivity {
                 } else {
                     searchMovieName.setText("");
                     searchMovieName.requestFocus();
-                    Toast.makeText(getApplicationContext(), "2자이상 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "1자이상 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                int scrollOffset = recyclerView.computeVerticalScrollOffset();
+                int scrollExtend = recyclerView.computeVerticalScrollExtent();
+                int scrollRange = recyclerView.computeVerticalScrollRange();
+
+                if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
+                    if ( startQuery < total ) {
+                        Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, startQuery, 10);
+                        getMovieData.enqueue(new Callback<MovieDataResult>() {
+                            @Override
+                            public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
+                                if (response.isSuccessful()) {
+                                    result = response.body();
+                                    Log.i("들어옴 : ", "진짜시밤 startQuery : " + startQuery);
+                                    for (int i = 0; i < result.items.size(); i++) {
+                                        MovieDetail detail =
+                                                new MovieDetail
+                                                        (RemoveHTMLTag(result.items.get(i).title),
+                                                                result.items.get(i).link,
+                                                                result.items.get(i).image,
+                                                                result.items.get(i).pubDate,
+                                                                RemoveHTMLTag(result.items.get(i).director.replaceAll("[|]", ",")),
+                                                                result.items.get(i).actor,
+                                                                result.items.get(i).userRating);
+                                        movieDetails.add(detail);
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                    startQuery = startQuery + 10;
+                                    //mProgressDialog.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<MovieDataResult> call, Throwable t) {
+                                mProgressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+            }
+        });
+
+
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
@@ -183,14 +242,14 @@ public class MovieSearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<VerifyMovieAddResult> call, Response<VerifyMovieAddResult> response) {
                             //추가 성공했을 때
-                            Log.i("NetConfirm", "response : "+response.message());
+                            Log.i("NetConfirm", "response : " + response.message());
                             VerifyMovieAddResult result = response.body();
-                            if(result==null){
+                            if (result == null) {
                                 Toast.makeText(MovieSearchActivity.this, "null값", Toast.LENGTH_SHORT).show();
                                 mProgressDialog.dismiss();
                                 return;
                             }
-                            if(result.result.message.equals("movie add success")){
+                            if (result.result.message.equals("movie add success")) {
                                 //Intent data = new Intent();
                                 //추가된 영화를 보내준다.
                                 // data.putExtra("addedMovie", );
@@ -198,10 +257,10 @@ public class MovieSearchActivity extends AppCompatActivity {
                                 mProgressDialog.dismiss();
                                 setResult(RESULT_OK);
                                 finish();
-                            }else if(result.result.message.equals("movie add failed")){
+                            } else if (result.result.message.equals("movie add failed")) {
                                 Toast.makeText(MovieSearchActivity.this, "이미 추가된 영화입니다.", Toast.LENGTH_SHORT).show();
                                 mProgressDialog.dismiss();
-                            }else{
+                            } else {
                                 Toast.makeText(MovieSearchActivity.this, "바스켓에 영화를 추가하는데 실패했습니다", Toast.LENGTH_SHORT).show();
                                 mProgressDialog.dismiss();
                             }
@@ -254,8 +313,8 @@ public class MovieSearchActivity extends AppCompatActivity {
     };
 
     //태그제거 메서드
-    public String RemoveHTMLTag(String changeStr){
-        if( changeStr != null && !changeStr.equals("") ) {
+    public String RemoveHTMLTag(String changeStr) {
+        if (changeStr != null && !changeStr.equals("")) {
             changeStr = changeStr.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
         } else {
             changeStr = "";
@@ -264,15 +323,15 @@ public class MovieSearchActivity extends AppCompatActivity {
     }
 
     //특수문자 제거
-    public String RemoveSpecitialCharacter(String str){
+    public String RemoveSpecitialCharacter(String str) {
         String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
-        str =str.replaceAll(match, " ");
+        str = str.replaceAll(match, " ");
         return str;
     }
 
     public Boolean CheckString(String str) {
         str = str.trim();
-        if ( str != null && str.length() > 1 ) {
+        if (str != null && str.length() >= 1) {
             return true;
         } else {
             return false;

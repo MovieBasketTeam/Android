@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public class MovieDataResult {
     public ArrayList<MovieDetail> items;
+    public int total;
 }
