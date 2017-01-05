@@ -209,11 +209,7 @@ public class SettingActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(SettingActivity.this, "프로필변경 실패1번", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            //err 발생시 이쪽으로 들어옴.
-                            Toast.makeText(SettingActivity.this, "프로필변경 실패2번", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override
