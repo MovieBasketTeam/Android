@@ -128,6 +128,7 @@ public class SettingActivity extends AppCompatActivity {
                     Log.i("NetConfirm", " 유저 사진 url : "+settingResult.result.member_image);
                     if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
                         Glide.with(SettingActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
+                    }else{
                     }
                 }
             }
@@ -191,8 +192,6 @@ public class SettingActivity extends AppCompatActivity {
                 //아 근데.. 사진 비율찌그러짐.. ㅡㅡ
 
 
-
-
                 //이미지 리사이징 후 서버에 upload 요청
                 MultipartBody.Part body;
 
@@ -202,7 +201,6 @@ public class SettingActivity extends AppCompatActivity {
                     return;
                 }
                 selectedBitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 압축 옵션( JPEG, PNG ) , 품질 설정 ( 0 - 100까지의 int형 ),
-
 
                 RequestBody photoBody = RequestBody.create(MediaType.parse("image/jpg"), baos.toByteArray());
 
@@ -238,7 +236,6 @@ public class SettingActivity extends AppCompatActivity {
                         Toast.makeText(SettingActivity.this, "서버와 연결을 확인하세요", Toast.LENGTH_SHORT).show();
                     }
                 });
-
 
             }
         }

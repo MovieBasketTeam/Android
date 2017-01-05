@@ -167,40 +167,43 @@
         <LinearLayout
             android:id="@+id/mypage_basket_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:layout_height="52dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/mypage_basket">
 
             <ImageView
-                android:layout_width="143dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/mypage_basket" />
+                 />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/mypage_movie_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:layout_height="43dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/mypage_movie">
 
             <ImageView
-                android:layout_width="143dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/mypage_movie" />
+                 />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/mypage_reco_movie"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:layout_height="53dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/mypage_reco_movie">
 
             <ImageView
-                android:layout_width="143dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/mypage_reco_movie" />
+                 />
         </LinearLayout>
 
         <TextView

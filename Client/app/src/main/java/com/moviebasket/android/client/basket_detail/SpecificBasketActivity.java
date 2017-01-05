@@ -289,6 +289,8 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         } else {
             Toast.makeText(getApplicationContext(), "이미 영화를 담았습니다.", Toast.LENGTH_SHORT);
         }
+
+
     }
 
     @Override

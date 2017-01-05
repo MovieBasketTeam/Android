@@ -154,38 +154,9 @@ public class MainActivity extends AppCompatActivity {
         eventBlocker4.setOnClickListener(drawerClickListener);
 
         //유저의 개인정보 가져오기.
-        String token = ApplicationController.getInstance().getPreferences();
-        Call<SettingResult> getSettingResult = mbService.getSettingResult(token);
-        getSettingResult.enqueue(new Callback<SettingResult>() {
-            @Override
-            public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
-                SettingResult settingResult = response.body();
-                if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    isResponseSuccess = settingResult.result.message == null ? true : false;
-                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
-                }
-                if (isResponseSuccess) {
-                    mypage_username.setText(String.valueOf(settingResult.result.member_name));
-                    if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
-                        Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
-                    }
-                }
-            }
+        requestProfile();
 
-            @Override
-            public void onFailure(Call<SettingResult> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
-            }
-
-        });
-
-
-
-
-
-    // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
+        // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -339,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent tagIntent = new Intent(MainActivity.this, HashTagActivity.class);
                     startActivityForResult(tagIntent, REQEUST_CODE_FOR_HASHTAG);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.hold);
-
                     break;
                 case R.id.btn_toggle_drawer_main:
                     drawerLayout.openDrawer(linearLayout);
@@ -348,27 +318,21 @@ public class MainActivity extends AppCompatActivity {
                     newbtn.setBackgroundResource(R.drawable.main_recent_black);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
-
                     viewPager.setCurrentItem(2);
                     break;
                 case R.id.popularbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop_black);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco);
-
                     viewPager.setCurrentItem(1);
                     break;
                 case R.id.recommendbtn:
                     newbtn.setBackgroundResource(R.drawable.main_recent);
                     popularbtn.setBackgroundResource(R.drawable.main_pop);
                     recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
-
                     viewPager.setCurrentItem(0);
-
                     break;
-
             }
-
         }
     };
 
@@ -406,10 +370,8 @@ public class MainActivity extends AppCompatActivity {
                     logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(logoutIntent);
                     finish();
-
                     break;
                 case R.id.mypage_setting_btn:
-
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
@@ -555,16 +517,51 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        Log.i("ActivityConfirm", "onResume: 시작 ");
+
         //바스켓 리스트 리로드
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+
 
         //Resume했을 때, 최신순으로 정렬시켜줘야됨.
         recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
         popularbtn.setBackgroundResource(R.drawable.main_pop);
         newbtn.setBackgroundResource(R.drawable.main_recent);
-
         viewPager.setCurrentItem(0);
 
+        //Resume했을 때, 개인정보 다시 가져와야함.(프사 바꾸고 난 경우)
+        requestProfile();
+        Log.i("ActivityConfirm", "onResume: 종료 ");
+
+    }
+
+    private void requestProfile(){
+        //유저의 개인정보 가져오기.
+        Call<SettingResult> getSettingResult = mbService.getSettingResult(member_token);
+        getSettingResult.enqueue(new Callback<SettingResult>() {
+            @Override
+            public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
+                SettingResult settingResult = response.body();
+                if (response.isSuccessful()) {// 응답코드 200
+                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+                    isResponseSuccess = settingResult.result.message == null ? true : false;
+                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
+                }
+                if (isResponseSuccess) {
+                    mypage_username.setText(String.valueOf(settingResult.result.member_name));
+                    if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
+                        Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SettingResult> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+            }
+
+        });
     }
 }
