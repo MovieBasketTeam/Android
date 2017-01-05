@@ -6,6 +6,7 @@ package com.moviebasket.android.client.mypage.setting;
 public class SettingDatas {
     public String member_name;
     public String member_email;
+    public String member_image;
     public String message;
 
 
