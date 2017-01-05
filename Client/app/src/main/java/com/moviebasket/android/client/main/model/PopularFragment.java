@@ -33,7 +33,7 @@ import retrofit2.Response;
  * Created by kh on 2017. 1. 1..
  */
 
-public class PopluarFragment extends Fragment implements OneClickable {
+public class PopularFragment extends Fragment implements OneClickable {
 
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
 
@@ -49,7 +49,6 @@ public class PopluarFragment extends Fragment implements OneClickable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.viewpage_main_view, container, false);
-
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myRecyclerview);
 
@@ -96,7 +95,6 @@ public class PopluarFragment extends Fragment implements OneClickable {
     @Override
     public void onResume() {
         super.onResume();
-        loadBasketListDatas(3);
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
@@ -147,7 +145,7 @@ public class PopluarFragment extends Fragment implements OneClickable {
     };
 
 
-    private void loadBasketListDatas(int mode) {
+    public void loadBasketListDatas(int mode) {
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
             @Override
@@ -157,14 +155,11 @@ public class PopluarFragment extends Fragment implements OneClickable {
                 String message = result.result.message;
                 if (message == null) {
                     basketListDatases = result.result.baskets;
-
-                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : " + basketListDatases.toString());
-
-                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
-
-                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, PopluarFragment.this);
+                    mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, PopularFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
+                    Log.i("NetConfirm", "PopularFrament 바스켓리스트 가져옴.");
+
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();

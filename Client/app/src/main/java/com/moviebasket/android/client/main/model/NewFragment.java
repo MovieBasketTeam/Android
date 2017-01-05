@@ -90,7 +90,6 @@ public class NewFragment extends Fragment implements OneClickable {
     @Override
     public void onResume() {
         super.onResume();
-        loadBasketListDatas(2);
     }
 
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
@@ -113,7 +112,8 @@ public class NewFragment extends Fragment implements OneClickable {
     };
 
 
-    private void loadBasketListDatas(int mode) {
+    public void loadBasketListDatas(int mode) {
+        mbService = ApplicationController.getInstance().getMbService();
         Call<BasketListDataResult> getRecommendedBasketList = mbService.getBasketListDataResultOrderBy(member_token, mode);
         getRecommendedBasketList.enqueue(new Callback<BasketListDataResult>() {
             @Override
@@ -123,13 +123,10 @@ public class NewFragment extends Fragment implements OneClickable {
                 String message = result.result.message;
                 if (message == null) {
                     basketListDatases = result.result.baskets;
-
-                    Log.i("NetConfirm", "onResponse: basketListData is null? in 서버요청 : " + basketListDatases.toString());
-                    //mainadapter = new MainAdapter(basketListDatases, recylerClickListener, this)
-                    Log.i("NetConfirm", "onResponse: rv.setAdapter확인");
                     mainadapter = new MainAdapter(basketListDatases, recylerClickListener, NewFragment.this);
                     recyclerView.setAdapter(mainadapter);
                     mainadapter.notifyDataSetChanged();
+                    Log.i("NetConfirm", "NewFragment 바스켓리스트 가져옴.");
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -139,7 +136,8 @@ public class NewFragment extends Fragment implements OneClickable {
             @Override
             public void onFailure(Call<BasketListDataResult> call, Throwable t) {
                 //바스켓리스트를 가져오는데 실패함
-                Toast.makeText(getActivity(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
+                Log.i("NetConfirm", "onFailure: 바스켓리스트 데이터 가져오는데 실패함.");
+                //Toast.makeText(getContext(), "서버와 연결에 문제가 생겼습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 

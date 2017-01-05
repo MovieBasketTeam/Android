@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,6 +20,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.model.NewFragment;
+import com.moviebasket.android.client.main.model.PopularFragment;
+import com.moviebasket.android.client.main.model.RecommendFragment;
 import com.moviebasket.android.client.main.presenter.ImagePagerAdatper;
 import com.moviebasket.android.client.main.presenter.PagerAdapter;
 import com.moviebasket.android.client.mypage.basket_list.BasketListActivity;
@@ -29,10 +31,8 @@ import com.moviebasket.android.client.mypage.movie_rec_list.MovieRecActivity;
 import com.moviebasket.android.client.mypage.setting.SettingActivity;
 import com.moviebasket.android.client.mypage.setting.SettingResult;
 import com.moviebasket.android.client.network.MBService;
-import com.moviebasket.android.client.search.MovieSearchActivity;
 import com.moviebasket.android.client.splash.SplashActivity;
 import com.moviebasket.android.client.tag.hashtag.HashTagActivity;
-import com.moviebasket.android.client.testpage.JsoupActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -129,20 +129,6 @@ public class MainActivity extends AppCompatActivity {
         popularFragment = pagerAdapter.getItem(1);
         newFragment = pagerAdapter.getItem(2);
 
-        /*
-        fab_menu = (FloatingActionMenu)findViewById(R.id.floating_action_menu);
-        fab_item1 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item1);
-        fab_item2 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item2);
-        fab_item3 = (FloatingActionButton) findViewById(R.id.floating_action_menu_item3);
-
-        fab_item1.setOnClickListener(fabClickListener);
-        fab_item2.setOnClickListener(fabClickListener);
-        fab_item3.setOnClickListener(fabClickListener);
-        */
-
-//        listView.setAdapter(
-//                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nav_item_main));
-//        listView.setOnItemClickListener(new DrawerItemClickListener());
 
         btn_toggle.setOnClickListener(clickListener);
         btn_tag.setOnClickListener(clickListener);
@@ -162,6 +148,12 @@ public class MainActivity extends AppCompatActivity {
 
         //유저의 개인정보 가져오기.
         requestProfile();
+
+        // 초기화면은 추천순으로 정렬.
+        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
+        popularbtn.setBackgroundResource(R.drawable.main_pop);
+        newbtn.setBackgroundResource(R.drawable.main_recent);
+        viewPager.setCurrentItem(0);
 
         // 이미지뷰 프래그먼트 자동슬라이딩을 위한 코드영역
         final Handler handler = new Handler();
@@ -399,81 +391,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> adapter, View view, int position,
-                                long id) {
-            switch (position) {
-
-                case 0:
-                    Intent BasketListIntent = new Intent(MainActivity.this, BasketListActivity.class);
-                    startActivityForResult(BasketListIntent, REQEUST_CODE_FOR_BASKET_LIST);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-
-                    break;
-                case 1:
-                    Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
-                    startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-
-                    break;
-                case 2:
-                    Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
-                    startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-
-                    break;
-                case 3:
-                    //테스트용
-                    Intent testIntent = new Intent(MainActivity.this, MovieSearchActivity.class);
-                    startActivityForResult(testIntent, REQEUST_CODE_FOR_TEST);
-                    break;
-                case 4:
-                    Intent intent = new Intent(MainActivity.this, JsoupActivity.class);
-                    startActivityForResult(intent, REQEUST_CODE_FOR_PRACTICE);
-                    break;
-                case 5:
-                    Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
-                    startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-                    break;
-                case 6:
-                    //토큰값 지우기
-                    ApplicationController.getInstance().savePreferences("");
-                    //스플래시 화면으로 가기.
-                    Intent logoutIntent = new Intent(MainActivity.this, SplashActivity.class);
-                    //액티비티 스택 clear
-                    logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(logoutIntent);
-                    finish();
-                    break;
-            }
-            drawerLayout.closeDrawer(linearLayout);
-        }
-    }
-
-    /*
-    View.OnClickListener fabClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.floating_action_menu_item1:
-                    Toast.makeText(MainActivity.this, fab_item1.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.floating_action_menu_item2:
-                    Toast.makeText(MainActivity.this, fab_item2.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.floating_action_menu_item3:
-                    Toast.makeText(MainActivity.this, fab_item3.getLabelText(), Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
-    */
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -525,52 +442,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //바스켓 리스트 리로드
-        /*
-        Log.i("ReloadConfirm", "Main onResume: 추천순 detach 하고 attach ");
-        //recommendFragment.onDetach();
-        //recommendFragment.onAttach(this);
-        recommendFragment.onResume();
-        Log.i("ReloadConfirm", "Main onResume: 인기순 detach 하고 attach ");
-        //popularFragment.onDetach();
-        //popularFragment.onAttach(this);
-        popularFragment.onResume();
-        Log.i("ReloadConfirm", "Main onResume: 최신순 detach 하고 attach ");
-        //newFragment.onDetach();
-        //newFragment.onAttach(this);
-        newFragment.onResume();
-        ////////////////
-        */
 
-        /*
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().detach(recommendFragment).attach(recommendFragment).commit();
-        fm.beginTransaction().detach(popularFragment).attach(popularFragment).commit();
-        fm.beginTransaction().detach(newFragment).attach(newFragment).commit();
-
-        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
-        popularbtn.setBackgroundResource(R.drawable.main_pop);
-        newbtn.setBackgroundResource(R.drawable.main_recent);
-        viewPager.setCurrentItem(0);
-        */
-
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-
-        //Resume했을 때, 최신순으로 정렬시켜줘야됨.
-        recommendbtn.setBackgroundResource(R.drawable.main_reco_black);
-        popularbtn.setBackgroundResource(R.drawable.main_pop);
-        newbtn.setBackgroundResource(R.drawable.main_recent);
-        viewPager.setCurrentItem(0);
 
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
-        //Resume했을 때, 개인정보 다시 가져와야함.(프사 바꾸고 난 경우)
+        // 개인정보 리로딩
         requestProfile();
+
+        // 바스켓리스트 리로딩
+       // pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+       // viewPager.setAdapter(pagerAdapter);
+        ((RecommendFragment)recommendFragment).loadBasketListDatas(1);
+        ((PopularFragment)popularFragment).loadBasketListDatas(3);
+        ((NewFragment)newFragment).loadBasketListDatas(2);
 
     }
 
