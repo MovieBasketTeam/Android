@@ -87,6 +87,12 @@ public class NewFragment extends Fragment implements OneClickable {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBasketListDatas(2);
+    }
+
     private View.OnClickListener recylerClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
