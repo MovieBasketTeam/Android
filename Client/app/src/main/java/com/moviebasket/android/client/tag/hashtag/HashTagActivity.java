@@ -30,6 +30,7 @@ import retrofit2.Response;
 public class HashTagActivity extends Activity {
 
     ImageView backBtnIcon;
+    ImageView Homeicon;
 
     private static final int REQUEST_CODE_FOR_TAGGED = 1005;
     private ProgressDialog mProgressDialog;
@@ -77,6 +78,14 @@ public class HashTagActivity extends Activity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
             }
         });
 

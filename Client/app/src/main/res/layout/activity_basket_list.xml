@@ -12,6 +12,7 @@
         android:background="@color/colorAccent">
 
         <ImageView
+            android:id="@+id/Homeicon"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_centerInParent="true"

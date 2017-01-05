@@ -43,6 +43,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
     ImageView downBtn;
     TextView downCount;
     ImageView backBtnIcon;
+    ImageView Homeicon;
 
     int basket_id;
     int basket_count;
@@ -69,6 +70,13 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         mbService = ApplicationController.getInstance().getMbService();
 
         backBtnIcon = (ImageView)findViewById(R.id.backBtnIcon);
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         basket_id = basketInfo.getExtras().getInt("basket_id");
         basket_count = basketInfo.getExtras().getInt("basket_like");
