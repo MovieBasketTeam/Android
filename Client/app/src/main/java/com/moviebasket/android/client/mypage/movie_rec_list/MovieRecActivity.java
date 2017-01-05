@@ -1,6 +1,7 @@
 package com.moviebasket.android.client.mypage.movie_rec_list;
 
 import android.app.ProgressDialog;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
     ImageView heart;
     ImageView book_mark;
     ImageView backBtnIcon;
+    ImageView Homeicon;
     String token;
 
     private MBService mbService;
@@ -61,6 +63,13 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
             }
         });
 

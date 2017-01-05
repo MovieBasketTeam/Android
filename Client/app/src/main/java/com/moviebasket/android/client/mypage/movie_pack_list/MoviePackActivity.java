@@ -39,6 +39,7 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
     PackAdapter adapter;
 
     ImageView backBtnIcon;
+    ImageView Homeicon;
 
     private MovieDetailDialog detailDialog;
 
@@ -55,6 +56,14 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
             }
         });
 

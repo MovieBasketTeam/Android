@@ -49,6 +49,7 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
     boolean isSearchResult;
 
     ImageView backBtnIcon;
+    ImageView Homeicon;
 
 
     @Override
@@ -72,6 +73,14 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
             }
         });
 

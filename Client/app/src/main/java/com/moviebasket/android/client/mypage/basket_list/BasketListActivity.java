@@ -2,6 +2,7 @@ package com.moviebasket.android.client.mypage.basket_list;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     BasketListAdapter adapter;
     String token;
     ImageView backBtnIcon;
+    ImageView Homeicon;
 
 
     @Override
@@ -64,6 +66,14 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
             }
         });
 
