@@ -122,7 +122,7 @@ public class MovieSearchActivity extends AppCompatActivity {
 
                     mProgressDialog.show();
                     query = searchMovieName.getText().toString();
-
+                    mLayoutManager.scrollToPositionWithOffset(0, 10);
                     /**
                      * 2. recyclerview에 보여줄 data
                      */
@@ -225,6 +225,8 @@ public class MovieSearchActivity extends AppCompatActivity {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
 
             }
         });
