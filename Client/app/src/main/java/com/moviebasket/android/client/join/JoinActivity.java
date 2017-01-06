@@ -55,7 +55,7 @@ public class JoinActivity extends AppCompatActivity {
         signupBtn = (ImageView) findViewById(R.id.signupBtn);
         username = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
+        password = (EditText) findViewById(R.id.password);  //6자이상 ~ 15자미만 6~14
         confirm = (EditText) findViewById(R.id.confirm);
 
         UsernameX = (ImageView) findViewById(R.id.UsernameX);
@@ -94,8 +94,15 @@ public class JoinActivity extends AppCompatActivity {
                     member_pwd = password.getText().toString().trim();
                     member_pwd_con = confirm.getText().toString().trim();
 
-                    //정규식으로 email형식 잡기기
-                    String emailPattern = "^[_A-Za-z0-9-]+@[A-Za-z0-9]+\\.[A-Za-z]{2,4}$";
+                     //비밀번호 길이 제한
+                     boolean isPwdNotValid = ((member_pwd.length() >= 6) && (member_pwd.length() < 15)) ? false : true;
+                     if (isPwdNotValid) {
+                         Toast.makeText(JoinActivity.this, "비밀번호는 최소 6자 이상, 최대 15자 미만입니다.", Toast.LENGTH_SHORT).show();
+                         break;
+                     }
+
+                     //정규식으로 email형식 잡기기
+                     String emailPattern = "^[_A-Za-z0-9-]+@[A-Za-z0-9]+\\.[A-Za-z]{2,4}$";
                     if (!member_email.matches(emailPattern)) {
                         Toast.makeText(JoinActivity.this, "e-mail과 다른 형식입니다.다시 입력해주세요", Toast.LENGTH_SHORT).show();
                         break;
@@ -158,6 +165,13 @@ public class JoinActivity extends AppCompatActivity {
                     break;
 
             }
+
+            username.setText("");
+            email.setText("");
+            password.setText("");
+            confirm.setText("");
+
+            username.requestFocus();
         }
     };
 }

@@ -1,15 +1,11 @@
 package com.moviebasket.android.client.global;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.network.NaverService;
 import com.moviebasket.android.client.security.SecurityDataSet;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -24,7 +20,6 @@ public class ApplicationController extends Application {
     private static final String MovieBasketURL = SecurityDataSet.MBServerUrl;
     private static ApplicationController instance;
     private static final String AppVersion = "0.1"; //버전정보
-    private ArrayList<Activity> activities;
 
     private MBService mbService;
     private NaverService naverService;
@@ -44,8 +39,6 @@ public class ApplicationController extends Application {
         buildNaverService();
         //MBService Build
         buildMBService();
-        //Activity List init
-        activities = new ArrayList<>();
     }
 
     /**
@@ -63,10 +56,6 @@ public class ApplicationController extends Application {
 
     public NaverService getNaverService() {
         return naverService;
-    }
-
-    public ArrayList<Activity> getActivities() {
-        return activities;
     }
 
     /**
@@ -107,14 +96,5 @@ public class ApplicationController extends Application {
         editor.commit();
     }
 
-    //모든 액티비티 삭제 후 액티비티리스트 클리어
-    public void clearAndFinishAllActivities(){
-        Iterator it = this.activities.iterator();
-        while(it.hasNext()){
-            Activity targetActivity = (Activity)it.next();
-            targetActivity.finish();
-        }
-        activities.clear();
-    }
 
 }
