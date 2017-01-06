@@ -68,7 +68,11 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         holder.basketName.setText(packDetails.get(position).basket_name);
         holder.BasketUserName.setText(packDetails.get(position).movie_adder);
         holder.year.setText(String .valueOf(packDetails.get(position).movie_pub_date));
-        holder.director.setText(packDetails.get(position).movie_director);
+        if ( packDetails.get(position).movie_director.length() >= 10) {
+            holder.director.setText(packDetails.get(position).movie_director.substring(0, 7)+"...");
+        } else {
+            holder.director.setText(packDetails.get(position).movie_director);
+        }
         holder.downCount.setText(String .valueOf(packDetails.get(position).movie_like));
 
         if (packDetails.get(position).is_liked == 0) {
@@ -80,7 +84,7 @@ public class PackAdapter extends RecyclerView.Adapter<PackViewHolder> {
         holder.removeImg.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 two.processOneMethodAtPosition(position);
-                packDetails.remove(position);
+                //packDetails.remove(position);
             }
         });
         holder.heartImg.setOnClickListener(new View.OnClickListener(){

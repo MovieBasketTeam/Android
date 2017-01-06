@@ -353,16 +353,16 @@ public class MainActivity extends AppCompatActivity {
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
                     startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-                    Toast.makeText(MainActivity.this, "담은영화", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "담은영화", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_reco_movie:
                     Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
                     startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-                    Toast.makeText(MainActivity.this, "추천한영화", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "추천한영화", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_mypage_logout_btn:
-                    Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
                     //토큰값 지우기
                     ApplicationController.getInstance().savePreferences("");
                     //스플래시 화면으로 가기.
@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-                    Toast.makeText(MainActivity.this, "환경설정", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "환경설정", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.eventBlocker1:
                     break;
@@ -466,22 +466,22 @@ public class MainActivity extends AppCompatActivity {
     private void requestProfile(){
         //유저의 개인정보 가져오기.
         String changedToken = ApplicationController.getInstance().getPreferences();
-        Log.i("NetConfirm", "메인에서 개인정보 리로딩 할 때 토큰값 : "+changedToken);
+//        Log.i("NetConfirm", "메인에서 개인정보 리로딩 할 때 토큰값 : "+changedToken);
         Call<SettingResult> getSettingResult = mbService.getSettingResult(changedToken);
         getSettingResult.enqueue(new Callback<SettingResult>() {
             @Override
             public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
                 SettingResult settingResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("ActivityConfirm", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+//                    Log.i("ActivityConfirm", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
                     isResponseSuccess = settingResult.result.message == null ? true : false;
-                    Log.i("ActivityConfirm", "응답 결과 : " + isResponseSuccess);
+//                    Log.i("ActivityConfirm", "응답 결과 : " + isResponseSuccess);
                 }
                 if (isResponseSuccess) {
                     mypage_username.setText(String.valueOf(settingResult.result.member_name));
                     if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
-                        Log.i("ActivityConfirm", "if문 들어오나요 : ");
-                        Log.i("ActivityConfirm", "member_image : "+settingResult.result.member_image);
+//                        Log.i("ActivityConfirm", "if문 들어오나요 : ");
+//                        Log.i("ActivityConfirm", "member_image : "+settingResult.result.member_image);
                         Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
                     }else {
                         userimage.setImageResource(R.drawable.mypage_myimage);

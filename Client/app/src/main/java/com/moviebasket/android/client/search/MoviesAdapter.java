@@ -71,6 +71,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesViewHolder> {
         }
 
         holder.director_movie_search.setText(mDatas.get(position).director);
+
+        if ( mDatas.get(position).director.length() >= 10) {
+            holder.director_movie_search.setText(mDatas.get(position).director.substring(0, 7)+"...");
+        } else {
+            holder.director_movie_search.setText(mDatas.get(position).director);
+        }
+
         holder.director_country.setText(mDatas.get(position).pubDate);
 
         float startPoint = Float.parseFloat(mDatas.get(position).userRating);

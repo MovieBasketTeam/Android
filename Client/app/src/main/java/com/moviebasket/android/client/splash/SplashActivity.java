@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
         Handler verifyState = new Handler(){
             public void handleMessage(Message msg){
 
-                Log.i("NetConfirm", "handleMessage: login:"+isLogined+" , connect:"+isConnected);
+//                Log.i("NetConfirm", "handleMessage: login:"+isLogined+" , connect:"+isConnected);
 
                 if ( isConnected == 0 ) {
                     if ( isLogined ) {
