@@ -13,7 +13,6 @@
         android:layout_width="113dp"
         android:layout_height="113dp"
         android:scaleType="centerCrop"
-        android:src="@color/colorPrimary"
         />
 
     <LinearLayout

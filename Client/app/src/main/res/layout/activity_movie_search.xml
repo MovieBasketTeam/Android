@@ -50,6 +50,7 @@
         android:layout_marginBottom="3dp"
         android:textSize="12sp"
         android:textColor="#463328"
+        android:background="#FFFFFF"
         android:text="영화티켓을 누르면 바스켓에 영화가 추가 됩니다."/>
 
     <RelativeLayout

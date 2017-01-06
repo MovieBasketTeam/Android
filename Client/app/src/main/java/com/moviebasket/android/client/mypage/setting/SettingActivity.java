@@ -25,6 +25,8 @@ import com.moviebasket.android.client.global.ApplicationController;
 import com.moviebasket.android.client.network.MBService;
 import com.moviebasket.android.client.splash.SplashActivity;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,6 +49,7 @@ public class SettingActivity extends AppCompatActivity {
     CircleImageView userimage;
     TextView username;
     TextView useremail;
+    TextView version;
     ImageView backBtnIcon;
     ImageView camera;
     RelativeLayout btn_withdraw;
@@ -71,9 +74,11 @@ public class SettingActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        btn_withdraw = (RelativeLayout) findViewById(R.id.btn_withdraw);
+        btn_withdraw = (RelativeLayout)findViewById(R.id.btn_withdraw);
+        version = (TextView)findViewById(R.id.version);
 
         token = ApplicationController.getInstance().getPreferences();
+        version.setText("V."+ApplicationController.getInstance().getVersion());
 
         mProgressDialog = new ProgressDialog(SettingActivity.this);
         mProgressDialog.setCancelable(false);
