@@ -49,6 +49,6 @@ dependencies {
     compile 'com.tsengvn:typekit:1.0.1'
 
     //intro 페이지
-    compile 'com.github.paolorotolo:appintro:4.1.0'
+   // compile 'com.github.paolorotolo:appintro:4.1.0'
 
 }
