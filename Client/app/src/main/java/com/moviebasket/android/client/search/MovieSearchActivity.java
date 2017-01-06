@@ -126,7 +126,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                     /**
                      * 2. recyclerview에 보여줄 data
                      */
-                    Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, 1, 10, MaxDate);
+                    Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, 1, 10, MaxDate, 1900);
                     getMovieData.enqueue(new Callback<MovieDataResult>() {
                         @Override
                         public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
@@ -190,7 +190,7 @@ public class MovieSearchActivity extends AppCompatActivity {
 
                 if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
                     if ( startQuery < total ) {
-                        Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, startQuery, 10, MaxDate);
+                        Call<MovieDataResult> getMovieData = naverService.getMovieDataResult(query, startQuery, 10, MaxDate, 1900);
                         getMovieData.enqueue(new Callback<MovieDataResult>() {
                             @Override
                             public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
