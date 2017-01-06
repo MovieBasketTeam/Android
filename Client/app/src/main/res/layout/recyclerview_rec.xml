@@ -15,8 +15,7 @@
             android:id="@+id/movie_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:background="@color/colorPrimary"/>
+            android:scaleType="centerCrop"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -41,7 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="윤지멍충이"
+            android:text="소유자"
             android:textSize="10sp"/>
 
         <TextView
@@ -57,7 +56,7 @@
             android:layout_below="@id/basketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="렛미인"
+            android:text="영화이름"
             android:textSize="17sp"
             />
 

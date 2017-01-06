@@ -30,18 +30,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--<TextView
-            android:id="@+id/basketName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로멘틱 남/녀가 되고 싶을때 영화"
-            android:textSize="10sp"/>-->
         <TextView
             android:id="@+id/BasketUserName"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="윤지멍충이"
+            android:text="소유자"
             android:textSize="10sp"/>
 
         <TextView
@@ -57,7 +51,7 @@
             android:layout_below="@id/basketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="렛미인"
+            android:text="영화"
             android:textSize="17sp"
             />
 

@@ -36,15 +36,6 @@
             android:layout_centerVertical="true"
             android:src="@drawable/search_backicon" />
 
-        <!--
-                <ImageView
-                    android:id="@+id/btn_toggle_drawer_main"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:src="@drawable/main_bar_my"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignBottom="@+id/centerImg"
-                    android:layout_marginRight="10dp"/>-->
     </RelativeLayout>
 
     <ScrollView
