@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+
 /**
  * Created by kh on 2017. 1. 1..
  */
@@ -43,6 +46,7 @@ public class NewFragment extends Fragment implements OneClickable {
     LinearLayoutManager layoutManager;
     ArrayList<BasketListDatas> basketListDatases;
     MainAdapter mainAdapter;
+    ImageView moveTopBtn;
 
     MBService mbService;
     private String member_token;
@@ -66,9 +70,32 @@ public class NewFragment extends Fragment implements OneClickable {
 //        Log.i("SortNumber", "new: "+2);
         loadBasketListDatas(2);
 
+        //상단이동
+        moveTopBtn = (ImageView)view.findViewById(R.id.moveTopBtn);
+        moveTopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.smoothScrollToPosition(0);
+            }
+        });
+
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                int firstPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+
+                //상단이동
+                if (newState == SCROLL_STATE_DRAGGING){
+                    moveTopBtn.setVisibility(View.INVISIBLE);
+                }
+                else if(newState == SCROLL_STATE_IDLE)
+                    moveTopBtn.setVisibility(View.VISIBLE);
+
+                if(firstPosition <= 0) {
+                    moveTopBtn.setVisibility(View.INVISIBLE);
+                }
+
 
                 int scrollOffset = recyclerView.computeVerticalScrollOffset();
                 int scrollExtend = recyclerView.computeVerticalScrollExtent();

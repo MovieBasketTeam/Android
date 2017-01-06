@@ -96,5 +96,4 @@ public class ApplicationController extends Application {
         editor.commit();
     }
 
-
 }

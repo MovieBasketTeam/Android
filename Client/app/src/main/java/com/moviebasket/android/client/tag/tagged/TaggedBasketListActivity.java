@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,9 +27,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.moviebasket.android.client.R.id.basketName;
-import static com.moviebasket.android.client.R.id.downCount;
 
 public class TaggedBasketListActivity extends AppCompatActivity implements OneClickable {
 
@@ -82,7 +78,7 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
         Homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
                 Intent homeIntent = new Intent(TaggedBasketListActivity.this, MainActivity.class);
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(homeIntent);
