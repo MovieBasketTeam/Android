@@ -28,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String SUCCESS = "login success";
     private static final String FAILURE = "check information";
 
+    private static final int REQUEST_CODE_FOR_JOIN = 1001;
+
     Button btn_login;
     Button btn_signup;
     EditText etxt_email;
@@ -123,34 +125,24 @@ public class LoginActivity extends AppCompatActivity {
                 //signup 버튼 눌렀을 때
                 case R.id.signup:
                     Intent signUpIntent = new Intent(LoginActivity.this, JoinActivity.class);
-                    startActivity(signUpIntent);
+                    startActivityForResult(signUpIntent,REQUEST_CODE_FOR_JOIN);
                     //사실은 startActivityForResult로 인텐트보내야함.
                    // finish();
                     break;
             }
         }
     };
-/*
-    // 값 불러오기
-    private void getPreferences(){
-        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
-        String Token = pref.getString(SecurityDataSet.TK_KEY, "");
-    }
 
-    // 값 저장하기
-    private void savePreferences(String Token){
-        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(SecurityDataSet.TK_KEY, Token);
-        editor.commit();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE_FOR_JOIN:
+                if(resultCode == RESULT_OK) {
+                    //회원가입 성공했으면.
+                    finish();
+                }
+                break;
+        }
     }
-
-    // 값(Key Data) 삭제하기
-    private void removePreferences(){
-        SharedPreferences pref = getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.remove(SecurityDataSet.TK_KEY);
-        editor.commit();
-    }
-*/
 }

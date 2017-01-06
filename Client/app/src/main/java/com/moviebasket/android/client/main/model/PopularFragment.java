@@ -73,6 +73,8 @@ ImageView moveTopBtn;
         basketListDatases = new ArrayList<>();
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
 
+        if(basketListDatases!=null)
+            basketListDatases.clear();
 //        Log.i("SortNumber", "pop: "+3);
         loadBasketListDatas(3);
 
@@ -187,12 +189,16 @@ ImageView moveTopBtn;
                 BasketListDataResult result = response.body();
                 String message = result.result.message;
                 if (message == null) {
-                    basketListDatases = result.result.baskets;
+                    if(basketListDatases==null) {
+                        basketListDatases.addAll(result.result.baskets);
+                    }else{
+                        basketListDatases.clear();
+                        basketListDatases.addAll(result.result.baskets);
+                    }
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, PopularFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
 //                    Log.i("NetConfirm", "PopularFrament 바스켓리스트 가져옴.");
-
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
                     Toast.makeText(getActivity(), "바스켓 리스트를 가져오는 데 실패하였습니다.", Toast.LENGTH_SHORT).show();
