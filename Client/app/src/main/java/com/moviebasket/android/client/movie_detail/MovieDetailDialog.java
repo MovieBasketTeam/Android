@@ -176,7 +176,7 @@ public class MovieDetailDialog extends Dialog {
                 doc = Jsoup.connect(movie_link).get();
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.i("ParsingTest", "run: IOException 오류남~~~ ");
+//                Log.i("ParsingTest", "run: IOException 오류남~~~ ");
             }
 
             Elements summary = doc.select("p.con_tx");
@@ -225,7 +225,7 @@ public class MovieDetailDialog extends Dialog {
                 doc = Jsoup.connect(movie_link).get();
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.i("ParsingTest", "run: IOException 오류남~~~ ");
+//                Log.i("ParsingTest", "run: IOException 오류남~~~ ");
             }
 
             Elements summary = doc.select("p.count");

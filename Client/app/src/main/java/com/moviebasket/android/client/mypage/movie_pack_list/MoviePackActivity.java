@@ -69,7 +69,7 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
         Homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
                 //홈화면으로 가는거
                 Intent homeIntent = new Intent(MoviePackActivity.this, MainActivity.class);
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
@@ -133,11 +133,11 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
                 @Override
                 public void onFailure(Call<PackResultResult> call, Throwable t) {
                     mProgressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), "로그인을 해주세요.", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
         }
         //
     }
@@ -181,14 +181,15 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
                 getBasketListDataDeleteResult.enqueue(new Callback<BasketListDataDeleteResult>() {
                     @Override
                     public void onResponse(Call<BasketListDataDeleteResult> call, Response<BasketListDataDeleteResult> response) {
-                        Log.i("NetConfirm", "onResponse: 하트에들어옴");
+                        //Log.i("NetConfirm", "onResponse: 하트에들어옴");
                         BasketListDataDeleteResult basketDeleteResult = response.body();
                         if (response.isSuccessful()) {// 응답코드 200
-                            Log.i("Delete", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+//                            Log.i("Delete", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
 
                             isdeletetSuccess = basketDeleteResult.result.message != null ? true : false;
                         }
                         if (isdeletetSuccess) {
+                            packdetail.remove(position);
                             adapter.notifyDataSetChanged();
                             removeProgressDialog.dismiss();
                         }
@@ -222,11 +223,11 @@ public class MoviePackActivity extends AppCompatActivity implements TwoClickable
         getHeartReasult.enqueue(new Callback<HeartResult>() {
             @Override
             public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
-                Log.i("NetConfirm", "onResponse: 하트에들어옴");
+//                Log.i("NetConfirm", "onResponse: 하트에들어옴");
                 HeartResult heartResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("Heart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                    Log.i("Heart", "응답 결과 : " + heartResult.result.message);
+//                    Log.i("Heart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+//                    Log.i("Heart", "응답 결과 : " + heartResult.result.message);
                     isHeartSuccess = heartResult.result.message != null ? true : false;
 
                 }

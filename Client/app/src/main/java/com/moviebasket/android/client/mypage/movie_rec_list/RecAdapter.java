@@ -76,7 +76,13 @@ public class RecAdapter extends RecyclerView.Adapter<RecViewHolder> {
             holder.title.setText(mDatas.get(position).movie_title.substring(0,15)+"...");
         }
 
-        holder.direct.setText(mDatas.get(position).movie_director);
+//        holder.direct.setText(mDatas.get(position).movie_director);
+        if ( mDatas.get(position).movie_director.length() >= 10) {
+            holder.direct.setText(mDatas.get(position).movie_director.substring(0, 7)+"...");
+        } else {
+            holder.direct.setText(mDatas.get(position).movie_director);
+        }
+
         holder.basket_name.setText(mDatas.get(position).basket_name);
 
         if(mDatas.get(position).book_mark==1) {

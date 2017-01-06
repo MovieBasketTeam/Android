@@ -65,7 +65,11 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
         holder.BasketUserName.setText(mDatas.get(position).movie_adder);
         holder.year.setText(String.valueOf(mDatas.get(position).movie_pub_date));
-        holder.director.setText(mDatas.get(position).movie_director);
+        if ( mDatas.get(position).movie_director.length() >= 10) {
+            holder.director.setText(mDatas.get(position).movie_director.substring(0, 7)+"...");
+        } else {
+            holder.director.setText(mDatas.get(position).movie_director);
+        }
         holder.downCount.setText(String.valueOf(mDatas.get(position).movie_like));
 
 

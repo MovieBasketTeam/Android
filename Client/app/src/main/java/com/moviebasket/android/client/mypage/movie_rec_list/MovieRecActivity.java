@@ -72,7 +72,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         Homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
                 Intent homeIntent = new Intent(MovieRecActivity.this, MainActivity.class);
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(homeIntent);
@@ -110,13 +110,12 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         getRecommendResult.enqueue(new Callback<RecResultParent>() {
             @Override
             public void onResponse(Call<RecResultParent> call, Response<RecResultParent> response) {
-                Log.i("NetConfirm", "onResponse: 들어옴");
-
+//                Log.i("NetConfirm", "onResponse: 들어옴");
                 RecResultParent recResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+//                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
                     isResponseSuccess = recResult.result.result != null ? true : false;  //여기 문제......심각//
-                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
+//                    Log.i("recommendMovie Test", "응답 결과 : " + isResponseSuccess);
                 }
                 if (isResponseSuccess) {
                     mDatas.addAll(recResult.result.result);
@@ -127,10 +126,9 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
 
             @Override
             public void onFailure(Call<RecResultParent> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴");
-
+//                Log.i("NetConfirm", "onFailure: 들어옴");
                 Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+//                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
                 mProgressDialog.dismiss();
             }
         });
@@ -172,7 +170,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
         getHeartReasult.enqueue(new Callback<HeartResult>() {
             @Override
             public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
-                Log.i("NetConfirm", "onResponse: 하트에들어옴");
+//                Log.i("NetConfirm", "onResponse: 하트에들어옴");
                 HeartResult heartResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
                     isHeartSuccess = heartResult.result.message != null ? true : false;
@@ -186,7 +184,7 @@ public class MovieRecActivity extends AppCompatActivity implements OneClickable 
 
             @Override
             public void onFailure(Call<HeartResult> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
+//                Log.i("NetConfirm", "onFailure: 들어옴" + call.toString());
                 Toast.makeText(MovieRecActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
                 removeProgressDialog.dismiss();
             }

@@ -97,11 +97,11 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
 
                 @Override
                 public void onFailure(Call<BasketListDataResult> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), "로그인을 해주세요.", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
         }
 
         /**
@@ -120,8 +120,8 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             //2.position번째 항목의 Data를 가져오는 방법
             // String basketName = mDatas.get(position).basketName;
 
-            Toast.makeText(BasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
-            Log.i("바스켓 클릭!! ", "햇다");
+//            Toast.makeText(BasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
+//            Log.i("바스켓 클릭!! ", "햇다");
 
 
             Intent specificBasketIntent = new Intent(BasketListActivity.this, SpecificBasketActivity.class);
@@ -161,7 +161,7 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(BasketListActivity.this, "담은바스켓취소", Toast.LENGTH_SHORT).show();
                 mProgressDialog.show();
                 Call<BasketResult> getCartResult = mbService.getCartResult(mDatas.get(position).basket_id, token);
                 getCartResult.enqueue(new Callback<BasketResult>() {

@@ -131,7 +131,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<MovieDataResult> call, Response<MovieDataResult> response) {
                             startQuery = 0;
-                            Log.i("MaxDate", String.valueOf(MaxDate));
+                            //Log.i("MaxDate", String.valueOf(MaxDate));
                             if (response.isSuccessful()) {
                                 result = response.body();
                                 movieDetails.clear();
@@ -160,14 +160,14 @@ public class MovieSearchActivity extends AppCompatActivity {
                                     startQuery = startQuery + 10;
                                 }
                                 adapter.notifyDataSetChanged();
-                                mProgressDialog.dismiss();
                             }
+                            mProgressDialog.dismiss();
                         }
 
                         @Override
                         public void onFailure(Call<MovieDataResult> call, Throwable t) {
                             mProgressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
@@ -216,7 +216,7 @@ public class MovieSearchActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<MovieDataResult> call, Throwable t) {
                                 mProgressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT);
+                                Toast.makeText(getApplicationContext(), "서비스 연결을 확인하세요.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -268,10 +268,10 @@ public class MovieSearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<VerifyMovieAddResult> call, Response<VerifyMovieAddResult> response) {
                             //추가 성공했을 때
-                            Log.i("NetConfirm", "response : " + response.message());
+//                            Log.i("NetConfirm", "response : " + response.message());
                             VerifyMovieAddResult result = response.body();
                             if (result == null) {
-                                Toast.makeText(MovieSearchActivity.this, "null값", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MovieSearchActivity.this, "null값", Toast.LENGTH_SHORT).show();
                                 addProgressDialog.dismiss();
                                 return;
                             }

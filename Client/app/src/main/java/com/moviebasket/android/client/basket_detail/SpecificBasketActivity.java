@@ -76,7 +76,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         Homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
                 //홈화면으로 가는거
                 Intent homeIntent = new Intent(SpecificBasketActivity.this, MainActivity.class);
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
@@ -89,7 +89,7 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         basket_count = basketInfo.getExtras().getInt("basket_like");
         is_liked = basketInfo.getExtras().getInt("is_liked");
 
-        Log.i("Info_BasketId : ", String.valueOf(basket_id));
+//        Log.i("Info_BasketId : ", String.valueOf(basket_id));
 
         basketImg = (ImageView)findViewById(R.id.basketImg);
         basketName = (TextView)findViewById(R.id.basketName);
@@ -225,11 +225,11 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
         getBasketDetail.enqueue(new Callback<DetailResultParent>() {
             @Override
             public void onResponse(Call<DetailResultParent> call, Response<DetailResultParent> response) {
-                Log.i("NetConfirm", "onResponse: 들어옴");
+//                Log.i("NetConfirm", "onResponse: 들어옴");
 
                 DetailResultParent recResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+//                    Log.i("recommendMovie Test", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
                     mDatas.clear();
                     mDatas.addAll(recResult.result.result);
                     adapter.notifyDataSetChanged();
@@ -238,10 +238,10 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
 
             @Override
             public void onFailure(Call<DetailResultParent> call, Throwable t) {
-                Log.i("NetConfirm", "onFailure: 들어옴");
+//                Log.i("NetConfirm", "onFailure: 들어옴");
 
                 Toast.makeText(SpecificBasketActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
+//                Log.i("recommendMovie Test", "요청메시지:" + call.toString());
             }
         });
 
@@ -283,16 +283,16 @@ public class SpecificBasketActivity extends AppCompatActivity implements TwoClic
             getMovieCartReasult.enqueue(new Callback<HeartResult>() {
                 @Override
                 public void onResponse(Call<HeartResult> call, Response<HeartResult> response) {
-                    Log.i("Cart", "onResponse: 2번메서드(담기)");
+//                    Log.i("Cart", "onResponse: 2번메서드(담기)");
                     HeartResult heartResult = response.body();
                     if (response.isSuccessful()) {// 응답코드 200
-                        Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
-                        Log.i("Cart", "응답 결과 : " + heartResult.result.message);
+//                        Log.i("Cart", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
+//                        Log.i("Cart", "응답 결과 : " + heartResult.result.message);
                         isCarttSuccess = heartResult.result.message != null ? true : false;
-                        Log.i("Cart", "응답 결과 : " + isCarttSuccess);
-                        Log.i("Cart", "포지션 : " + mDatas.get(position));
-                        Log.i("Cart", "무비아이디 : " + mDatas.get(position).movie_id);
-                        Log.i("Cart", "Cart : " + mDatas.get(position).is_cart);
+//                        Log.i("Cart", "응답 결과 : " + isCarttSuccess);
+//                        Log.i("Cart", "포지션 : " + mDatas.get(position));
+//                        Log.i("Cart", "무비아이디 : " + mDatas.get(position).movie_id);
+//                        Log.i("Cart", "Cart : " + mDatas.get(position).is_cart);
                         if (isCarttSuccess) {
                             adapter.notifyDataSetChanged();
                         }

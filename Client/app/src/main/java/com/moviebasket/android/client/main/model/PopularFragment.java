@@ -36,7 +36,8 @@ import retrofit2.Response;
 public class PopularFragment extends Fragment implements OneClickable {
 
     public PopularFragment(){
-        Log.i("SortNumber", "pop: "+"popfrag 생성자");
+
+//        Log.i("SortNumber", "pop: "+"popfrag 생성자");
     }
 
     private static final int REQEUST_CODE_FOR_SPECIFIC_BASKET = 1005;
@@ -69,7 +70,7 @@ public class PopularFragment extends Fragment implements OneClickable {
         basketListDatases = new ArrayList<>();
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
 
-        Log.i("SortNumber", "pop: "+3);
+//        Log.i("SortNumber", "pop: "+3);
         loadBasketListDatas(3);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -81,7 +82,7 @@ public class PopularFragment extends Fragment implements OneClickable {
                 int scrollRange = recyclerView.computeVerticalScrollRange();
 
                 if (scrollOffset + scrollExtend == scrollRange || scrollOffset + scrollExtend - 1 == scrollRange) {
-                    Toast.makeText(getActivity(), "맨아래", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "맨아래", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -106,7 +107,7 @@ public class PopularFragment extends Fragment implements OneClickable {
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
-            Toast.makeText(getActivity(), position + "번째 리사이클러뷰 항목 클릭!" + " / " + basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), position + "번째 리사이클러뷰 항목 클릭!" + " / " + basketListDatases.get(position).basket_name, Toast.LENGTH_SHORT).show();
 
             Intent specificBasketIntent = new Intent(getContext(), SpecificBasketActivity.class);
             //SpecificBasket에 무슨 바스켓을 선택했는지에 대한 정보를 보내줘야함.
@@ -139,7 +140,7 @@ public class PopularFragment extends Fragment implements OneClickable {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
                         }
                     });
                     BasketBuilder.show();
@@ -151,7 +152,7 @@ public class PopularFragment extends Fragment implements OneClickable {
 
     public void loadBasketListDatas(int mode) {
         if(mbService==null){
-            Log.i("NetConfirm"  , "loadBasketListDatas: pop : mbServer is null  :" );
+//            Log.i("NetConfirm"  , "loadBasketListDatas: pop : mbServer is null  :" );
             mbService = ApplicationController.getInstance().getMbService();
         }
         String changedToken = ApplicationController.getInstance().getPreferences();
@@ -167,7 +168,7 @@ public class PopularFragment extends Fragment implements OneClickable {
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, PopularFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
-                    Log.i("NetConfirm", "PopularFrament 바스켓리스트 가져옴.");
+//                    Log.i("NetConfirm", "PopularFrament 바스켓리스트 가져옴.");
 
                 } else {
                     basketListDatases = new ArrayList<BasketListDatas>();
@@ -199,10 +200,10 @@ public class PopularFragment extends Fragment implements OneClickable {
                     }
                     if (result.result.message.equals("like update success")) {
                         //이미지 바꾸고,
-                        Toast.makeText(getContext(), "바스켓 담았다" + position + "번째 항목", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "바스켓을 담았습니다.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "바스켓 담았다고 실패~ ㅎ " + position + "번째 항목", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "바스켓을 담는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
