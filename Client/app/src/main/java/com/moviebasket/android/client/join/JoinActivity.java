@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.global.ApplicationController;
-import com.moviebasket.android.client.login.LoginActivity;
+import com.moviebasket.android.client.intro.IntroActivity;
 import com.moviebasket.android.client.network.MBService;
 
 import retrofit2.Call;
@@ -128,9 +128,10 @@ public class JoinActivity extends AppCompatActivity {
                                 Log.i("JoinTest", "회원가입 결과 : " + JoinResult.result.message);
                             }
                             if (isJoinSuccess) {
-                                Intent mainIntent = new Intent(JoinActivity.this, LoginActivity.class);
-                                Toast.makeText(JoinActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
-                                startActivity(mainIntent);
+                                //회원가입이 성공했을 때. 튜토리얼 화면으로 이동.
+                                Intent introIntent = new Intent(JoinActivity.this, IntroActivity.class);
+                                startActivity(introIntent);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                 finish();
                             } else {
                                 //edittext가 공백일때 경고하기
