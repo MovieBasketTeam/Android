@@ -97,7 +97,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(Call<VerifyVersionResult> call, Response<VerifyVersionResult> response) {
                 VerifyVersionResult result = response.body();
                 String version = result.result.version;
-                Log.i("NetConfirm", "version: "+version);
+//                Log.i("NetConfirm", "version: "+version);
                 //버전을 가져왔을 때
                 if ( !version.equals("") && version.equals(AppVersion) ){
                     isConnected = 0;    // 커넥션확인 && 버전이 맞을경우 : 0
@@ -111,7 +111,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<VerifyVersionResult> call, Throwable t) {
                 //통신연결에 문제가 생겼을 때
-                Log.i("NetConfirm", "verifyConnection isConnectec: "+isConnected);
+//                Log.i("NetConfirm", "verifyConnection isConnectec: "+isConnected);
                 Toast.makeText(SplashActivity.this, "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 isConnected = 2;
             }
@@ -123,7 +123,7 @@ public class SplashActivity extends AppCompatActivity {
         String token = ApplicationController.getInstance().getPreferences();
         //SharedPreferences pref = ApplicationController.getInstance().getSharedPreferences(SecurityDataSet.STR_NAME, MODE_PRIVATE);
         //final String token = pref.getString(SecurityDataSet.TK_KEY, "");
-        Log.i("NetConfirm", "verifyConnection token: "+token);
+//        Log.i("NetConfirm", "verifyConnection token: "+token);
 
         //토큰 검사
         Call<VerifyLoginResult> getVerifyLoginState = mbService.getVerifyLoginResult(token);
@@ -132,7 +132,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(Call<VerifyLoginResult> call, Response<VerifyLoginResult> response) {
                 VerifyLoginResult result = response.body();
                 String message = result.result.message;
-                Log.i("NetConfirm", "VerifyLogin Message: "+message);
+//                Log.i("NetConfirm", "VerifyLogin Message: "+message);
 
                 if(message.equals("is logined")){
                     isLogined = true;
@@ -143,8 +143,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<VerifyLoginResult> call, Throwable t) {
-                Log.i("NetConfirm", "verifyLoginState isLogined: "+isLogined);
-
+//                Log.i("NetConfirm", "verifyLoginState isLogined: "+isLogined);
                 isLogined = false;
             }
         });

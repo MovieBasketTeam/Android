@@ -134,40 +134,40 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
         getSearchDataResult.enqueue(new Callback<SearchDataResult>() {
             @Override
             public void onResponse(Call<SearchDataResult> call, Response<SearchDataResult> response) {
-                Log.i("tag : ", "성공");
+//                Log.i("tag : ", "성공");
                 if(response.isSuccessful()){
-                    Log.i("tag : ", "성공이당");
+//                    Log.i("tag : ", "성공이당");
                     result = response.body();
 //                    mDatas1 = result.result.baskets;
                     isSearchResult = result.result.baskets != null ? true : false;
-                    Log.i("tag : ", "요청결과"+isSearchResult);
+//                    Log.i("tag : ", "요청결과"+isSearchResult);
                 }
 //                isSearchResult = result.result.message == null ? true : false;
                 if (isSearchResult) {
                     mDatas1.clear();
                     mDatas1.addAll(result.result.baskets);
 
-                    Log.i("dataconfirm", "mDatas1 : "+mDatas1.toString());
+//                    Log.i("dataconfirm", "mDatas1 : "+mDatas1.toString());
 
                     for (int i = 0; i < mDatas1.size(); i++) {
 
-                        Log.i("데이터들 : ", mDatas1.get(i).basket_name);
-                        Log.i("데이터들 : ", "" + mDatas1.get(i).basket_id);
-                        Log.i("데이터들 : ", mDatas1.get(i).basket_image);
-                        Log.i("데이터들 : ", "" + mDatas1.get(i).basket_like);
-                        Log.i("데이터들 : ", "" + mDatas1.get(i).is_liked);
+//                        Log.i("데이터들 : ", mDatas1.get(i).basket_name);
+//                        Log.i("데이터들 : ", "" + mDatas1.get(i).basket_id);
+//                        Log.i("데이터들 : ", mDatas1.get(i).basket_image);
+//                        Log.i("데이터들 : ", "" + mDatas1.get(i).basket_like);
+//                        Log.i("데이터들 : ", "" + mDatas1.get(i).is_liked);
 
 
                     }
                     adapter.notifyDataSetChanged();
                 } else {
-                    Log.i("tag : ", "실패" + result.result.message);
+//                    Log.i("tag : ", "실패" + result.result.message);
                 }
             }
 
             @Override
             public void onFailure(Call<SearchDataResult> call, Throwable t) {
-                Log.i("tag : ", "실패" + t.getMessage());
+//                Log.i("tag : ", "실패" + t.getMessage());
             }
         });
     }
@@ -187,10 +187,10 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
                     }
                     if (result.result.message.equals("like update success")) {
                         //이미지 바꾸고,
-                        Toast.makeText(getApplicationContext(), "바스켓 담았다" + position + "번째 항목", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "바스켓을 담았습니다.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "바스켓 담았다고 실패~ ㅎ " + position + "번째 항목", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "바스켓을 담는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -229,7 +229,7 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
             startActivityForResult(specificBasketIntent, REQEUST_CODE_FOR_SPECIFIC_BASKET);
             TaggedBasketListActivity.this.overridePendingTransition( R.anim.slide_in_up, R.anim.hold );
 
-            Toast.makeText(TaggedBasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(TaggedBasketListActivity.this, position + "번째 리사이클러뷰 항목 클릭!" + basketName + "/" + downCount, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -250,7 +250,7 @@ public class TaggedBasketListActivity extends AppCompatActivity implements OneCl
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(v.getContext(), "바스켓을 담았다고 치자", Toast.LENGTH_SHORT).show();
                         }
                     });
                     BasketBuilder.show();
