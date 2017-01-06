@@ -131,6 +131,7 @@ public class JoinActivity extends AppCompatActivity {
                                 //회원가입이 성공했을 때. 튜토리얼 화면으로 이동.
                                 Intent introIntent = new Intent(JoinActivity.this, IntroActivity.class);
                                 startActivity(introIntent);
+                                setResult(RESULT_OK);
                                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                 finish();
                             } else {

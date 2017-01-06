@@ -67,6 +67,8 @@ public class NewFragment extends Fragment implements OneClickable {
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
         basketListDatases = new ArrayList<>();
 
+        if(basketListDatases!=null)
+            basketListDatases.clear();
 //        Log.i("SortNumber", "new: "+2);
         loadBasketListDatas(2);
 
@@ -160,9 +162,12 @@ public class NewFragment extends Fragment implements OneClickable {
                 BasketListDataResult result = response.body();
                 String message = result.result.message;
                 if (message == null) {
-                    basketListDatases = result.result.baskets;
-                    basketListDatases.addAll(result.result.baskets);
-
+                    if(basketListDatases==null) {
+                        basketListDatases.addAll(result.result.baskets);
+                    }else{
+                        basketListDatases.clear();
+                        basketListDatases.addAll(result.result.baskets);
+                    }
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, NewFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();

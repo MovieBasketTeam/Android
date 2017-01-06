@@ -64,6 +64,8 @@ public class RecommendFragment extends Fragment implements OneClickable {
         mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, this);
         basketListDatases = new ArrayList<>();
 
+        if(basketListDatases!=null)
+            basketListDatases.clear();
 //        Log.i("SortNumber", "rec: "+1);
         loadBasketListDatas(1);
 
@@ -74,6 +76,8 @@ public class RecommendFragment extends Fragment implements OneClickable {
                 recyclerView.smoothScrollToPosition(0);
             }
         });
+
+
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -155,9 +159,12 @@ public class RecommendFragment extends Fragment implements OneClickable {
                 BasketListDataResult result = response.body();
                 String message = result.result.message;
                 if (message == null) {
-                    basketListDatases = result.result.baskets;
-                    basketListDatases.addAll(result.result.baskets);
-
+                    if(basketListDatases==null) {
+                        basketListDatases.addAll(result.result.baskets);
+                    }else{
+                        basketListDatases.clear();
+                        basketListDatases.addAll(result.result.baskets);
+                    }
                     mainAdapter = new MainAdapter(basketListDatases, recylerClickListener, RecommendFragment.this);
                     recyclerView.setAdapter(mainAdapter);
                     mainAdapter.notifyDataSetChanged();
