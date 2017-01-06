@@ -4,11 +4,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,6 +17,7 @@ import com.moviebasket.android.client.R;
 import com.moviebasket.android.client.basket_detail.SpecificBasketActivity;
 import com.moviebasket.android.client.clickable.OneClickable;
 import com.moviebasket.android.client.global.ApplicationController;
+import com.moviebasket.android.client.main.MainActivity;
 import com.moviebasket.android.client.network.MBService;
 
 import java.util.ArrayList;
@@ -24,9 +25,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.moviebasket.android.client.R.id.basketName;
-import static com.moviebasket.android.client.R.id.downCount;
 
 public class BasketListActivity extends AppCompatActivity implements OneClickable{
 
@@ -40,6 +38,7 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
     BasketListAdapter adapter;
     String token;
     ImageView backBtnIcon;
+    ImageView Homeicon;
 
     private ProgressDialog mProgressDialog;
 
@@ -68,6 +67,18 @@ public class BasketListActivity extends AppCompatActivity implements OneClickabl
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        Homeicon = (ImageView)findViewById(R.id.Homeicon);
+        Homeicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+                //홈화면으로 가는거
+                Intent homeIntent = new Intent(BasketListActivity.this, MainActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeIntent);
+                finish();
             }
         });
 

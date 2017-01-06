@@ -5,13 +5,27 @@
     android:layout_height="match_parent">
 
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/myRecyclerview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myRecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#333">
 
+        </android.support.v7.widget.RecyclerView>
 
+        <ImageView
+            android:id="@+id/moveTopBtn"
+            android:layout_width="43dp"
+            android:layout_height="65dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/top_button"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
 </LinearLayout>

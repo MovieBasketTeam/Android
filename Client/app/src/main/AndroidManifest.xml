@@ -34,6 +34,8 @@
             android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".testpage.JsoupActivity"></activity>
         <activity android:name=".mypage.setting.SettingActivity"/>
+
+
     </application>
 
 </manifest>

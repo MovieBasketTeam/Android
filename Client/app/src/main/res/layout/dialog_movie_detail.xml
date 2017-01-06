@@ -172,7 +172,7 @@
                 android:background="#f4f3f2"
                 android:scrollbars="vertical"
                 android:maxLines="7"
-                android:text="중비중입니다." />
+                android:text="준비중입니다." />
 
             <ImageView
                 android:id="@+id/morebtn"
