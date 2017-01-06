@@ -45,7 +45,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private String member_token;
-    private final String[] nav_item_main = {"담은 바스켓", "담은 영화", "추천한 영화", "테스트용임ㅋㅋ", "실습용", "세팅", "로그아웃 확인"};
     private static final int REQEUST_CODE_FOR_BASKET_LIST = 1000;
     private static final int REQEUST_CODE_FOR_MOVIE_PACK = 1001;
     private static final int REQEUST_CODE_FOR_MOVIE_REC = 1002;
@@ -59,18 +58,12 @@ public class MainActivity extends AppCompatActivity {
     MBService mbService;
 
     DrawerLayout drawerLayout;
-    ListView listView;
     LinearLayout linearLayout;
-    ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn, mypage_myimage;
+    ImageView btn_toggle, btn_tag, newbtn, popularbtn, recommendbtn;
     LinearLayout mypage_basket_btn, mypage_movie_btn, mypage_reco_movie, mypage_mypage_logout_btn, mypage_setting_btn;
     TextView mypage_username;
     TextView eventBlocker1, eventBlocker2, eventBlocker3, eventBlocker4;
     CircleImageView userimage;
-
-    /*
-    FloatingActionMenu fab_menu;
-    FloatingActionButton fab_item1, fab_item2, fab_item3;
-    */
 
     Fragment recommendFragment, popularFragment, newFragment;
 
@@ -96,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         //변수초기화
         pageNumber = 0;
         drawerLayout = (DrawerLayout) findViewById(R.id.dllayout_drawer_main);
-        //listView = (ListView) findViewById(R.id.listview_nav_item_main);
         linearLayout = (LinearLayout) findViewById(R.id.lilayout_nav_drawer_main);
         btn_toggle = (ImageView) findViewById(R.id.btn_toggle_drawer_main);
         btn_tag = (ImageView) findViewById(R.id.btn_tag_main);
@@ -193,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 handler.post(runnable);
             }
-        }, 500, 3000);
+        }, 500, 2700);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -295,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.super.onBackPressed();
             }
         });
-        builder.setMessage("어플을 종료하시겠습니까?");
+        builder.setMessage("무비바스켓을 종료하시겠습니까?");
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -353,16 +345,13 @@ public class MainActivity extends AppCompatActivity {
                     Intent moviePackIntent = new Intent(MainActivity.this, MoviePackActivity.class);
                     startActivityForResult(moviePackIntent, REQEUST_CODE_FOR_MOVIE_PACK);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-//                    Toast.makeText(MainActivity.this, "담은영화", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_reco_movie:
                     Intent movieRecIntent = new Intent(MainActivity.this, MovieRecActivity.class);
                     startActivityForResult(movieRecIntent, REQEUST_CODE_FOR_MOVIE_REC);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-//                    Toast.makeText(MainActivity.this, "추천한영화", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.mypage_mypage_logout_btn:
-//                    Toast.makeText(MainActivity.this, "로그아웃", Toast.LENGTH_SHORT).show();
                     //토큰값 지우기
                     ApplicationController.getInstance().savePreferences("");
                     //스플래시 화면으로 가기.
@@ -371,14 +360,11 @@ public class MainActivity extends AppCompatActivity {
                     logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(logoutIntent);
                     finish();
-                    //모든 액티비티 삭제
-                   // ApplicationController.getInstance().clearAndFinishAllActivities();
                     break;
                 case R.id.mypage_setting_btn:
                     Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
                     startActivityForResult(settingIntent, REQEUST_CODE_FOR_SETTING);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
-//                    Toast.makeText(MainActivity.this, "환경설정", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.eventBlocker1:
                     break;
@@ -444,8 +430,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override
@@ -454,9 +438,6 @@ public class MainActivity extends AppCompatActivity {
         // 개인정보 리로딩
         requestProfile();
 
-        // 바스켓리스트 리로딩
-       // pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-       // viewPager.setAdapter(pagerAdapter);
         ((RecommendFragment)recommendFragment).loadBasketListDatas(1);
         ((PopularFragment)popularFragment).loadBasketListDatas(3);
         ((NewFragment)newFragment).loadBasketListDatas(2);
@@ -466,22 +447,17 @@ public class MainActivity extends AppCompatActivity {
     private void requestProfile(){
         //유저의 개인정보 가져오기.
         String changedToken = ApplicationController.getInstance().getPreferences();
-//        Log.i("NetConfirm", "메인에서 개인정보 리로딩 할 때 토큰값 : "+changedToken);
         Call<SettingResult> getSettingResult = mbService.getSettingResult(changedToken);
         getSettingResult.enqueue(new Callback<SettingResult>() {
             @Override
             public void onResponse(Call<SettingResult> call, Response<SettingResult> response) {
                 SettingResult settingResult = response.body();
                 if (response.isSuccessful()) {// 응답코드 200
-//                    Log.i("ActivityConfirm", "요청메시지:" + call.toString() + " 응답메시지:" + response.toString());
                     isResponseSuccess = settingResult.result.message == null ? true : false;
-//                    Log.i("ActivityConfirm", "응답 결과 : " + isResponseSuccess);
                 }
                 if (isResponseSuccess) {
                     mypage_username.setText(String.valueOf(settingResult.result.member_name));
                     if (!(settingResult.result.member_image == null || settingResult.result.member_image.equals(""))) {
-//                        Log.i("ActivityConfirm", "if문 들어오나요 : ");
-//                        Log.i("ActivityConfirm", "member_image : "+settingResult.result.member_image);
                         Glide.with(MainActivity.this).load(String.valueOf(settingResult.result.member_image)).into(userimage);
                     }else {
                         userimage.setImageResource(R.drawable.mypage_myimage);
@@ -491,8 +467,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SettingResult> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "서비스에 오류가 있습니다.", Toast.LENGTH_SHORT).show();
-                Log.i("ActivityConfirm", "요청메시지:" + call.toString());
+                Toast.makeText(MainActivity.this, "개인정보를 가져오는데 실패했습니다", Toast.LENGTH_SHORT).show();
             }
 
         });

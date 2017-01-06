@@ -87,7 +87,7 @@ public class HashTagActivity extends Activity {
         Homeicon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "홈", Toast.LENGTH_SHORT).show();
                 Intent homeIntent = new Intent(HashTagActivity.this, MainActivity.class);
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(homeIntent);
@@ -129,7 +129,7 @@ public class HashTagActivity extends Activity {
         getSearchResult.enqueue(new Callback<SearchResult>() {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                Log.i("tag : ", "성공");
+//                Log.i("tag : ", "성공");
 
                 result = response.body();
                 searchcategoriesDatas = result.result.today_recommand;
@@ -141,7 +141,7 @@ public class HashTagActivity extends Activity {
                 //adapter.notifyDataSetChanged();
 //                    total = mDatas.toArray(new String[mDatas.size()]);
                 for (int i = 0; i < mDatas.size(); i++) {
-                    Log.i("tag", mDatas.get(i).small_category);
+//                    Log.i("tag", mDatas.get(i).small_category);
                     textArr.add(mDatas.get(i).small_category);
                     cidArr.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
@@ -151,7 +151,7 @@ public class HashTagActivity extends Activity {
 
                 mDatas.addAll(searchcategoriesDatas1);
                 for (int i = 0; i < mDatas.size(); i++) {
-                    Log.i("tag", mDatas.get(i).small_category + mDatas.get(i).c_id);
+//                    Log.i("tag", mDatas.get(i).small_category + mDatas.get(i).c_id);
                     textArr2.add(mDatas.get(i).small_category);
                     cidArr2.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
@@ -161,7 +161,7 @@ public class HashTagActivity extends Activity {
 
                 mDatas.addAll(searchcategoriesDatas2);
                 for (int i = 0; i < mDatas.size(); i++) {
-                    Log.i("tag", mDatas.get(i).small_category);
+//                    Log.i("tag", mDatas.get(i).small_category);
                     textArr3.add(mDatas.get(i).small_category);
                     cidArr3.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
@@ -171,7 +171,7 @@ public class HashTagActivity extends Activity {
 
                 mDatas.addAll(searchcategoriesDatas3);
                 for (int i = 0; i < mDatas.size(); i++) {
-                    Log.i("tag", mDatas.get(i).small_category);
+//                    Log.i("tag", mDatas.get(i).small_category);
                     textArr4.add(mDatas.get(i).small_category);
                     cidArr4.add(mDatas.get(i).c_id);
                     adapter.notifyDataSetChanged();
@@ -184,7 +184,7 @@ public class HashTagActivity extends Activity {
 
             @Override
             public void onFailure(Call<SearchResult> call, Throwable t) {
-                Log.i("tag : ", "실패" + t.getMessage());
+//                Log.i("tag : ", "실패" + t.getMessage());
                 mProgressDialog.dismiss();
             }
         });
@@ -311,26 +311,22 @@ public class HashTagActivity extends Activity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return textArr.size();    //그리드뷰에 출력할 목록 수
 
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return textArr.get(position);    //아이템을 호출할 때 사용하는 메소드
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;    //아이템의 아이디를 구할 때 사용하는 메소드
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
             }
@@ -342,9 +338,8 @@ public class HashTagActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
-                    Toast.makeText(getApplicationContext(),btn.getText().toString(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),btn.getText().toString(),Toast.LENGTH_SHORT).show();
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
@@ -371,26 +366,22 @@ public class HashTagActivity extends Activity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return textArr2.size();    //그리드뷰에 출력할 목록 수
 
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return textArr2.get(position);    //아이템을 호출할 때 사용하는 메소드
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;    //아이템의 아이디를 구할 때 사용하는 메소드
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
             }
@@ -402,9 +393,8 @@ public class HashTagActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
-                    Toast.makeText(getApplicationContext(),btn2.getText().toString(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),btn2.getText().toString(),Toast.LENGTH_SHORT).show();
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
@@ -432,26 +422,22 @@ public class HashTagActivity extends Activity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return textArr3.size();    //그리드뷰에 출력할 목록 수
 
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return textArr3.get(position);    //아이템을 호출할 때 사용하는 메소드
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;    //아이템의 아이디를 구할 때 사용하는 메소드
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
             }
@@ -463,9 +449,8 @@ public class HashTagActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
-                    Toast.makeText(getApplicationContext(),btn3.getText().toString(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),btn3.getText().toString(),Toast.LENGTH_SHORT).show();
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
                     Intent taggedBasketIntent = new Intent(HashTagActivity.this, TaggedBasketListActivity.class);
@@ -493,26 +478,22 @@ public class HashTagActivity extends Activity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return textArr4.size();    //그리드뷰에 출력할 목록 수
 
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return textArr4.get(position);    //아이템을 호출할 때 사용하는 메소드
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;    //아이템의 아이디를 구할 때 사용하는 메소드
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.search_grid_item, parent, false);
             }
@@ -524,9 +505,8 @@ public class HashTagActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     //이미지를 터치했을때 동작하는 곳
-                    Toast.makeText(getApplicationContext(),btn4.getText().toString() ,Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),btn4.getText().toString() ,Toast.LENGTH_SHORT).show();
 
 
                     //어떤 해쉬태그를 선택했는지를 인텐트로 보내줘야함.
