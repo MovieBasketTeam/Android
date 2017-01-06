@@ -12,8 +12,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/myRecyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#333">
+            android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -24,6 +23,7 @@
             android:layout_marginBottom="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="2dp"
             android:src="@drawable/top_button"
             android:visibility="invisible" />
 
